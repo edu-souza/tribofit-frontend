@@ -1,0 +1,7 @@
+{
+  "name": "tribofit",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
