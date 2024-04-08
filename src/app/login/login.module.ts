@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from '../tabs/tabs-routing.module';
 import { LoginRoutingModule } from './login-routing.module';
-import { PaginaLoginComponent } from './login/pagina-login.component';
+import { PaginaLoginComponent } from './pagina-login/pagina-login.component';
 
 @NgModule({
   declarations: [PaginaLoginComponent],
