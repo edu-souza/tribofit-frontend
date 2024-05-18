@@ -1,0 +1,21 @@
+<div *ngIf="usuario" class="std-div">
+  <div class="std-flex">
+    <ion-avatar>
+      <img class="imgUsuario" [src]="usuario.image" />
+    </ion-avatar>
+    <h1>{{usuario.nome}}</h1>
+  </div>
+  <div class="ion-text-center">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Email" [value]="usuario.email" [readonly]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Nascimento" [value]=usuario.data_nascto [readonly]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Cidade" [value]="usuario.cidade" [readonly]="true"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+</div>

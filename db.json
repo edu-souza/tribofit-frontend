@@ -1,0 +1,13 @@
+{
+  "usuarios": [
+    { 
+      "id": 1, 
+      "nome": "Eduardo de Souza",
+      "data_nascto" : "06/05/1997", 
+      "cidade" : "Forquilhinha",
+      "email" : "eduardo.de.souza@mail.com",
+      "senha" : "123",
+      "image": "https://edu-souza.github.io/img/img1.jpg"
+    }
+  ]
+}

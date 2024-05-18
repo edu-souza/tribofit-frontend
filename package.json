@@ -7,6 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "server": "json-server db.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
@@ -28,6 +29,7 @@
     "@capacitor/status-bar": "5.0.7",
     "@ionic/angular": "^7.0.0",
     "ionicons": "^7.0.0",
+    "json-server": "^1.0.0-alpha.23",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

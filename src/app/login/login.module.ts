@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from '../tabs/tabs-routing.module';
 import { LoginRoutingModule } from './login-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { PaginaLoginComponent } from './pagina-login/pagina-login.component';
 
 @NgModule({
@@ -11,6 +12,7 @@ import { PaginaLoginComponent } from './pagina-login/pagina-login.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     LoginRoutingModule,
     TabsPageRoutingModule,
