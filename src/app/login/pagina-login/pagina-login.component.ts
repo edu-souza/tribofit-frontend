@@ -4,7 +4,7 @@ import { Credencial } from '../types/credencial.interface';
 @Component({
   selector: 'app-pagina-login',
   templateUrl: './pagina-login.component.html',
-  styleUrls: ['./pagina-login.component.scss'],
+  styleUrls: ['./pagina-login.component.css'],
 })
 export class PaginaLoginComponent implements OnInit {
   loginForm!: FormGroup;

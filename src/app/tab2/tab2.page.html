@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Esportes
+      Atividades
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,8 +9,16 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Esportes</ion-title>
+      <ion-title size="large">Atividades</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <lista-atividades></lista-atividades>
+
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button [routerLink]="">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

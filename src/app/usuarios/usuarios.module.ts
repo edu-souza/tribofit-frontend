@@ -5,7 +5,6 @@ import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { UsuarioRoutingModule } from "./usuarios-routing.module";
-import { BrowserModule } from "@angular/platform-browser";
 import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
