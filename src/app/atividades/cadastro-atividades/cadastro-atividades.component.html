@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Nova Atividade
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Nova Atividade</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="std-div">
+    <form>
+      <ion-item>
+        <ion-select label="Tipo" placeholder="Selecione o tipo de atividade">
+          <ion-select-option value="1">Basquete</ion-select-option>
+          <ion-select-option value="2">Vôlei</ion-select-option>
+          <ion-select-option value="3">Futebol</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Atividade"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Local"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Data e hora</ion-label>
+
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="datetime" color="primary" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-input type="number" label="Participantes"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea [autoGrow]="true" label="Descrição">
+        </ion-textarea>
+      </ion-item>
+    </form>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="">
+      <ion-icon name="checkmark-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

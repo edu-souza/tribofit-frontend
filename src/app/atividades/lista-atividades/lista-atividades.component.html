@@ -1,8 +1,15 @@
 <div class="std-div">
   <ion-list lines="none" class="lista-atividades">
-    <ion-searchbar placeholder="Buscar"></ion-searchbar>
     <ion-item>
-      <div class="card-atv">
+      <ion-select placeholder="Filtrar atividades" fill="outline" [multiple]="true">
+        <ion-select-option value="1">Basquete</ion-select-option>
+        <ion-select-option value="2">Vôlei</ion-select-option>
+        <ion-select-option value="3">Futebol</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- <ion-searchbar placeholder="Buscar"></ion-searchbar> -->
+    <ion-item>
+      <div class="card-atv" routerLink="detalhe-atividades">
         <div class="linha-atividade">
           <ion-icon class="icon-atv" name="basketball"></ion-icon>
           &nbsp;&nbsp;&nbsp;

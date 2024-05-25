@@ -1,22 +1,30 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Atividades
-    </ion-title>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Atividades
+      </ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Atividades</ion-title>
+      <div class="titulo-page">
+        <ion-icon name="grid"></ion-icon>
+        <ion-title>
+          Atividades
+        </ion-title>
+      </div>
     </ion-toolbar>
   </ion-header>
 
   <lista-atividades></lista-atividades>
 
   <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true">
-    <ion-fab-button [routerLink]="">
+    <ion-fab-button [routerLink]="['cadastro-atividades']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

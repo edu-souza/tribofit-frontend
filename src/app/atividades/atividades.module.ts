@@ -6,9 +6,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ListaAtividadesComponent } from './lista-atividades/lista-atividades.component';
 import { HttpClientModule } from "@angular/common/http";
 import { AtividadesRoutingModule } from './atividades-routing.module';
+import { CadastroAtividadesComponent } from './cadastro-atividades/cadastro-atividades.component';
+import { DetalheAtividadesComponent } from './detalhe-atividades/detalhe-atividades.component';
 
 @NgModule({
-  declarations: [ListaAtividadesComponent],
+  declarations: [ListaAtividadesComponent, CadastroAtividadesComponent, DetalheAtividadesComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,7 +19,7 @@ import { AtividadesRoutingModule } from './atividades-routing.module';
     IonicModule,
     AtividadesRoutingModule
   ],
-  exports: [ListaAtividadesComponent]
+  exports: [ListaAtividadesComponent, CadastroAtividadesComponent, DetalheAtividadesComponent]
 
 })
 export class AtividadesModule { }
