@@ -6,6 +6,8 @@ import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { UsuarioRoutingModule } from "./usuarios-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   imports: [
@@ -13,6 +15,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     IonicModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DatePipe,
     UsuarioRoutingModule],
   declarations: [ListaUsuarioComponent, CadastroUsuarioComponent],
   exports: [ListaUsuarioComponent, CadastroUsuarioComponent]

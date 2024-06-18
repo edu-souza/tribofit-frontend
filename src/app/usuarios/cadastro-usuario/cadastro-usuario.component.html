@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Editar Perfil
+      Cadastro de usuário
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,17 +9,17 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Editar Perfil</ion-title>
+      <ion-title size="large">Cadastro de usuário</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div *ngIf="usuariosForm" class="std-div">
     <form [formGroup]="usuariosForm">
       <ion-item>
-        <ion-avatar>
-          <img class="imgUsuario" [src]="usuariosForm.controls['image'].value" />
-        </ion-avatar>
-        <h1>{{usuarioNome}}</h1>
+        <ion-input formControlName="nome" label="Nome"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="image" label="Imagem"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input formControlName="cidade" label="Cidade"></ion-input>
@@ -32,8 +32,24 @@
           </small>
         </ion-text>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-input formControlName="data_nascto" label="Data de nascimento"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-label position="floating">Data de nascimento: </ion-label>
+
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="datetime" color="primary" formControlName="dataNascimento" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+        <ion-text color="danger" *ngIf="dataNascto?.invalid && (dataNascto?.dirty || dataNascto?.touched)">
+          <small *ngIf="dataNascto?.errors?.['required']">
+            A data de nascimento é obrigatória
+          </small>
+        </ion-text>
       </ion-item>
       <ion-item>
         <ion-input formControlName="email" label="Email"></ion-input>
@@ -49,11 +65,13 @@
       <ion-item>
         <ion-input formControlName="senha" label="Senha"></ion-input>
       </ion-item>
+
     </form>
+
   </div>
 
   <ion-fab vertical="top" horizontal="end" slot="fixed" [edge]="true">
-    <ion-fab-button>
+    <ion-fab-button (click)=" salvar()">
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>
   </ion-fab>

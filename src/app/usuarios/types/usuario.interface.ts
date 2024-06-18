@@ -1,7 +1,7 @@
 export interface Usuario {
-  id?: number | null;
+  id?: string | null;
   nome: string;
-  data_nascto: string;
+  dataNascimento: string;
   cidade: string;
   email: string;
   senha: string;

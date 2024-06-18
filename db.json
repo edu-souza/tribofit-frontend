@@ -1,13 +1,22 @@
 {
   "usuarios": [
-    { 
-      "id": 1, 
+    {
+      "id": "1",
       "nome": "Eduardo de Souza",
-      "data_nascto" : "06/05/1997", 
-      "cidade" : "Forquilhinha",
-      "email" : "eduardo.de.souza@mail.com",
-      "senha" : "123",
+      "data_nascto": "06/05/1997",
+      "cidade": "Forquilhinha",
+      "email": "eduardo.de.souza@mail.com",
+      "senha": "123",
       "image": "https://edu-souza.github.io/img/img1.jpg"
+    },
+    {
+      "id": "cced",
+      "image": "image1.png",
+      "nome": "Teste",
+      "cidade": "Criciuma",
+      "data_nascto": "2024-06-04T23:50:00",
+      "email": "dwadwa@mail.com",
+      "senha": "123"
     }
   ]
 }

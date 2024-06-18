@@ -12,7 +12,10 @@ const routes: Routes = [
     path: 'user-cadastro/:id',
     component: CadastroUsuarioComponent
   },
-
+  {
+    path: 'user-cadastro',
+    component: CadastroUsuarioComponent
+  },
 ];
 
 @NgModule({

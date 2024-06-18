@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { UsuariosService } from "../services/usuarios.services";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Usuario } from "../types/usuario.interface";
 
@@ -11,20 +11,20 @@ import { Usuario } from "../types/usuario.interface";
 })
 
 export class ListaUsuarioComponent implements OnInit {
-  usuarioId: number | null;
+  usuarioId: string | null;
   usuario!: Usuario;
   private subscriptions = new Subscription();
 
   constructor(private usuarioService: UsuariosService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.usuarioId = 1;
+    this.usuarioId = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
     const id = this.usuarioId;
     if (id) {
-      //needs parse int ?
       this.subscriptions.add(this.usuarioService.getUsuario(id).subscribe(
         (response) => {
           console.log(response);
@@ -35,4 +35,6 @@ export class ListaUsuarioComponent implements OnInit {
       )
     }
   }
+
+  confirmarExclusao() { }
 }
