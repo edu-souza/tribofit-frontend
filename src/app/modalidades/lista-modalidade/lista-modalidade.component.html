@@ -1,0 +1,24 @@
+<div class="std-div">
+    <ion-list>
+        <ion-item *ngFor="let modalidade of modalidades">
+          <ion-label>
+            <h2>{{modalidade.nome}}</h2>
+            <p>{{modalidade.nome}}</p>
+          </ion-label>
+    
+          <ion-buttons slot="end" class="ion-buttons-fab">
+            <ion-fab-button [routerLink]="['modalidade-cadastro', modalidade.id]">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="confirmarExclusao(modalidade)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-buttons>
+        </ion-item>
+    </ion-list>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end" [edge]="true" class="custom-fab">
+      <ion-fab-button [routerLink]="['modalidade-cadastro']">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</div>
