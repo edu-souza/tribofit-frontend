@@ -1,0 +1,42 @@
+<div class="std-div">
+  <ion-list lines="none" class="lista-evento">
+    <ion-item>
+      <ion-select placeholder="Filtrar eventos" fill="outline" [multiple]="true">
+        <ion-select-option value="1">Basquete</ion-select-option>
+        <ion-select-option value="2">Vôlei</ion-select-option>
+        <ion-select-option value="3">Futebol</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngFor="let evento of eventos">
+      <div class="card-atv">
+        <div class="linha-evento">
+          <ion-icon class="icon-atv" name="bicycle"></ion-icon>
+          &nbsp;&nbsp;&nbsp;
+          <span>{{evento.titulo}}</span>
+        </div>
+        <div class="linha-evento">
+          <ion-icon name="calendar"></ion-icon>
+          &nbsp;&nbsp;&nbsp;
+          <div class="atv-data">
+            <span>{{evento.data}}</span>
+            <span>{{evento.hora}}</span>
+          </div>
+        </div>
+        <div class="linha-evento">
+          <ion-icon name="people"></ion-icon>
+          &nbsp;&nbsp;&nbsp;
+          <span>{{evento.quantidadeParticipantes}} Participantes</span>
+        </div>
+        <ion-buttons class="ion-buttons-fab">
+          <ion-fab-button [routerLink]="['edicao-eventos',evento.id]">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button>
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-buttons>
+      </div>
+    </ion-item>
+
+  </ion-list>
+</div>

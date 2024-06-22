@@ -18,5 +18,26 @@
       "email": "dwadwa@mail.com",
       "senha": "123"
     }
+  ],
+  "eventos" : [
+    {
+      "id" : "93dc9fc1-ed89-44e5-8db9-38eee0cee777",
+      "titulo":"Bate e volta na Cirenaica",
+      "descricao": "Pedal até na cachoeira, lanche no local",
+      "tipo": "não recorrente",
+      "data": "2024-06-15 10:00:00",
+      "senha": "cirena123",
+      "hora": "06:00:00",
+      "diaSemana": "",
+      "quantidadeParticipantes": 6,
+      "bairro": "Centro",
+      "rua":  "Henrique Lage",
+      "numero": "002",
+      "complemento": "Em frente ao Santo Alho",
+      "latitude": "-28.6838",
+      "longitude": "-49.3696",
+      "status": "I",
+      "cidade": "ae0a90df-3b84-4c72-90fa-e60f1ec69932"
+    }
   ]
 }

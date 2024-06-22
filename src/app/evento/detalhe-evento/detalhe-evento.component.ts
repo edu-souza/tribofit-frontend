@@ -3,11 +3,11 @@ import { ViewDidEnter } from '@ionic/angular';
 import * as Leaflet from 'leaflet';
 
 @Component({
-  selector: 'detalhe-atividades',
-  templateUrl: './detalhe-atividades.component.html',
-  styleUrls: ['detalhe-atividades.component.css']
+  selector: 'detalhe-evento',
+  templateUrl: './detalhe-evento.component.html',
+  styleUrls: ['detalhe-evento.component.css']
 })
-export class DetalheAtividadesComponent implements OnInit, OnDestroy, ViewDidEnter {
+export class DetalheEventoComponent implements OnInit, OnDestroy, ViewDidEnter {
   map!: Leaflet.Map;
 
   constructor() { }
