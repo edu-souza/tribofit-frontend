@@ -35,7 +35,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label formControlName="data" position="floating">Data</ion-label>
+        <ion-label formControlName="data">Data</ion-label>
 
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
@@ -45,6 +45,16 @@
           </ng-template>
         </ion-modal>
 
+      </ion-item>
+
+      <ion-item>
+        <ion-label formControlName="hora">Hora</ion-label>
+        <ion-datetime-button datetime="time"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="time" color="primary" display-format="HH:mm" min="00:00" max="23:59" presentation="time" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
       </ion-item>
 
       <ion-item>
