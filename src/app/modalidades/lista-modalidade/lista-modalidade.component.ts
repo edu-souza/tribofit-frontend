@@ -11,16 +11,19 @@ import { AlertController, ToastController, ViewDidEnter, ViewDidLeave, ViewWillE
   styleUrls: ['./lista-modalidade.component.css']
 })
 
-export class ListaModalidadeComponent implements OnInit, OnDestroy {
+export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnter {
   modalidades: Modalidade[] = [];
   private subscriptions = new Subscription();
 
   constructor(
     private modalidadeService: ModalidadesService,
-    private activatedRoute: ActivatedRoute,
     private toastController: ToastController,
     private alertController: AlertController
   ) {
+  }
+
+  ionViewWillEnter(): void {
+    this.listar();
   }
 
   ngOnInit(): void {
@@ -56,7 +59,7 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy {
   confirmarExclusao(modalidade: Modalidade) {
     this.alertController.create({
         header: 'Confirmação de exclusão',
-        message: `Deseja excluir o autor ${modalidade.nome}?`,
+        message: `Deseja excluir a modalidade ${modalidade.nome}?`,
         buttons: [
           {
             text: 'Sim',

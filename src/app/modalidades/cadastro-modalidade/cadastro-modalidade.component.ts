@@ -47,7 +47,7 @@ export class CadastroModalidadeComponent implements OnInit {
     };
     console.log(modalidade);
     this.modalidadeService.salvar(modalidade).subscribe(
-      () => this.router.navigate(['tabs/tab3']),
+      () => this.router.navigate(['tabs/modalidades']),
       (erro) => {
         console.error(erro);
         this.toastController
@@ -65,13 +65,13 @@ export class CadastroModalidadeComponent implements OnInit {
 
   private createForm(modalidade?: Modalidade) {
     return new FormGroup({
-      image: new FormControl(modalidade?.icone || '', [Validators.required]),
+      icone: new FormControl(modalidade?.icone || '', [Validators.required]),
 
       nome: new FormControl(modalidade?.nome || '', [Validators.required]),
     })
   }
 
-  get image() {
+  get icone() {
     return this.modalidadeForm.get('icone');
   }
 

@@ -1,17 +1,14 @@
-<ion-header [translucent]="true">
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title>
-        Cadastro de usuário
-      </ion-title>
+      <div class="titulo-page">
+        <ion-icon name="grid"></ion-icon>
+        <ion-title>
+          Cadastro Modalidades
+        </ion-title>
+      </div>
     </ion-toolbar>
   </ion-header>
-  
-  <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Cadastro de modalidade</ion-title>
-      </ion-toolbar>
-    </ion-header>
   
     <div *ngIf="modalidadeForm" class="std-div">
       <form [formGroup]="modalidadeForm">
@@ -19,14 +16,14 @@
           <ion-input formControlName="nome" label="Nome"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input formControlName="image" label="Imagem"></ion-input>
+          <ion-input formControlName="icone" label="Icone"></ion-input>
         </ion-item>
       </form>
   
     </div>
   
-    <ion-fab vertical="top" horizontal="end" slot="fixed" [edge]="true">
-      <ion-fab-button (click)=" salvar()">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button [disabled]="!modalidadeForm.valid" (click)=" salvar()">
         <ion-icon name="checkmark-circle"></ion-icon>
       </ion-fab-button>
     </ion-fab>

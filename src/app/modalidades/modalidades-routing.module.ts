@@ -5,6 +5,10 @@ import { CadastroModalidadeComponent } from "./cadastro-modalidade/cadastro-moda
 
 const routes: Routes = [
   {
+    path: '',
+    component: ListaModalidadeComponent
+  },
+  {
     path: 'modalidades',
     component: ListaModalidadeComponent
   },
