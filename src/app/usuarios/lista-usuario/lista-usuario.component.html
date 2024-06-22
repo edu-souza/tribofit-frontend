@@ -1,3 +1,17 @@
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <div class="titulo-page">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-title>
+          Usuários
+        </ion-title>
+      </div>
+    </ion-toolbar>
+
+  </ion-header>
+
 <div *ngIf="usuario" class="std-div">
   <div class="ion-text-center">
     <ion-list>
@@ -20,3 +34,11 @@
     </ion-list>
   </div>
 </div>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button [routerLink]="['usuario-cadastro',usuarioId]">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+</ion-content>

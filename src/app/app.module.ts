@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalidadesModule } from './modalidades/modalidades.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +17,8 @@ import { ModalidadesModule } from './modalidades/modalidades.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    ModalidadesModule
+    ModalidadesModule,
+    UsuariosModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

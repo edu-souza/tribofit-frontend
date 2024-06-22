@@ -5,15 +5,19 @@ import { CadastroUsuarioComponent } from "./cadastro-usuario/cadastro-usuario.co
 
 const routes: Routes = [
   {
-    path: 'user',
+    path: '',
     component: ListaUsuarioComponent
   },
   {
-    path: 'user-cadastro/:id',
+    path: 'usuario',
+    component: ListaUsuarioComponent
+  },
+  {
+    path: 'usuario-cadastro/:id',
     component: CadastroUsuarioComponent
   },
   {
-    path: 'user-cadastro',
+    path: 'usuario-cadastro',
     component: CadastroUsuarioComponent
   },
 ];
