@@ -27,7 +27,6 @@ export class ListaUsuarioComponent implements OnInit {
     if (id) {
       this.subscriptions.add(this.usuarioService.getUsuario(id).subscribe(
         (response) => {
-          console.log(response);
           this.usuario = response;
         },
         (erro) =>
