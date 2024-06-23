@@ -13,16 +13,16 @@ export class UsuariosService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getUsuario(id: string): Observable<Usuario> {
-    return this.httpClient.get<Usuario>(`${this.url}${id}`);
+  getUsuario(): Observable<Usuario[]> {
+    return this.httpClient.get<Usuario[]>(`${this.url}`);
   }
 
   getUsuarioById(id: string): Observable<Usuario | undefined> {
-    return this.httpClient.get<Usuario | undefined>(`${this.url}/${id}`);
+    return this.httpClient.get<Usuario | undefined>(`${this.url}${id}`);
   }
 
   excluir(id: string): Observable<Object> {
-    return this.httpClient.delete(`${this.url}/${id}`);
+    return this.httpClient.delete(`${this.url}${id}`);
   }
 
   private addUsuario(usuario: Usuario): Observable<Usuario> {
@@ -30,7 +30,7 @@ export class UsuariosService {
   }
 
   private updUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.httpClient.put<Usuario>(`${this.url}/${usuario.id}`, usuario);
+    return this.httpClient.put<Usuario>(`${this.url}${usuario.id}`, usuario);
   }
 
   salvar(usuario: Usuario): Observable<Usuario> {

@@ -1,21 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="star"></ion-icon>
+      <ion-title>
+        Modalidades
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <div class="titulo-page">
-        <ion-icon name="grid"></ion-icon>
-        <ion-title>
-          Modalidades
-        </ion-title>
-      </div>
-    </ion-toolbar>
-  </ion-header>
 
 <div class="std-div">
     <ion-list>
         <ion-item *ngFor="let modalidade of modalidades">
           <ion-label>
             <h2>{{modalidade.nome}}</h2>
-            <p>{{modalidade.nome}}</p>
           </ion-label>
     
           <ion-buttons slot="end" class="ion-buttons-fab">

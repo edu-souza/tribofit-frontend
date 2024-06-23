@@ -1,45 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Cadastro de usuário
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Cadastro de usuário</ion-title>
+      <div class="titulo-page">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-title>
+          Cadastro Usuários
+        </ion-title>
+      </div>
     </ion-toolbar>
   </ion-header>
 
   <div *ngIf="usuariosForm" class="std-div">
     <form [formGroup]="usuariosForm">
+
       <ion-item>
         <ion-input formControlName="nome" label="Nome"></ion-input>
       </ion-item>
+
       <ion-item>
-        <ion-input formControlName="image" label="Imagem"></ion-input>
+        <ion-label>Cidade</ion-label>
+        <ion-select formControlName="cidade" [compareWith]="compareFn">
+          <ion-select-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</ion-select-option>
+        </ion-select>
       </ion-item>
-      <ion-item>
-        <ion-input formControlName="cidade" label="Cidade"></ion-input>
-        <ion-text color="danger" *ngIf="cidade?.invalid && (cidade?.dirty || cidade?.touched)">
-          <small *ngIf="cidade?.errors?.['required']">
-            O campo cidade é obrigatório
-          </small>
-          <small *ngIf="cidade?.errors?.['cidadeInvalida']">
-            Cidade não é da região Sul!
-          </small>
-        </ion-text>
-      </ion-item>
-      <!-- <ion-item>
-        <ion-input formControlName="data_nascto" label="Data de nascimento"></ion-input>
-      </ion-item> -->
+
       <ion-item>
         <ion-label position="floating">Data de nascimento: </ion-label>
-
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
-
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime id="datetime" color="primary" formControlName="dataNascimento" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
@@ -51,6 +38,7 @@
           </small>
         </ion-text>
       </ion-item>
+
       <ion-item>
         <ion-input formControlName="email" label="Email"></ion-input>
         <ion-text color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
@@ -62,15 +50,15 @@
           </small>
         </ion-text>
       </ion-item>
+
       <ion-item>
         <ion-input formControlName="senha" label="Senha"></ion-input>
       </ion-item>
 
     </form>
-
   </div>
 
-  <ion-fab vertical="top" horizontal="end" slot="fixed" [edge]="true">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)=" salvar()">
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { UsuariosService } from "../services/usuarios.services";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Usuario } from "../types/usuario.interface";
+import { AlertController, ToastController } from "@ionic/angular";
 
 @Component({
   selector: 'lista-usuario',
@@ -10,31 +11,79 @@ import { Usuario } from "../types/usuario.interface";
   styleUrls: ['./lista-usuario.component.css']
 })
 
-export class ListaUsuarioComponent implements OnInit {
-  usuarioId: string | null;
-  usuario!: Usuario;
+export class ListaUsuarioComponent implements OnInit, OnDestroy {
+  usuarios: Usuario[] = [];
   private subscriptions = new Subscription();
 
   constructor(private usuarioService: UsuariosService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    this.usuarioId = this.activatedRoute.snapshot.paramMap.get('id');
-  }
+    private router: Router,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit(): void {
-    const id = this.usuarioId;
-    if (id) {
-      this.subscriptions.add(this.usuarioService.getUsuario(id).subscribe(
+    this.subscriptions.add(
+      this.usuarioService.getUsuario().subscribe(
         (response) => {
-          console.log(response);
-          this.usuario = response;
+          this.usuarios = response;
         },
-        (erro) =>
-          console.log(erro))
+        (erro) => {
+          console.error('Error occurred:', erro);
+        }
       )
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  ionViewWillEnter(): void {
+    this.listar();
+  }
+
+  confirmarExclusao(usuario: Usuario) {
+    this.alertController.create({
+        header: 'Confirmação de exclusão',
+        message: `Deseja excluir o usuário ${usuario.nome}?`,
+        buttons: [
+          {
+            text: 'Sim',
+            handler: () => this.excluir(usuario),
+          },
+          {
+            text: 'Não',
+          },
+        ],
+      })
+      .then((alerta) => alerta.present());
+  }
+
+  private excluir(usuario: Usuario) {
+    if (usuario.id) {
+      this.usuarioService.excluir(usuario.id).subscribe(
+        () => this.listar(),
+        (erro) => {
+          this.toastController.create({
+              message: 'Erro ao excluir usuário',
+              position: 'top',
+              duration: 5000,
+              color: 'danger',
+          }).then(toast => toast.present());
+        }
+      );
     }
   }
 
-  confirmarExclusao() { }
+  private listar() {
+    this.usuarioService.getUsuario().subscribe(
+      (dados) => {
+        this.usuarios = dados;
+      },
+      (erro) => {
+        console.error(erro);
+      }
+    );
+  }
 }
