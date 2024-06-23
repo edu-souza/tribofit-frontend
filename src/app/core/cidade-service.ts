@@ -14,7 +14,6 @@ export class CidadesService {
   constructor(private httpClient: HttpClient) { }
 
   getCidade(): Observable<Cidade[]> {
-    //console.log(`${this.url}`)
     return this.httpClient.get<Cidade[]>(`${this.url}`);
   }
 

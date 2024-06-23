@@ -1,19 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalidadesService } from "../services/modalidades.services";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Modalidade } from "../types/modalidade.interface";
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Subscription } from "rxjs";
-import { ToastController } from "@ionic/angular";
-
+import { Component, OnInit } from '@angular/core';
+import { ModalidadesService } from '../services/modalidades.services';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Modalidade } from '../types/modalidade.interface';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'cadastro-modalidade',
-  templateUrl: './cadastro-modalidade.component.html'
+  templateUrl: './cadastro-modalidade.component.html',
 })
-
 export class CadastroModalidadeComponent implements OnInit {
-
   modalidadeId!: string;
   modalidadeForm: FormGroup;
   private subscriptions = new Subscription();
@@ -22,7 +26,8 @@ export class CadastroModalidadeComponent implements OnInit {
     private modalidadeService: ModalidadesService,
     private router: Router,
     private toastController: ToastController,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute
+  ) {
     this.modalidadeForm = this.createForm();
   }
 
@@ -31,12 +36,12 @@ export class CadastroModalidadeComponent implements OnInit {
     if (id) {
       this.modalidadeId = id;
       this.subscriptions.add(
-        this.modalidadeService.getModalidadeById(this.modalidadeId).subscribe(
-          (modalidade) => {
-            this.modalidadeForm = this.createForm(modalidade)
-          }
-        )
-      )
+        this.modalidadeService
+          .getModalidadeById(this.modalidadeId)
+          .subscribe((modalidade) => {
+            this.modalidadeForm = this.createForm(modalidade);
+          })
+      );
     }
   }
 
@@ -62,13 +67,12 @@ export class CadastroModalidadeComponent implements OnInit {
     );
   }
 
-
   private createForm(modalidade?: Modalidade) {
     return new FormGroup({
       icone: new FormControl(modalidade?.icone || '', [Validators.required]),
 
       nome: new FormControl(modalidade?.nome || '', [Validators.required]),
-    })
+    });
   }
 
   get icone() {
@@ -78,5 +82,4 @@ export class CadastroModalidadeComponent implements OnInit {
   get nome() {
     return this.modalidadeForm.get('nome');
   }
-
 }

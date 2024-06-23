@@ -1,21 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <div class="titulo-page">
-      <ion-icon name="grid"></ion-icon>
+      <ion-icon name="star"></ion-icon>
       <ion-title>
-        Cadastro de modalidades
+        Modalidades
       </ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <div class="std-div">
     <ion-list>
       <ion-item *ngFor="let modalidade of modalidades">
         <ion-label>
           <h2>{{modalidade.nome}}</h2>
-          <p>{{modalidade.nome}}</p>
         </ion-label>
 
         <ion-buttons slot="end" class="ion-buttons-fab">
@@ -28,6 +28,19 @@
         </ion-buttons>
       </ion-item>
     </ion-list>
+
+  </div>
+
+  <ion-buttons slot="end" class="ion-buttons-fab">
+    <ion-fab-button [routerLink]="['modalidade-cadastro', modalidade.id]">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="confirmarExclusao(modalidade)">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-buttons>
+  </ion-item>
+  </ion-list>
 
   </div>
 

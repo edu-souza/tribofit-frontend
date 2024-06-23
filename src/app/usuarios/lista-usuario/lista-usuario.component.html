@@ -1,44 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-title>
+        Usuarios
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <div class="titulo-page">
-        <ion-icon name="person-outline"></ion-icon>
-        <ion-title>
-          Usuários
-        </ion-title>
-      </div>
-    </ion-toolbar>
 
-  </ion-header>
-
-<div *ngIf="usuario" class="std-div">
-  <div class="ion-text-center">
+  <div class="std-div">
     <ion-list>
-      <ion-item>
-        <div class="std-flex">
-          <ion-avatar>
-            <img class="imgUsuario" [src]="usuario.image" />
-          </ion-avatar>
-          <h1>{{usuario.nome}}</h1>
-        </div>
-        <ion-buttons class="ion-buttons-fab">
-          <ion-fab-button [routerLink]="['user-cadastro', usuarioId]">
+      <ion-item *ngFor="let usuario of usuarios">
+        <ion-label>
+          <h2>{{ usuario.nome }}</h2>
+          <p>{{ usuario.email }}</p>
+        </ion-label>
+
+        <ion-buttons slot="end" class="ion-buttons-fab">
+          <ion-fab-button [routerLink]="['usuario-cadastro', usuario.id]">
             <ion-icon name="create-outline"></ion-icon>
           </ion-fab-button>
-          <ion-fab-button (click)="confirmarExclusao()">
+          <ion-fab-button (click)="confirmarExclusao(usuario)">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-fab-button>
         </ion-buttons>
       </ion-item>
     </ion-list>
   </div>
-</div>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button [routerLink]="['usuario-cadastro',usuarioId]">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['usuario-cadastro']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

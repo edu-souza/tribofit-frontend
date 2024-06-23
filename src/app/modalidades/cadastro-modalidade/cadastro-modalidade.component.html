@@ -1,25 +1,28 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <div class="titulo-page">
-      <ion-icon name="grid"></ion-icon>
-      <ion-title>
-        Cadastro de modalidades
-      </ion-title>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <div class="titulo-page">
+        <ion-icon name="grid"></ion-icon>
+        <ion-title> Cadastro Modalidades </ion-title>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
   <div *ngIf="modalidadeForm" class="std-div">
     <form [formGroup]="modalidadeForm">
       <ion-item>
         <ion-input formControlName="nome" label="Nome"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="file" formControlName="icone" label="Icone"></ion-input>
+        <<<<<<< HEAD <ion-input type="file" formControlName="icone" label="Icone"></ion-input>
       </ion-item>
     </form>
 
+    =======
+    <ion-input formControlName="icone" label="Icone"></ion-input>
+    </ion-item>
+    </form>
+    >>>>>>> e1c133b64eb730f12177415d945de2321007eac6
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -27,5 +30,7 @@
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
+  <<<<<<< HEAD </ion-content>
+    =======
 </ion-content>
+>>>>>>> e1c133b64eb730f12177415d945de2321007eac6
