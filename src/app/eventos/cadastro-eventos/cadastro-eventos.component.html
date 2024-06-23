@@ -1,0 +1,167 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Cadastro de eventos
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="std-div">
+    <form [formGroup]="eventosForm">
+      <ion-item>
+        <ion-input formControlName="titulo" label="Titulo"></ion-input>
+        <ion-text color="danger" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)">
+          <small *ngIf="titulo?.errors?.['required']">
+            É necessário preencher um título para o evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Data</ion-label>
+
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime formControlName="data" id="datetime" color="primary" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+        <ion-text color="danger" *ngIf="data?.invalid && (data?.dirty || data?.touched)">
+          <small *ngIf="data?.errors?.['required']">
+            A data do evento é obrigatória
+          </small>
+        </ion-text>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Hora</ion-label>
+
+        <ion-datetime-button datetime="timepicker"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime formControlName="hora" id="timepicker" color="primary" display-format="HH:mm" presentation="time" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+        <ion-text color="danger" *ngIf="hora?.invalid && (hora?.dirty || hora?.touched)">
+          <small *ngIf="hora?.errors?.['required']">
+            A hora do evento é obrigatória
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-select formControlName="tipo" label="Tipo">
+          <ion-select-option value="não recorrente">Não recorrente</ion-select-option>
+          <ion-select-option value="recorrente">Recorrente</ion-select-option>
+        </ion-select>
+        <ion-text color="danger" *ngIf="tipo?.invalid && (tipo?.dirty || tipo?.touched)">
+          <small *ngIf="tipo?.errors?.['required']">
+            É necessário preencher o tipo do evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item *ngIf="eventosForm.get('tipo')?.value === 'recorrente'">
+        <ion-select formControlName="diasemana" label="Dia da Semana">
+          <ion-select-option value="Domingo">Domingo</ion-select-option>
+          <ion-select-option value="Segunda-feira">Segunda-feira</ion-select-option>
+          <ion-select-option value="Terça-feira">Terça-feira</ion-select-option>
+          <ion-select-option value="Quarta-feira">Quarta-feira</ion-select-option>
+          <ion-select-option value="Quinta-feira">Quinta-feira</ion-select-option>
+          <ion-select-option value="Sexta-feira">Sexta-feira</ion-select-option>
+          <ion-select-option value="Sábado">Sábado</ion-select-option>
+        </ion-select>
+        <ion-text color="danger" *ngIf="diasemana?.invalid && (diasemana?.dirty || diasemana?.touched)">
+          <small *ngIf="diasemana?.errors?.['required']">
+            É necessário preencher o dia da semana para eventos recorrentes.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="quantidadeParticipantes" type="number" min="1" label="Participantes"></ion-input>
+        <ion-text color="danger" *ngIf="quantidadeParticipantes?.invalid && (quantidadeParticipantes?.dirty || quantidadeParticipantes?.touched)">
+          <small *ngIf="quantidadeParticipantes?.errors?.['required']">
+            É necessário ao menos 1 participante no evento.
+          </small>
+          <small *ngIf="quantidadeParticipantes?.errors?.['min']">
+            A quantidade de participantes deve ser pelo menos 1.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea formControlName="descricao" [autoGrow]="true" label="Descrição">
+        </ion-textarea>
+        <ion-text color="danger" *ngIf="descricao?.invalid && (descricao?.dirty || descricao?.touched)">
+          <small *ngIf="descricao?.errors?.['required']">
+            Insira uma descrição para ajudar os participantes!
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-select formControlName="cidade" label="Cidade" placeholder="Selecione a cidade" [compareWith]="compareWith">
+          <ion-select-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</ion-select-option>
+        </ion-select>
+        <ion-text color="danger" *ngIf="cidade?.invalid && (cidade?.dirty || cidade?.touched)">
+          <small *ngIf="cidade?.errors?.['required']">
+            Insira a cidade do evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="bairro" label="Bairro"></ion-input>
+        <ion-text color="danger" *ngIf="bairro?.invalid && (bairro?.dirty || bairro?.touched)">
+          <small *ngIf="bairro?.errors?.['required']">
+            É necessário preencher um bairro para o evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="rua" label="Rua"></ion-input>
+        <ion-text color="danger" *ngIf="rua?.invalid && (rua?.dirty || rua?.touched)">
+          <small *ngIf="rua?.errors?.['required']">
+            É necessário preencher a rua do evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="numero" label="Numero"></ion-input>
+        <ion-text color="danger" *ngIf="numero?.invalid && (numero?.dirty || numero?.touched)">
+          <small *ngIf="numero?.errors?.['required']">
+            É necessário preencher o número do endereço para o evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="complemento" label="Complemento"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select formControlName="status" label="Status" placeholder="Status">
+          <ion-select-option value="A">Ativo</ion-select-option>
+          <ion-select-option value="I">Inativo</ion-select-option>
+          <ion-select-option value="C">Cancelado</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </form>
+  </div>
+  <div class="fab">
+    <ion-fab-button (click)="saveEvento()">
+      <ion-icon name="checkmark-circle"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+</ion-content>

@@ -12,8 +12,8 @@ const routes: Routes = [
         loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'eventos',
+        loadChildren: () => import('../eventos/eventos.module').then(m => m.EventosModule)
       },
       {
         path: 'modalidades',
@@ -21,14 +21,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/eventos',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/eventos',
     pathMatch: 'full'
   }
 ];
@@ -36,4 +36,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

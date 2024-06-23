@@ -4,10 +4,10 @@ import * as Leaflet from 'leaflet';
 
 @Component({
   selector: 'detalhe-evento',
-  templateUrl: './detalhe-evento.component.html',
-  styleUrls: ['detalhe-evento.component.css']
+  templateUrl: './detalhe-eventos.component.html',
+  styleUrls: ['detalhe-eventos.component.css']
 })
-export class DetalheEventoComponent implements OnInit, OnDestroy, ViewDidEnter {
+export class DetalheEventosComponent implements OnInit, OnDestroy, ViewDidEnter {
   map!: Leaflet.Map;
 
   constructor() { }

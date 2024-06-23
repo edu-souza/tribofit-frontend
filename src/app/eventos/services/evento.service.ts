@@ -25,11 +25,11 @@ export class EventoService {
     return this.httpClient.delete(`${this.url}/${id}`);
   }
 
-  private addEvento(evento: Evento): Observable<Evento> {
+  addEvento(evento: Evento): Observable<Evento> {
     return this.httpClient.post<Evento>(this.url, evento);
   }
 
-  private updEvento(evento: Evento): Observable<Evento> {
+  updEvento(evento: Evento): Observable<Evento> {
     return this.httpClient.put<Evento>(`${this.url}/${evento.id}`, evento);
   }
 
@@ -37,6 +37,8 @@ export class EventoService {
     if (evento.id) {
       return this.updEvento(evento);
     } else {
+      console.log('addEvento-service')
+      console.log(evento)
       return this.addEvento(evento);
     }
   }

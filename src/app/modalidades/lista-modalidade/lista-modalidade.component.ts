@@ -30,7 +30,7 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnte
     this.subscriptions.add(
       this.modalidadeService.getModalidade().subscribe(
         (response) => {
-          console.log(response); 
+          console.log(response);
           this.modalidades = response;
           this.listar();
         },
@@ -58,20 +58,20 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnte
 
   confirmarExclusao(modalidade: Modalidade) {
     this.alertController.create({
-        header: 'Confirmação de exclusão',
-        message: `Deseja excluir a modalidade ${modalidade.nome}?`,
-        buttons: [
-          {
-            text: 'Sim',
-            handler: () => this.excluir(modalidade),
-          },
-          {
-            text: 'Não',
-          },
-        ],
-      })
+      header: 'Confirmação de exclusão',
+      message: `Deseja excluir a modalidade ${modalidade.nome}?`,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => this.excluir(modalidade),
+        },
+        {
+          text: 'Não',
+        },
+      ],
+    })
       .then((alerta) => alerta.present());
-    
+
   }
 
   private excluir(modalidade: Modalidade) {
@@ -80,9 +80,9 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnte
         () => this.listar(),
         (erro) => {
           this.toastController.create({
-              position: 'top',
-              duration: 5000,
-              color: 'danger',
+            position: 'top',
+            duration: 5000,
+            color: 'danger',
           })
         }
       );
