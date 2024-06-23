@@ -7,22 +7,26 @@ import { Evento } from '../types/evento.interface';
 import { Cidade } from 'src/app/core/cidade.interface';
 import { CidadesService } from 'src/app/core/cidade-service';
 import { Subscription } from 'rxjs';
+import { Modalidade } from 'src/app/modalidades/types/modalidade.interface';
+import { ModalidadesService } from 'src/app/modalidades/services/modalidades.services';
 
 @Component({
-  selector: 'cadastro-eventos',
-  templateUrl: './cadastro-eventos.component.html',
-  styleUrls: ['./cadastro-eventos.component.css']
+  selector: 'cadastro-evento',
+  templateUrl: './cadastro-evento.component.html',
+  styleUrls: ['./cadastro-evento.component.css']
 })
-export class CadastroEventosComponent implements OnInit {
+export class CadastroEventoComponent implements OnInit {
   eventoId!: string;
   eventosForm: FormGroup;
   cidades: Cidade[] = [];
+  modalidades: Modalidade[] = [];
 
   constructor(
     private toastController: ToastController,
     private activatedRoute: ActivatedRoute,
     private eventoService: EventoService,
     private cidadeService: CidadesService,
+    private modalidadeService: ModalidadesService,
     private router: Router
   ) {
     this.eventosForm = this.createForm();
@@ -31,6 +35,7 @@ export class CadastroEventosComponent implements OnInit {
   ngOnInit() {
     this.loadEvento();
     this.loadCidades();
+    this.loadModalidades();
   }
 
   loadCidades() {
@@ -38,6 +43,26 @@ export class CadastroEventosComponent implements OnInit {
     observable.subscribe(
       (dados) => {
         this.cidades = dados;
+      },
+      (erro) => {
+        console.error(erro);
+        this.toastController
+          .create({
+            message: `Erro ao listar registros`,
+            duration: 5000,
+            keyboardClose: true,
+            color: 'danger',
+          })
+          .then((t) => t.present());
+      }
+    );
+  }
+
+  loadModalidades() {
+    const observable = this.modalidadeService.getModalidade();
+    observable.subscribe(
+      (dados) => {
+        this.modalidades = dados;
       },
       (erro) => {
         console.error(erro);
@@ -73,14 +98,15 @@ export class CadastroEventosComponent implements OnInit {
       tipo: new FormControl(evento?.tipo || '', Validators.required),
       data: new FormControl(evento?.data ? new Date(evento.data).toISOString() : new Date().toISOString(), Validators.required),
       hora: new FormControl(evento?.hora ? new Date(evento.hora).toISOString() : new Date().toISOString(), Validators.required),
-      diasemana: new FormControl(evento?.diasemana || ''),
-      quantidadeParticipantes: new FormControl(evento?.quantidadeParticipantes || 0, [Validators.required, Validators.min(1)]),
+      diaSemana: new FormControl(evento?.diaSemana || ''),
+      quantidadeParticipantes: new FormControl(evento?.quantidadeParticipantes || 0),
       bairro: new FormControl(evento?.bairro || '', Validators.required),
       rua: new FormControl(evento?.rua || '', Validators.required),
       numero: new FormControl(evento?.numero || '', Validators.required),
       complemento: new FormControl(evento?.complemento || ''),
       status: new FormControl(evento?.status || 'A', Validators.required),
-      cidade: new FormControl(evento?.cidade || '', Validators.required)
+      cidade: new FormControl(evento?.cidade || '', Validators.required),
+      modalidade: new FormControl(evento?.modalidade || '', Validators.required),
     });
   }
 
@@ -95,7 +121,7 @@ export class CadastroEventosComponent implements OnInit {
       tipo: evento.tipo,
       data: new Date(evento.data).toISOString(),
       hora: this.formatTimeForForm(evento.hora),
-      diasemana: evento.diasemana,
+      diaSemana: evento.diaSemana,
       quantidadeParticipantes: evento.quantidadeParticipantes,
       bairro: evento.bairro,
       rua: evento.rua,
@@ -103,6 +129,7 @@ export class CadastroEventosComponent implements OnInit {
       complemento: evento.complemento,
       status: evento.status,
       cidade: evento.cidade,
+      modalidade: evento.modalidade,
     });
   }
 
@@ -171,8 +198,8 @@ export class CadastroEventosComponent implements OnInit {
     return this.eventosForm.get('hora');
   }
 
-  get diasemana() {
-    return this.eventosForm.get('diasemana');
+  get diaSemana() {
+    return this.eventosForm.get('diaSemana');
   }
 
   get quantidadeParticipantes() {
@@ -195,20 +222,16 @@ export class CadastroEventosComponent implements OnInit {
     return this.eventosForm.get('complemento');
   }
 
-  get latitude() {
-    return this.eventosForm.get('latitude');
-  }
-
-  get longitude() {
-    return this.eventosForm.get('longitude');
-  }
-
   get status() {
     return this.eventosForm.get('status');
   }
 
   get cidade() {
     return this.eventosForm.get('cidade');
+  }
+
+  get modalidade() {
+    return this.eventosForm.get('modalidade');
   }
 
 }

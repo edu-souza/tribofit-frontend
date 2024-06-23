@@ -3,10 +3,10 @@ import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'detalhe-evento',
-  templateUrl: './detalhe-eventos.component.html',
-  styleUrls: ['detalhe-eventos.component.css']
+  templateUrl: './detalhe-evento.component.html',
+  styleUrls: ['detalhe-evento.component.css']
 })
-export class DetalheAtividadesComponent implements OnInit, OnDestroy, ViewDidEnter {
+export class DetalheEventoComponent implements OnInit, OnDestroy, ViewDidEnter {
 
   constructor() { }
 

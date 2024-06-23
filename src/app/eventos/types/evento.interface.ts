@@ -1,5 +1,5 @@
-import { IonDatetime } from "@ionic/angular";
 import { Cidade } from "src/app/core/cidade.interface";
+import { Modalidade } from "src/app/modalidades/types/modalidade.interface";
 
 export interface Evento {
   id?: string | null;
@@ -8,12 +8,13 @@ export interface Evento {
   tipo: string;
   data: Date;
   hora: string;
-  diasemana: String;
+  diaSemana: String;
   quantidadeParticipantes: number;
   bairro: String;
   rua: String;
   numero: String;
   complemento: String;
-  status: String
-  cidade: Cidade
+  status: String;
+  cidade: Cidade;
+  modalidade: Modalidade;
 }

@@ -13,7 +13,7 @@ const routes: Routes = [
       },
       {
         path: 'eventos',
-        loadChildren: () => import('../eventos/eventos.module').then(m => m.EventosModule)
+        loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
       },
       {
         path: 'modalidades',

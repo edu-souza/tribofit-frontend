@@ -2,7 +2,7 @@
   <ion-header collapse="condense">
     <ion-toolbar>
       <div class="titulo-page">
-        <ion-icon name="person-outline"></ion-icon>
+        <ion-icon name="person"></ion-icon>
         <ion-title>
           Cadastro Usuários
         </ion-title>
@@ -18,8 +18,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>Cidade</ion-label>
-        <ion-select formControlName="cidade" [compareWith]="compareFn">
+        <ion-select formControlName="cidade" label="Cidade" [compareWith]="compareFn">
           <ion-select-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</ion-select-option>
         </ion-select>
       </ion-item>

@@ -13,6 +13,17 @@
   <div class="std-div">
     <form [formGroup]="eventosForm">
       <ion-item>
+        <ion-select formControlName="modalidade" label="Modalidade" placeholder="Selecione a modalidade" [compareWith]="compareWith">
+          <ion-select-option *ngFor="let modalidade of modalidades" [value]="modalidade">{{ modalidade.nome }}</ion-select-option>
+        </ion-select>
+        <ion-text color="danger" *ngIf="modalidade?.invalid && (modalidade?.dirty || modalidade?.touched)">
+          <small *ngIf="modalidade?.errors?.['required']">
+            Insira a modalidade do evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
         <ion-input formControlName="titulo" label="Titulo"></ion-input>
         <ion-text color="danger" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)">
           <small *ngIf="titulo?.errors?.['required']">
@@ -69,7 +80,7 @@
       </ion-item>
 
       <ion-item *ngIf="eventosForm.get('tipo')?.value === 'recorrente'">
-        <ion-select formControlName="diasemana" label="Dia da Semana">
+        <ion-select formControlName="diaSemana" label="Dia da Semana">
           <ion-select-option value="Domingo">Domingo</ion-select-option>
           <ion-select-option value="Segunda-feira">Segunda-feira</ion-select-option>
           <ion-select-option value="Terça-feira">Terça-feira</ion-select-option>
@@ -78,8 +89,8 @@
           <ion-select-option value="Sexta-feira">Sexta-feira</ion-select-option>
           <ion-select-option value="Sábado">Sábado</ion-select-option>
         </ion-select>
-        <ion-text color="danger" *ngIf="diasemana?.invalid && (diasemana?.dirty || diasemana?.touched)">
-          <small *ngIf="diasemana?.errors?.['required']">
+        <ion-text color="danger" *ngIf="diaSemana?.invalid && (diaSemana?.dirty || diaSemana?.touched)">
+          <small *ngIf="diaSemana?.errors?.['required']">
             É necessário preencher o dia da semana para eventos recorrentes.
           </small>
         </ion-text>
@@ -87,14 +98,14 @@
 
       <ion-item>
         <ion-input formControlName="quantidadeParticipantes" type="number" min="1" label="Participantes"></ion-input>
-        <ion-text color="danger" *ngIf="quantidadeParticipantes?.invalid && (quantidadeParticipantes?.dirty || quantidadeParticipantes?.touched)">
+        <!-- <ion-text color="danger" *ngIf="quantidadeParticipantes?.invalid && (quantidadeParticipantes?.dirty || quantidadeParticipantes?.touched)">
           <small *ngIf="quantidadeParticipantes?.errors?.['required']">
             É necessário ao menos 1 participante no evento.
           </small>
           <small *ngIf="quantidadeParticipantes?.errors?.['min']">
             A quantidade de participantes deve ser pelo menos 1.
           </small>
-        </ion-text>
+        </ion-text> -->
       </ion-item>
 
       <ion-item>
@@ -159,7 +170,7 @@
     </form>
   </div>
   <div class="fab">
-    <ion-fab-button (click)="saveEvento()">
+    <ion-fab-button (click)="saveEvento()" [disabled]="eventosForm.invalid">
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>
   </div>

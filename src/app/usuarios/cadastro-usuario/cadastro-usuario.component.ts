@@ -29,8 +29,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
     private cidadeService: CidadesService,
     private router: Router,
     private toastController: ToastController,
-    private activatedRoute: ActivatedRoute) 
-  {
+    private activatedRoute: ActivatedRoute) {
     this.usuariosForm = this.createForm();
   }
 
@@ -81,7 +80,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
     }
   }
 
-  private carregaCidades(){
+  private carregaCidades() {
     this.subscriptions.add(
       this.cidadeService.getCidade().subscribe(
         (response) => {
@@ -103,7 +102,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
       nome: new FormControl(usuario?.nome || '', [Validators.required]),
 
       cidade: new FormControl(usuario?.cidade || '', [Validators.required]),
-      
+
       dataNascimento: new FormControl(usuario?.dataNascimento || new Date().toISOString(), [Validators.required]),
 
       email: new FormControl(usuario?.email || '', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]),

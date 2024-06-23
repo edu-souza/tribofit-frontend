@@ -6,10 +6,10 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lista-eventos',
-  templateUrl: './lista-eventos.component.html',
-  styleUrls: ['lista-eventos.component.css']
+  templateUrl: './lista-evento.component.html',
+  styleUrls: ['lista-evento.component.css']
 })
-export class ListaEventosComponent implements OnInit, OnDestroy, ViewWillEnter {
+export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   private subscriptions = new Subscription
 
   eventos: Evento[] = [];
