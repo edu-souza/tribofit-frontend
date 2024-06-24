@@ -96,8 +96,8 @@ export class CadastroEventoComponent implements OnInit {
       titulo: new FormControl(evento?.titulo || '', Validators.required),
       descricao: new FormControl(evento?.descricao || '', Validators.required),
       tipo: new FormControl(evento?.tipo || '', Validators.required),
-      data: new FormControl(evento?.data ? new Date(evento.data).toISOString() : new Date().toISOString(), Validators.required),
-      hora: new FormControl(evento?.hora ? new Date(evento.hora).toISOString() : new Date().toISOString(), Validators.required),
+      data: new FormControl(evento?.data ? new Date(evento.data).toISOString() : this.toLocalISOString(new Date()), Validators.required),
+      hora: new FormControl(evento?.hora ? new Date(evento.hora).toISOString() : this.toLocalISOString(new Date()), Validators.required),
       diaSemana: new FormControl(evento?.diaSemana || ''),
       quantidadeParticipantes: new FormControl(evento?.quantidadeParticipantes || 0),
       bairro: new FormControl(evento?.bairro || '', Validators.required),
@@ -110,6 +110,24 @@ export class CadastroEventoComponent implements OnInit {
     });
   }
 
+  toLocalISOString(date: Date): string {
+    const pad = (num: number) => num.toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
+
+    const timezoneOffset = -date.getTimezoneOffset();
+    const sign = timezoneOffset >= 0 ? '+' : '-';
+    const offsetHours = pad(Math.floor(Math.abs(timezoneOffset) / 60));
+    const offsetMinutes = pad(Math.abs(timezoneOffset) % 60);
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${sign}${offsetHours}:${offsetMinutes}`;
+  }
+
   compareWith(o1: Cidade, o2: Cidade) {
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
@@ -120,7 +138,7 @@ export class CadastroEventoComponent implements OnInit {
       descricao: evento.descricao,
       tipo: evento.tipo,
       data: new Date(evento.data).toISOString(),
-      hora: this.formatTimeForForm(evento.hora),
+      hora: this.formatarHora(evento.hora),
       diaSemana: evento.diaSemana,
       quantidadeParticipantes: evento.quantidadeParticipantes,
       bairro: evento.bairro,
@@ -133,25 +151,29 @@ export class CadastroEventoComponent implements OnInit {
     });
   }
 
-  private formatTimeForForm(time: string): string {
+  private formatarHora(time: string): string {
     const [hours, minutes, seconds] = time.split(':');
     const date = new Date();
     date.setHours(+hours, +minutes, +seconds);
-    return date.toISOString();
+    return this.toLocalISOString(date)
   }
 
-  private formatTimeForDB(date: Date): string {
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+  extrairHora(dateString: string): string {
+    const date = new Date(dateString);
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
     return `${hours}:${minutes}:${seconds}`;
   }
+
   saveEvento() {
     const evento: Evento = {
       ...this.eventosForm.value,
       id: this.eventoId,
     };
-    evento.hora = this.formatTimeForDB(new Date(evento.hora));
+    evento.hora = this.extrairHora(evento.hora);
     this.eventoService.salvar(evento).subscribe(
       () => {
         this.toastController
