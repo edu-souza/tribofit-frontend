@@ -7,12 +7,19 @@
   color: #0bf101;
 }
 
+.titulo-page ion-buttons {
+  color: #0bf101;
+}
+
 .titulo-page {
   display: flex;
   align-items: center;
   margin-left: 1rem;
 }
 
+.menu-list ion-icon{
+  color: #0bf101;
+}
 
 .std-div {
   margin: 10px 10px 10px 10px;
