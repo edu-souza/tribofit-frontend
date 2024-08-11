@@ -1,7 +1,10 @@
 /* * {
   outline: 1px solid red;
 } */
-
+.tribo-icon{
+  font-size: 35px;
+  color: #0bf101;
+}
 .titulo-page ion-icon {
   font-size: 35px;
   color: #0bf101;

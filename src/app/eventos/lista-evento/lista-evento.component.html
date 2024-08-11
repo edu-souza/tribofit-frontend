@@ -1,4 +1,4 @@
-<ion-menu side="end" menuId="menu-evento" contentId="2">
+<ion-menu side="end" [menuId]="content + '-menu'" contentId={{content}}>
   <ion-header>
     <ion-toolbar>
     <div class="titulo-page">
@@ -33,24 +33,25 @@
   </ion-content>
 </ion-menu>
 
-<ion-header [translucent]="true" id="2">
+<ion-header [translucent]="true" id={{content}}>
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
       <ion-title>
-        Eventos
+        {{title}}
       </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button menu="menu-evento"></ion-menu-button>
+        <ion-menu-button [menu]="content + '-menu'"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" id="content-evento">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
-      <ion-item *ngFor="let evento of eventos">
+      <ion-item *ngFor="let evento of eventos" [routerLink]="tipo === 'E' ? ['edicao-eventos', evento.id] : null"
+      >
         <div class="card-atv">
           <div class="linha-evento">
             <span>{{evento.titulo}}</span>

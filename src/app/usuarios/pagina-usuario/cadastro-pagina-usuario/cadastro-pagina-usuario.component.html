@@ -1,0 +1,95 @@
+<ion-menu side="end" menuId="menu-pagina-usuario" contentId="pagina-usuario">
+  <ion-header>
+    <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="menu"></ion-icon>
+      <ion-title>Menu</ion-title>
+    </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="menu-list">
+      <ion-menu-toggle
+        auto-hide="false"
+        *ngFor="let p of menus; let i = index"
+      >
+        <ion-item
+          routerDirection="root"
+          [routerLink]="[p.url]"
+          lines="none"
+          detail="false"
+          routerLinkActive="selected"
+        >
+          <ion-icon
+            slot="start"
+            [ios]="p.icon + '-outline'"
+            [md]="p.icon + '-sharp'"
+          ></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header [translucent]="true" id="2">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="person"></ion-icon>
+      <ion-title>
+        Perfil
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="menu-pagina-usuario"></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="pagina-usuario">
+
+  <div *ngIf="usuariosForm" class="std-div">
+    <form [formGroup]="usuariosForm">
+      <ion-item>
+        <ion-avatar>
+          <!-- <img class="imgUsuario" [src]="usuariosForm.controls['image'].value" /> -->
+          <img class="imgUsuario" src="https://edu-souza.github.io/img/img1.jpg" />
+        </ion-avatar>
+        <h1>{{usuarioNome}}</h1>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="cidade" label="Cidade"></ion-input>
+        <ion-text color="danger" *ngIf="cidade?.invalid && (cidade?.dirty || cidade?.touched)">
+          <small *ngIf="cidade?.errors?.['required']">
+            O campo cidade é obrigatório
+          </small>
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="dataNascimento" label="Data de nascimento"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="email" label="Email"></ion-input>
+        <ion-text color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+          <small *ngIf="email?.errors?.['required']">
+            O campo email é obrigatório
+          </small>
+          <small *ngIf="email?.errors?.['pattern']">
+            Não é um email válido
+          </small>
+        </ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="senha" label="Senha"></ion-input>
+      </ion-item>
+    </form>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['edicao-perfil',usuarioId]">
+    <ion-fab-button>
+      <ion-icon name="create"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

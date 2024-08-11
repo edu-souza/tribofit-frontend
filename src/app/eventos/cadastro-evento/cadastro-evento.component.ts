@@ -9,6 +9,7 @@ import { CidadesService } from 'src/app/core/cidade-service';
 import { Subscription } from 'rxjs';
 import { Modalidade } from 'src/app/modalidades/types/modalidade.interface';
 import { ModalidadesService } from 'src/app/modalidades/services/modalidades.services';
+import { Usuario } from 'src/app/usuarios/types/usuario.interface';
 
 @Component({
   selector: 'cadastro-evento',
@@ -20,6 +21,10 @@ export class CadastroEventoComponent implements OnInit {
   eventosForm: FormGroup;
   cidades: Cidade[] = [];
   modalidades: Modalidade[] = [];
+  isInclusao : boolean = !this.eventoId ? true : false;
+  title : string = '';
+  inclusao : boolean = false;
+  participantes : Usuario[] = [];
 
   constructor(
     private toastController: ToastController,
@@ -80,14 +85,22 @@ export class CadastroEventoComponent implements OnInit {
 
   private async loadEvento() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.isInclusao = !id;
+  
     if (id) {
       this.eventoId = id;
       const evento = await this.eventoService.getEventoById(this.eventoId).toPromise();
       if (evento) {
         this.setFormValues(evento);
+        this.title = evento.titulo;
+        this.inclusao = false;
+        this.participantes = evento.usuarios
       } else {
         console.error(`Evento não encontrado.`);
       }
+    } else {
+      this.title = 'Cadastro de eventos';
+      this.inclusao = true;
     }
   }
 

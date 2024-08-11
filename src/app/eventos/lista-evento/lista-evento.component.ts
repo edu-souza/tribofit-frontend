@@ -4,23 +4,34 @@ import { EventoService } from '../services/evento.service';
 import { AlertController, ToastController, ViewWillEnter } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { menus } from 'src/app/core/menu/menus';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'lista-eventos',
   templateUrl: './lista-evento.component.html',
   styleUrls: ['lista-evento.component.css']
 })
 export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
-  private subscriptions = new Subscription
-
+  private subscriptions = new Subscription();
   eventos: Evento[] = [];
   menus = menus;
+  tipo: string = '';
+  title: string = '';
+  content: string = '';
 
-  constructor(private eventoService: EventoService,
+  constructor(
+    private eventoService: EventoService,
     private alertController: AlertController,
-    private toastController: ToastController) { }
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private toastController: ToastController
+  ) {
+    this.setupRouteListener();
+  }
 
   ngOnInit() {
-    this.listaEventos()
+    this.listaEventos();
   }
 
   ngOnDestroy(): void {
@@ -28,9 +39,24 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   }
 
   ionViewWillEnter() {
-    this.listaEventos()
+    this.listaEventos();
   }
 
+  private setupRouteListener() {
+    this.subscriptions.add(
+      this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+        const currentUrl = this.router.url;
+        if (currentUrl.includes('participando')) {
+          this.tipo = 'P';
+          this.content = 'participando'
+        } else if (currentUrl.includes('eventos')) {
+          this.tipo = 'E';
+          this.content = 'evento'
+        }
+        this.title = this.tipo === 'P' ? 'Participando' : 'Eventos';
+      })
+    );
+  }
 
   confirmarExclusao(evento: Evento) {
     this.alertController.create({
@@ -57,7 +83,7 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
             position: 'top',
             duration: 3000,
             color: 'danger',
-          })
+          }).then((t) => t.present());
         }
       );
     }
@@ -81,6 +107,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
             .then((t) => t.present());
         }
       )
-    )
+    );
   }
 }
