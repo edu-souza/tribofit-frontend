@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule, Router } from "@angular/router";
+import { Routes, RouterModule } from "@angular/router";
 import { ListaEventoComponent } from "./lista-evento/lista-evento.component";
 import { CadastroEventoComponent } from "./cadastro-evento/cadastro-evento.component";
 import { DetalheEventoComponent } from "./detalhe-evento/detalhe-evento.component";

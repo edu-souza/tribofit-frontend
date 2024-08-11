@@ -3,7 +3,7 @@ import { Evento } from '../types/evento.interface';
 import { EventoService } from '../services/evento.service';
 import { AlertController, ToastController, ViewWillEnter } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-
+import { menus } from 'src/app/core/menu/menus';
 @Component({
   selector: 'lista-eventos',
   templateUrl: './lista-evento.component.html',
@@ -13,13 +13,7 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   private subscriptions = new Subscription
 
   eventos: Evento[] = [];
-  public menus = [
-    { title: 'Solicitações pendentes', url: '/eventos', icon: 'person-add' },
-    { title: 'Configurações', url: '/eventos', icon: 'cog' },
-    { title: 'Usuários(Admin)', url: '/tabs/usuarios', icon: 'people' },
-    { title: 'Modalidades(Admin)', url: '/tabs/modalidades', icon: 'star' },
-    { title: 'Eventos(Admin)', url: '/tabs/eventos', icon: 'grid' },
-  ];
+  menus = menus;
 
   constructor(private eventoService: EventoService,
     private alertController: AlertController,

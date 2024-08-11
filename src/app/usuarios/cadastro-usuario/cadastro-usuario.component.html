@@ -1,15 +1,15 @@
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <div class="titulo-page">
-        <ion-icon name="person"></ion-icon>
-        <ion-title>
-          Cadastro Usuários
-        </ion-title>
-      </div>
-    </ion-toolbar>
-  </ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="person"></ion-icon>
+      <ion-title>
+        Cadastro de Usuarios
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true">
   <div *ngIf="usuariosForm" class="std-div">
     <form [formGroup]="usuariosForm">
 

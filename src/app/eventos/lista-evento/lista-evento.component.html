@@ -1,4 +1,4 @@
-<ion-menu side="end" contentId="main-content">
+<ion-menu side="end" menuId="menu-evento" contentId="2">
   <ion-header>
     <ion-toolbar>
     <div class="titulo-page">
@@ -33,7 +33,7 @@
   </ion-content>
 </ion-menu>
 
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" id="2">
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
@@ -41,13 +41,13 @@
         Eventos
       </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
+        <ion-menu-button menu="menu-evento"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" id="main-content">
+<ion-content [fullscreen]="true">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
       <ion-item *ngFor="let evento of eventos">
