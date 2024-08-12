@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Usuario } from "../types/usuario.interface";
 import { AlertController, ToastController } from "@ionic/angular";
-
+import { menus
+  
+ } from "src/app/core/menu/menus";
 @Component({
   selector: 'lista-usuario',
   templateUrl: './lista-usuario.component.html',
@@ -13,6 +15,8 @@ import { AlertController, ToastController } from "@ionic/angular";
 
 export class ListaUsuarioComponent implements OnInit, OnDestroy {
   usuarios: Usuario[] = [];
+  menus = menus;
+
   private subscriptions = new Subscription();
 
   constructor(private usuarioService: UsuariosService,

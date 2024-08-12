@@ -8,10 +8,9 @@ import { EventoRoutingModule } from './evento-routing.module';
 import { CadastroEventoComponent } from './cadastro-evento/cadastro-evento.component';
 import { DatePipe } from '@angular/common';
 import { ListaEventoComponent } from './lista-evento/lista-evento.component';
-import { DetalheEventoComponent } from './detalhe-evento/detalhe-evento.component';
 
 @NgModule({
-  declarations: [ListaEventoComponent, CadastroEventoComponent, DetalheEventoComponent],
+  declarations: [ListaEventoComponent, CadastroEventoComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,7 +20,7 @@ import { DetalheEventoComponent } from './detalhe-evento/detalhe-evento.componen
     DatePipe,
     EventoRoutingModule
   ],
-  exports: [ListaEventoComponent, CadastroEventoComponent, DetalheEventoComponent],
+  exports: [ListaEventoComponent, CadastroEventoComponent],
   providers: [DatePipe],
 
 })

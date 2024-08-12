@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { CadastroPaginaUsuarioComponent } from '../usuarios/pagina-usuario/cadastro-pagina-usuario/cadastro-pagina-usuario.component';
 
 const routes: Routes = [
   {
@@ -9,6 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'usuarios',
+        component: CadastroPaginaUsuarioComponent,
         loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
       },
       {
@@ -18,6 +20,10 @@ const routes: Routes = [
       {
         path: 'modalidades',
         loadChildren: () => import('../modalidades/modalidades.module').then(m => m.ModalidadesModule)
+      },
+      {
+        path: 'participando',
+        loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
       },
       {
         path: '',

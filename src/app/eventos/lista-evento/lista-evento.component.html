@@ -1,18 +1,57 @@
-<ion-header [translucent]="true">
+<ion-menu side="end" [menuId]="content + '-menu'" contentId={{content}}>
+  <ion-header>
+    <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="menu"></ion-icon>
+      <ion-title>Menu</ion-title>
+    </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="menu-list">
+      <ion-menu-toggle
+        auto-hide="false"
+        *ngFor="let p of menus; let i = index"
+      >
+        <ion-item
+          routerDirection="root"
+          [routerLink]="[p.url]"
+          lines="none"
+          detail="false"
+          routerLinkActive="selected"
+        >
+          <ion-icon
+            slot="start"
+            [ios]="p.icon + '-outline'"
+            [md]="p.icon + '-sharp'"
+          ></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header [translucent]="true" id={{content}}>
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
       <ion-title>
-        Eventos
+        {{title}}
       </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button [menu]="content + '-menu'"></ion-menu-button>
+      </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" id="content-evento">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
-      <ion-item *ngFor="let evento of eventos">
+      <ion-item *ngFor="let evento of eventos" [routerLink]="tipo === 'E' ? ['edicao-eventos', evento.id] : null"
+      >
         <div class="card-atv">
           <div class="linha-evento">
             <span>{{evento.titulo}}</span>
@@ -30,17 +69,8 @@
             &nbsp;&nbsp;&nbsp;
             <span>{{evento.quantidadeParticipantes}} Participantes</span>
           </div>
-          <ion-buttons class="ion-buttons-fab">
-            <ion-fab-button [routerLink]="['edicao-eventos',evento.id]">
-              <ion-icon name="create-outline"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button (click)="confirmarExclusao(evento)">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-fab-button>
-          </ion-buttons>
         </div>
       </ion-item>
-
     </ion-list>
   </div>
 

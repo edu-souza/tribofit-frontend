@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Modalidade } from "../types/modalidade.interface";
 import { AlertController, ToastController, ViewDidEnter, ViewDidLeave, ViewWillEnter, ViewWillLeave } from "@ionic/angular";
+import { menus } from "src/app/core/menu/menus";
 
 @Component({
   selector: 'lista-modalidade',
@@ -14,6 +15,7 @@ import { AlertController, ToastController, ViewDidEnter, ViewDidLeave, ViewWillE
 export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnter {
   modalidades: Modalidade[] = [];
   private subscriptions = new Subscription();
+  menusMod = menus;
 
   constructor(
     private modalidadeService: ModalidadesService,

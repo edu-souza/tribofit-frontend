@@ -1,10 +1,41 @@
-/* * {
-  outline: 1px solid red;
-} */
-
 .fab {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
   margin-right: 10px;
+}
+
+.sub-titulo {
+  display: flex;
+  align-items: center;
+}
+
+.sub-titulo span {
+  font-size: 1.3rem;
+  margin-left: 0.9rem;
+}
+
+.linha-partipante {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+ion-item-options ion-fab-button {
+  font-size: 5px;
+}
+
+.etiqueta {
+  border-radius: 10px;
+  background-color: #ec942c;
+  width: 7vw;
+  height: 4vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sliding{
+  background-color: transparent;
 }
