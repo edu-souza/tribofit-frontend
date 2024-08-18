@@ -4,7 +4,7 @@ import { Credencial } from '../types/credencial.interface';
 import { LoginService } from '../services/login.service';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pagina-login',
@@ -19,12 +19,20 @@ export class PaginaLoginComponent implements OnInit {
     private loginService: LoginService,
     private authService: AuthService,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute // Adicione o ActivatedRoute
   ) {
     this.loginForm = this.createForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // Verifica se o parâmetro 'clear' está presente na URL
+    this.route.queryParams.subscribe(params => {
+      if (params['clear']) {
+        this.loginForm.reset(); // Limpa o formulário
+      }
+    });
+  }
 
   createForm(credencial?: Credencial) {
     return new FormGroup({
