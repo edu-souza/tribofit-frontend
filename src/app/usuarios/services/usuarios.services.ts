@@ -33,11 +33,21 @@ export class UsuariosService {
     return this.httpClient.put<Usuario>(`${this.url}${usuario.id}`, usuario);
   }
 
-  salvar(usuario: Usuario): Observable<Usuario> {
-    if (usuario.id) {
+  salvar(usuario: Usuario): Observable<any> {
+    const id = usuario.id; // Acesse a propriedade id diretamente
+    if (id) {
+      // Se o ID está presente, é uma atualização
       return this.updUsuario(usuario);
     } else {
+      // Caso contrário, é uma criação
       return this.addUsuario(usuario);
     }
+  }
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('foto', file);
+  
+    return this.httpClient.post('http://localhost:3000/usuarios/upload', formData);
   }
 }

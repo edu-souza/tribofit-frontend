@@ -33,6 +33,10 @@ export class PaginaLoginComponent implements OnInit {
     });
   }
 
+  onCadastro() {
+    this.router.navigate(['/novo-usuario'])
+  }
+
   async onLogin() {
     if (this.loginForm.valid) {
       const credencial: Credencial = {
@@ -76,4 +80,5 @@ export class PaginaLoginComponent implements OnInit {
   get senha() {
     return this.loginForm.get('senha');
   }
+
 }

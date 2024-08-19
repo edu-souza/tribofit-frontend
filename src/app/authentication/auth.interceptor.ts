@@ -19,7 +19,6 @@ export class TokenInterceptor implements HttpInterceptor {
       
         return next.handle(cloned);
     } else {
-        console.log('esse deveria ser o token')
         return next.handle(req);
     }
   }

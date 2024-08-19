@@ -1,0 +1,124 @@
+ion-content {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    text-align: center;
+    padding: 30px 0;
+    background-color: #ffffff; 
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+.subtitle {
+    color: gray;
+    margin-top: 3.5rem;
+    font-size: 0.9rem;
+}
+
+.title {
+    font-size: 2rem;
+    align-items: start;
+    margin-top: 2rem;
+}
+
+form {
+    flex: 1; 
+    padding: 0 20px;
+}
+
+.input {
+    font-size: 1rem;
+}
+
+ion-item {
+    --background: #f1f1f1;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.image {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #28a745; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1; 
+  }
+  
+  .image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .camera-icon {
+    font-size: 50px;
+    color: #53d872;
+  }
+
+  .salvar {
+    display: block;
+    width: 50%; 
+    max-width: 150px; 
+    margin: 1px auto; 
+    font-size: 1rem; 
+    padding: 5px 10px; 
+    border: 2px solid #28a745; 
+    color: #28a745; 
+    background-color: #ffffff; 
+    border-radius: 50px; 
+    text-transform: uppercase; 
+}
+
+/* Estilo do footer com onda */
+.footer {
+    position: relative;
+    width: 100%;
+    background: #009688; /* Cor de fundo do footer */
+    padding: 0;
+    margin-top: auto; /* Garante que o footer fique na parte inferior da página */
+}
+
+.wave-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Altura da onda */
+    overflow: hidden; /* Garante que nada fique fora da onda */
+}
+
+.wave-footer svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(180deg); /* Rotaciona a onda para a parte inferior */
+}
+
+.wave-footer path {
+    fill: #37a37a; /* Cor da onda */
+}

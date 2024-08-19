@@ -10,6 +10,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModalidadesModule } from './modalidades/modalidades.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { TokenInterceptor } from './authentication/auth.interceptor';
+import { NovoUsuarioModule } from './novo-usuario/novo-usuario.module';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +21,8 @@ import { TokenInterceptor } from './authentication/auth.interceptor';
     AppRoutingModule,
     HttpClientModule,
     ModalidadesModule,
-    UsuariosModule
+    UsuariosModule,
+    NovoUsuarioModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
               { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true } 
