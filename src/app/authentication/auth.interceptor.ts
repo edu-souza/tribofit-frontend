@@ -21,7 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       });
     } else {
-      console.log('esse deveria ser o token');
+        return next.handle(req);
     }
 
     return next.handle(cloned).pipe(

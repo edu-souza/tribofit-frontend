@@ -7,5 +7,6 @@ export interface Usuario {
   dataNascimento: Date;
   senha: string;
   cidade: Cidade; 
-  eventos: string[];
+  imagem: string;
+  eventos?: string[];
 }
