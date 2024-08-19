@@ -1,54 +1,4 @@
-<ion-menu menuId="menu-modalidade" side="end" contentId="1">
-  <ion-header>
-    <ion-toolbar>
-    <div class="titulo-page">
-      <ion-icon name="menu"></ion-icon>
-      <ion-title>Menu</ion-title>
-    </div>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list class="menu-list">
-      <ion-menu-toggle
-        auto-hide="false"
-        *ngFor="let p of menusMod; let i = index"
-      >
-        <ion-item
-          routerDirection="root"
-          [routerLink]="[p.url]"
-          lines="none"
-          detail="false"
-          routerLinkActive="selected"
-        >
-          <ion-icon
-            slot="start"
-            [ios]="p.icon + '-outline'"
-            [md]="p.icon + '-sharp'"
-          ></ion-icon>
-          <ion-label>{{ p.title }}</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <div class="titulo-page">
-      <ion-icon name="star"></ion-icon>
-      <ion-title>
-        Modalidades
-      </ion-title>
-      <ion-buttons slot="end">
-        <ion-menu-button menu="menu-modalidade"></ion-menu-button>
-      </ion-buttons>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true" id="1">
-
   <div class="std-div">
     <ion-list>
       <ion-item *ngFor="let modalidade of modalidades">
@@ -66,7 +16,6 @@
         </ion-buttons>
       </ion-item>
     </ion-list>
-
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
