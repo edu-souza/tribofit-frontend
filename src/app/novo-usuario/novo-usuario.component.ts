@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { Cidade } from "../core/cidade.interface";
 import { CidadesService } from "../core/cidade-service";
 import { UsuariosService } from "../usuarios/services/usuarios.services";
+import { AlertController, ToastController } from "@ionic/angular";
 
 
 @Component({
@@ -16,7 +17,7 @@ import { UsuariosService } from "../usuarios/services/usuarios.services";
 
 export class NovoUsuarioComponent implements OnInit, OnDestroy {
   usuariosForm: FormGroup;
-  imagem: string = ''; // Valor padrão vazio
+  imagem: string = ''; 
   cidades: Cidade[] = [];
   imagemMimeType: string = '';
   private subscriptions = new Subscription();
@@ -26,10 +27,32 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
     private usuarioService: UsuariosService,
     private cidadeService: CidadesService,
     private router: Router,
+    private toastController: ToastController,
   ){
     this.usuariosForm = this.createForm();
   }
 
+  async showSuccessToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom',
+      color: 'success',
+    });
+
+    await toast.present();
+  }
+
+  async showErrorToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom',
+      color: 'danger',
+    });
+
+    await toast.present();
+  }
 
   onUploadImage(event: any) {
     const file = event.target.files[0];
@@ -43,27 +66,30 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    if (this.usuariosForm.valid) {
+    if (this.usuariosForm.valid && this.imagem) {
       const usuario: Usuario = {
         nome: this.usuariosForm.get('nome')?.value,
         email: this.usuariosForm.get('email')?.value,
         cidade: this.usuariosForm.get('cidade')?.value,
         dataNascimento: this.usuariosForm.get('dataNascimento')?.value,
         senha: this.usuariosForm.get('senha')?.value,
-        imagem: this.imagem // A imagem deve ser o caminho retornado pelo upload
+        imagem: this.imagem 
       };
   
       console.log(usuario);
 
       this.usuarioService.salvar(usuario).subscribe(response => {
-        console.log('Usuário salvo com sucesso!', response);
 
+        this.showSuccessToast('Usuário salvo com sucesso!');
         this.router.navigate(['/']);
       }, error => {
         console.error('Erro ao salvar usuário', error);
+        this.showErrorToast(error.error.message);
       });
+    } else if (!this.imagem) {
+      this.showErrorToast('Por favor, carregue uma imagem antes de salvar.');
     } else {
-      console.log('Formulário inválido');
+      this.showErrorToast('Por favor, preencha todos os campos com informações válidas.');
     }
   }
 
@@ -72,7 +98,7 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
     const confirmSenhaControl = formGroup.get('confirmSenha');
 
     if (!senhaControl || !confirmSenhaControl) {
-      return null; // Retorna null se algum dos controles não existir
+      return null; 
     }
 
     const senha = senhaControl.value;

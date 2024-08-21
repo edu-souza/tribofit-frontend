@@ -4,4 +4,5 @@ export const  menus = [
   { title: 'Usuários(Admin)', url: '/tabs/usuarios', icon: 'people' },
   { title: 'Modalidades(Admin)', url: '/tabs/modalidades', icon: 'star' },
   { title: 'Eventos(Admin)', url: '/tabs/eventos', icon: 'grid' },
+  { title: 'Logout', url: '/logout', icon: 'log-out' },
 ];

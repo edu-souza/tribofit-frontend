@@ -3,6 +3,7 @@ ion-content {
     --padding-end: 0;
     --padding-top: 0;
     --padding-bottom: 0;
+    overflow-y: auto;
 }
 
 .container {
@@ -20,7 +21,7 @@ ion-content {
 
 .subtitle {
     color: gray;
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
     font-size: 0.9rem;
 }
 
