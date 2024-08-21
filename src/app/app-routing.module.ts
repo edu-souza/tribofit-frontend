@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NovoUsuarioComponent } from './novo-usuario/novo-usuario.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,10 @@ const routes: Routes = [
   {
     path: 'novo-usuario',
     component: NovoUsuarioComponent
-  }
+  },
+  { path: 'logout', 
+    component: LogoutComponent 
+  },
 ];
 @NgModule({
   imports: [

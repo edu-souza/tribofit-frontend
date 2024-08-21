@@ -19,4 +19,8 @@ export class AuthService {
   public removeToken(): void {
     localStorage.removeItem(this.tokenKey);
   }
+
+  public logout(): void {
+    this.removeToken();
+  }
 }
