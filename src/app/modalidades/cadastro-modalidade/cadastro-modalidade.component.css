@@ -11,3 +11,47 @@ ion-avatar {
 ion-avatar ion-icon {
   font-size: 24px;
 }
+
+.titulo-modalidades {
+  text-align: left; 
+  font-size: 22px;
+  margin-bottom: 24px; 
+  font-weight: bold; 
+  color: #7d7d7d; 
+  padding-left: 16px;
+  padding-bottom: 8px;
+}
+
+
+.icon-select-image {
+  width: 32px; 
+  height: 32px;
+  object-fit: cover; 
+  margin-right: 8px;
+}
+
+
+ion-select-option {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+ion-select {
+  width: 100%;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  justify-content: space-between;
+}
+
+.selected-icon {
+  width: 32px; 
+  height: 32px;
+  object-fit: cover; 
+  margin-left: 16px;
+  margin-right: 16px; 
+}

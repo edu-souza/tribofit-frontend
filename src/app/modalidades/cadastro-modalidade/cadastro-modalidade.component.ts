@@ -3,11 +3,8 @@ import { ModalidadesService } from '../services/modalidades.services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Modalidade } from '../types/modalidade.interface';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -16,11 +13,28 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'cadastro-modalidade',
   templateUrl: './cadastro-modalidade.component.html',
+  styleUrls: ['./cadastro-modalidade.component.css']
 })
 export class CadastroModalidadeComponent implements OnInit {
   modalidadeId!: string;
   modalidadeForm: FormGroup;
   private subscriptions = new Subscription();
+
+  icons = [
+    { value: 'corrida.svg', label: 'Corrida' },
+    { value: 'musculacao.svg', label: 'Musculação' },
+    { value: 'rugby.svg', label: 'Rugby' },
+    { value: 'futebol-americano.svg', label: 'Futebol Americano' },
+    { value: 'handebol.svg', label: 'Handebol' },
+    { value: 'skate.svg', label: 'Skate' },
+    { value: 'baseball.svg', label: 'Baseball' },
+    { value: 'tenis.svg', label: 'Tênis / Beach Tênis' },
+    { value: 'natacao.svg', label: 'Natação' },
+    { value: 'caminhada.svg', label: 'Caminhada / Trilha' },
+    { value: 'basquete.svg', label: 'Basquete' },
+    { value: 'volei.svg', label: 'Vôlei' },
+    { value: 'futebol.svg', label: 'Futebol' }
+  ];
 
   constructor(
     private modalidadeService: ModalidadesService,
@@ -70,7 +84,6 @@ export class CadastroModalidadeComponent implements OnInit {
   private createForm(modalidade?: Modalidade) {
     return new FormGroup({
       icone: new FormControl(modalidade?.icone || '', [Validators.required]),
-
       nome: new FormControl(modalidade?.nome || '', [Validators.required]),
     });
   }

@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
-    let cloned = req;  // Declarando a variável `cloned` aqui
+    let cloned = req;
 
     if (token) {
       cloned = req.clone({
@@ -27,7 +27,6 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(cloned).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Redirecionar para a tela de login
           this.router.navigate([''], { queryParams: { clear: true } });
         }
         return throwError(error);
