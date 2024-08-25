@@ -3,7 +3,7 @@
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
       <ion-title>
-        {{title}}
+        Eventos
       </ion-title>
     </div>
   </ion-toolbar>
@@ -12,6 +12,27 @@
 <ion-content [fullscreen]="true">
   <div class="std-div">
     <form [formGroup]="eventosForm">
+
+      <div class="evento-imagem">
+        <img [src]="imagemEvento ? imagemEvento : '/assets/img/pexels-pixabay-46798.jpg'" />
+        <h2>{{title}}</h2>
+        <input type="file" accept="image/*" id="fileInput" (change)="onFileChange($event)" style="display: none;"/>
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button (click)="triggerFileInput()">
+            <ion-icon name="images"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+
+      <ion-item *ngIf="inclusao">
+        <ion-input formControlName="titulo" label="Titulo"></ion-input>
+        <ion-text color="danger" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)">
+          <small *ngIf="titulo?.errors?.['required']">
+            É necessário preencher um título para o evento.
+          </small>
+        </ion-text>
+      </ion-item>
+
       <ion-item>
         <ion-select formControlName="modalidade" label="Modalidade" placeholder="Selecione a modalidade" [compareWith]="compareWith">
           <ion-select-option *ngFor="let modalidade of modalidades" [value]="modalidade">{{ modalidade.nome }}</ion-select-option>
@@ -19,15 +40,6 @@
         <ion-text color="danger" *ngIf="modalidade?.invalid && (modalidade?.dirty || modalidade?.touched)">
           <small *ngIf="modalidade?.errors?.['required']">
             Insira a modalidade do evento.
-          </small>
-        </ion-text>
-      </ion-item>
-
-      <ion-item>
-        <ion-input formControlName="titulo" label="Titulo"></ion-input>
-        <ion-text color="danger" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)">
-          <small *ngIf="titulo?.errors?.['required']">
-            É necessário preencher um título para o evento.
           </small>
         </ion-text>
       </ion-item>
@@ -117,6 +129,11 @@
           </small>
         </ion-text>
       </ion-item>
+      <ion-item>
+        <h4>Localização</h4>
+      </ion-item>
+
+      <div id="map"></div>
 
       <ion-item>
         <ion-select formControlName="cidade" label="Cidade" placeholder="Selecione a cidade" [compareWith]="compareWith">
@@ -167,7 +184,6 @@
           <ion-select-option value="C">Cancelado</ion-select-option>
         </ion-select>
       </ion-item>
-
     </form>
 
   </div>
