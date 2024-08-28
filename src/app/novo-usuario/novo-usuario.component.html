@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="header">
+      <ion-title class="title">Bem Vindo</ion-title>
+      <p class="subtitle">Cadastre-se para criar sua conta</p>
+    </div>
+
+    <form [formGroup]="usuariosForm">
+      <div class="ion-padding">
+
+        <div class="image">
+          <img *ngIf="imagem" [src]="getImageSrc()" alt="Imagem de perfil" class="image-preview">
+          <ion-icon *ngIf="!imagem" name="camera-outline" class="camera-icon"></ion-icon>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+        </div>
+        
+        <ion-item>
+          <ion-input placeholder="Nome" formControlName="nome" class="input"></ion-input>
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="E-mail" formControlName="email" class="input"></ion-input>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-item>
+        
+        <ion-item>
+          <ion-select placeholder="Cidade" formControlName="cidade" [compareWith]="compareFn" class="input">
+            <ion-select-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</ion-select-option>
+          </ion-select>
+             <ion-icon name="location-outline"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Data de nascimento: </ion-label>
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime" color="primary" formControlName="dataNascimento" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+          
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="Senha" formControlName="senha" class="input" type="password"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="Confirme a Senha" formControlName="confirmSenha" class="input" type="password"></ion-input>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-item>
+
+        <ion-item *ngIf="usuariosForm.errors?.['mismatch'] && confirmSenha?.touched">
+          <ion-label color="danger">As senhas não coincidem.</ion-label>
+        </ion-item>
+      </div>
+
+      <ion-button (click)="onClick()" expand="block" fill="clear" shape="round" class="salvar">
+        Cadastrar
+      </ion-button>
+
+    </form>
+
+    <div class="footer">
+      <svg viewBox="0 0 1440 320" class="wave wave-footer">
+        <path fill="#ffffff" d="M0,256L30,234.7C60,213,120,171,180,160C240,149,300,171,360,186.7C420,203,480,213,540,208C600,203,660,181,720,149.3C780,117,840,75,900,64C960,53,1020,75,1080,106.7C1140,139,1200,181,1260,202.7C1320,224,1380,224,1410,224L1440,224L1440,320L0,320Z"></path>
+      </svg>
+    </div>
+  </div>
+</ion-content>

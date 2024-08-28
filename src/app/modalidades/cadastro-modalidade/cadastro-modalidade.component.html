@@ -1,26 +1,36 @@
 <ion-content [fullscreen]="true">
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <div class="titulo-page">
-        <ion-icon name="star"></ion-icon>
-        <ion-title>
-          Cadastro de modalidades
-        </ion-title>
-      </div>
-    </ion-toolbar>
+  <ion-header>
+    <div><h2 class="titulo-modalidades">Cadastro de Modalidades</h2></div>
   </ion-header>
 
   <div *ngIf="modalidadeForm" class="std-div">
     <form [formGroup]="modalidadeForm">
-      <ion-item>
-        <ion-input formControlName="nome" label="Nome"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input formControlName="icone" label="Icone"></ion-input>
-      </ion-item>
+      <div class="form-group-horizontal">
+        <ion-item>
+          <ion-label position="stacked">Nome</ion-label>  
+          <ion-input formControlName="nome"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Ícone</ion-label>
+          <div class="icon-container">
+            <ion-select formControlName="icone" placeholder="Selecione um ícone">
+              <ion-select-option *ngFor="let icon of icons" [value]="icon.value">
+                <div class="icon-option-content">
+                  <img [src]="'assets/' + icon.label">
+                  <span class="icon-name">{{ icon.label }}</span>
+                </div>
+              </ion-select-option>
+            </ion-select>
+
+            <img *ngIf="modalidadeForm.get('icone')?.value" 
+                 [src]="'assets/' + modalidadeForm.get('icone')?.value" 
+                 class="selected-icon" 
+                 alt="Ícone Selecionado"/>
+          </div>
+        </ion-item>
+      </div>
     </form>
-
-
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -28,5 +38,4 @@
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>
