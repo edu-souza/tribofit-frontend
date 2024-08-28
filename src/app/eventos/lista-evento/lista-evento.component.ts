@@ -16,8 +16,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   private subscriptions = new Subscription();
   eventos: Evento[] = [];
   menus = menus;
-  tipo: string = '';
-  title: string = '';
   content: string = '';
 
   constructor(
@@ -27,7 +25,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
     private router: Router,
     private toastController: ToastController
   ) {
-    this.setupRouteListener();
   }
 
   ngOnInit() {
@@ -40,22 +37,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
 
   ionViewWillEnter() {
     this.listaEventos();
-  }
-
-  private setupRouteListener() {
-    this.subscriptions.add(
-      this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
-        const currentUrl = this.router.url;
-        if (currentUrl.includes('participando')) {
-          this.tipo = 'P';
-          this.content = 'participando'
-        } else if (currentUrl.includes('eventos')) {
-          this.tipo = 'E';
-          this.content = 'evento'
-        }
-        this.title = this.tipo === 'P' ? 'Participando' : 'Eventos';
-      })
-    );
   }
 
   confirmarExclusao(evento: Evento) {

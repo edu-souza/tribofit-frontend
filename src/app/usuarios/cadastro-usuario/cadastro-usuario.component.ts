@@ -62,7 +62,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
         id: this.usuarioId,
       };
       this.usuarioService.salvar(usuario).subscribe(
-        () => this.router.navigate(['tabs/usuarios']),
+        () => this.router.navigate(['tabs/usuario']),
         (erro) => {
           console.error(erro);
           this.toastController

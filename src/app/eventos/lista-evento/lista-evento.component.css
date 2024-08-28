@@ -15,6 +15,10 @@ ion-select {
   font-size: 28px;
 }
 
+.item-background-color{
+  --ion-item-background:#015f01d5;
+}
+
 .linha-evento {
   display: flex;
   align-items: center;
@@ -31,10 +35,8 @@ ion-select {
   margin: 5px auto;
   padding: 10px;
   border-radius: 5px;
-  border: 0.1px solid #c2c2c2;
   box-shadow: 0 0 5px #ccc;
-}
-
+} 
 
 .ion-buttons-fab {
   display: flex;

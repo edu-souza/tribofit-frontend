@@ -10,6 +10,9 @@ import { Subscription } from 'rxjs';
 import { Modalidade } from 'src/app/modalidades/types/modalidade.interface';
 import { ModalidadesService } from 'src/app/modalidades/services/modalidades.services';
 import { Usuario } from 'src/app/usuarios/types/usuario.interface';
+import * as L from 'leaflet';
+import { GeocodingService } from 'src/app/core/geocoding/geocoding.service';
+import { AlertController } from "@ionic/angular";
 
 @Component({
   selector: 'cadastro-evento',
@@ -21,26 +24,125 @@ export class CadastroEventoComponent implements OnInit {
   eventosForm: FormGroup;
   cidades: Cidade[] = [];
   modalidades: Modalidade[] = [];
-  isInclusao : boolean = !this.eventoId ? true : false;
-  title : string = '';
   inclusao : boolean = false;
+  title: string = '';
+  imagemEvento : string = '';
+  file : string = '';
   participantes : Usuario[] = [];
+  map : any = '';
+  numLatitude: number = 0;
+  numLongitude: number = 0;
+  marcadorAtual: L.Marker | null = null;
+  isAdmin : boolean = true;
+
+  myIcon = L.icon({
+    iconUrl: 'assets/icon/marker-icon.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: 'assets/icon/marker-shadow.png',
+    shadowSize: [41, 41]
+  });
 
   constructor(
     private toastController: ToastController,
     private activatedRoute: ActivatedRoute,
+    private alertController: AlertController,
     private eventoService: EventoService,
     private cidadeService: CidadesService,
     private modalidadeService: ModalidadesService,
+    private geocodingService: GeocodingService,
     private router: Router
   ) {
     this.eventosForm = this.createForm();
   }
 
   ngOnInit() {
-    this.loadEvento();
     this.loadCidades();
     this.loadModalidades();
+
+    this.loadEvento().then(() => {
+      this.inicializarMapa();
+    });
+  }
+
+  private inicializarMapa() {
+    if (this.map) {
+      this.map.off();
+      this.map.remove();
+    }
+  
+    const centraliza: [number, number] = this.inclusao
+      ? [-28.68019691064019, -49.37417939453497]
+      : [this.numLatitude, this.numLongitude];
+  
+    this.map = L.map('map', {
+      center: centraliza,
+      zoom: 15,
+      renderer: L.canvas(),
+    });
+  
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'edupala.com © Angular LeafLet',
+    }).addTo(this.map);
+  
+    if (!this.inclusao && this.numLatitude && this.numLongitude) {
+      this.marcadorAtual = L.marker([this.numLatitude, this.numLongitude], { icon: this.myIcon });
+      this.marcadorAtual.addTo(this.map);
+    }
+  
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 0);
+  
+    if(this.isAdmin){
+      this.map.on('click', this.onMapClick.bind(this));
+    }
+  }
+  
+  onMapClick(e: L.LeafletMouseEvent) {
+    this.numLatitude = e.latlng.lat;
+    this.numLongitude = e.latlng.lng;
+    this.GetEndereco(this.numLatitude, this.numLongitude);
+  
+    if (this.marcadorAtual) {
+      this.map.removeLayer(this.marcadorAtual);
+    }
+  
+    this.marcadorAtual = L.marker([this.numLatitude, this.numLongitude], { icon: this.myIcon });
+    this.marcadorAtual.addTo(this.map);
+  }
+  
+
+  GetEndereco(latitude: number, longitude: number) {
+    this.geocodingService.getAddressFromCoordinates(latitude, longitude).subscribe(
+      (data) => {
+        const endereco = `${data.address.road}, ${data.address.suburb}, ${data.address.town || data.address.city}`;
+        this.alertController.create({
+          header: 'Confirme o endereço do evento',
+          message: `Confirma ${endereco} como endereço do evento?`,
+          buttons: [
+            {
+              text: 'Sim',
+              handler: () => {
+                this.eventosForm.patchValue({ rua: data.address.road, bairro: data.address.suburb,latitude: latitude,longitude: longitude});
+              }
+            },
+            {
+              text: 'Não',
+              handler: () => {
+                if (this.marcadorAtual) {
+                  this.map.removeLayer(this.marcadorAtual);
+                }
+              }
+            }
+          ]
+        }).then(alert => alert.present());
+      },
+      (error) => {
+        console.error('Erro ao obter o endereço:', error);
+      }
+    );
   }
 
   loadCidades() {
@@ -85,42 +187,50 @@ export class CadastroEventoComponent implements OnInit {
 
   private async loadEvento() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.isInclusao = !id;
   
     if (id) {
       this.eventoId = id;
       const evento = await this.eventoService.getEventoById(this.eventoId).toPromise();
       if (evento) {
         this.setFormValues(evento);
-        this.title = evento.titulo;
         this.inclusao = false;
+        this.title = evento.titulo;
+        this.imagemEvento = evento.imagem;
         this.participantes = evento.usuarios
+        this.numLatitude = parseFloat(evento.latitude);
+        this.numLongitude = parseFloat(evento.longitude);
       } else {
         console.error(`Evento não encontrado.`);
       }
     } else {
-      this.title = 'Cadastro de eventos';
       this.inclusao = true;
     }
   }
 
   private createForm(evento?: Evento) {
-    return new FormGroup({
-      titulo: new FormControl(evento?.titulo || '', Validators.required),
-      descricao: new FormControl(evento?.descricao || '', Validators.required),
-      tipo: new FormControl(evento?.tipo || '', Validators.required),
-      data: new FormControl(evento?.data ? new Date(evento.data).toISOString() : this.toLocalISOString(new Date()), Validators.required),
-      hora: new FormControl(evento?.hora ? new Date(evento.hora).toISOString() : this.toLocalISOString(new Date()), Validators.required),
-      diaSemana: new FormControl(evento?.diaSemana || ''),
-      quantidadeParticipantes: new FormControl(evento?.quantidadeParticipantes || 0),
-      bairro: new FormControl(evento?.bairro || '', Validators.required),
-      rua: new FormControl(evento?.rua || '', Validators.required),
-      numero: new FormControl(evento?.numero || '', Validators.required),
-      complemento: new FormControl(evento?.complemento || ''),
-      status: new FormControl(evento?.status || 'A', Validators.required),
-      cidade: new FormControl(evento?.cidade || '', Validators.required),
-      modalidade: new FormControl(evento?.modalidade || '', Validators.required),
+    const form = new FormGroup({
+      titulo: new FormControl({ value: evento?.titulo || '', disabled: !this.isAdmin }, Validators.required),
+      descricao: new FormControl({ value: evento?.descricao || '', disabled: !this.isAdmin }, Validators.required),
+      tipo: new FormControl({ value: evento?.tipo || '', disabled: !this.isAdmin }, Validators.required),
+      data: new FormControl({ value: evento?.data ? new Date(evento.data).toISOString() : this.toLocalISOString(new Date()), disabled: !this.isAdmin }, Validators.required),
+      hora: new FormControl({ value: evento?.hora ? new Date(evento.hora).toISOString() : this.toLocalISOString(new Date()), disabled: !this.isAdmin }, Validators.required),
+      diaSemana: new FormControl({ value: evento?.diaSemana || '', disabled: !this.isAdmin }),
+      quantidadeParticipantes: new FormControl({ value: evento?.quantidadeParticipantes || 0, disabled: !this.isAdmin }),
+      bairro: new FormControl({ value: evento?.bairro || '', disabled: !this.isAdmin }, Validators.required),
+      rua: new FormControl({ value: evento?.rua || '', disabled: !this.isAdmin }, Validators.required),
+      latitude: new FormControl({ value: evento?.latitude || '', disabled: !this.isAdmin }),
+      longitude: new FormControl({ value: evento?.longitude || '', disabled: !this.isAdmin }),
+      admin: new FormControl({ value: evento?.admin || '', disabled: !this.isAdmin }),
+      status_aprov: new FormControl({ value: evento?.status_aprov || '', disabled: !this.isAdmin }),
+      numero: new FormControl({ value: evento?.numero || '', disabled: !this.isAdmin }, Validators.required),
+      complemento: new FormControl({ value: evento?.complemento || '', disabled: !this.isAdmin }),
+      status: new FormControl({ value: evento?.status || 'A', disabled: !this.isAdmin }, Validators.required),
+      cidade: new FormControl({ value: evento?.cidade || '', disabled: !this.isAdmin }, Validators.required),
+      modalidade: new FormControl({ value: evento?.modalidade || '', disabled: !this.isAdmin }, Validators.required),
+      imagem: new FormControl({ value: evento?.imagem || '', disabled: !this.isAdmin })
     });
+  
+    return form;
   }
 
   toLocalISOString(date: Date): string {
@@ -156,6 +266,10 @@ export class CadastroEventoComponent implements OnInit {
       quantidadeParticipantes: evento.quantidadeParticipantes,
       bairro: evento.bairro,
       rua: evento.rua,
+      latitude:evento.latitude,
+      longitude: evento.longitude,
+      admin: evento.admin,
+      status_aprov: evento.status_aprov,
       numero: evento.numero,
       complemento: evento.complemento,
       status: evento.status,
@@ -187,6 +301,7 @@ export class CadastroEventoComponent implements OnInit {
       id: this.eventoId,
     };
     evento.hora = this.extrairHora(evento.hora);
+    evento.imagem = this.imagemEvento;
     this.eventoService.salvar(evento).subscribe(
       () => {
         this.toastController
@@ -212,6 +327,31 @@ export class CadastroEventoComponent implements OnInit {
       }
     );
   }
+  
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const selectedFile = event.target.files[0];
+      const fileType = selectedFile.type.split('/')[0];
+      //&& selectedFile.size <= 512000 RESTRINGIR TAMANHO
+      if (fileType === 'image' ) {
+        this.file = selectedFile;
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          this.imagemEvento = e.target?.result as string;
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        window.alert("Tamanho inválido!");
+      }
+    }
+  }
+  
+  
 
   get titulo() {
     return this.eventosForm.get('titulo');
@@ -268,5 +408,27 @@ export class CadastroEventoComponent implements OnInit {
   get modalidade() {
     return this.eventosForm.get('modalidade');
   }
+
+  get latitude() {
+    return this.eventosForm.get('latitude');
+  }
+
+  get longitude() {
+    return this.eventosForm.get('longitude');
+  }
+
+  get admin() {
+    return this.eventosForm.get('admin');
+  }
+
+  get status_aprov() {
+    return this.eventosForm.get('status_aprov');
+  }
+
+  
+  get imagem() {
+    return this.eventosForm.get('imagem');
+  }
+
 
 }
