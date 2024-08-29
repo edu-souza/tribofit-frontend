@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+  <div class="titulo-page">
+    <ion-icon name="menu"></ion-icon>
+    <ion-title>Menu</ion-title>
+  </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Perfil
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img [src]="usuario?.imagem ? 'data:image/jpeg;base64,' + usuario?.imagem : 'https://via.placeholder.com/100'" alt="Imagem do Usuário">
+    </ion-avatar>
+    <div class="profile-info">
+      <ion-card-title class="profile-name">{{ usuario?.nome || 'Nome do Usuário' }}</ion-card-title>
+      <ion-label class="profile-email">{{ usuario?.email || 'Email do Usuário' }}</ion-label>
+    </div>
+  </div>
+  <ion-button class="edit-profile-button" expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
+</ion-content>

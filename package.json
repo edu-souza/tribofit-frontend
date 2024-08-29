@@ -30,6 +30,7 @@
     "@ionic/angular": "^7.0.0",
     "ionicons": "^7.0.0",
     "json-server": "^1.0.0-alpha.23",
+    "jwt-decode": "^4.0.0",
     "ngx-mask": "^18.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
