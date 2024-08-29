@@ -25,11 +25,7 @@
 }
 
 .std-div {
-  margin: 10px 10px 10px 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid white;
-  box-shadow: 0 0 5px #ccc;
+  padding: 0.1vh;
 }
 
 .std-div h1 {

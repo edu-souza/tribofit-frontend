@@ -92,6 +92,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
         (error) => {
           console.error('Erro ao salvar usuário', error);
           this.showErrorToast(error.error.message);
+
         }
       );
     } else if (!this.imagem) {

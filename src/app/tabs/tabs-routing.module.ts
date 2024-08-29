@@ -11,6 +11,12 @@ const routes: Routes = [
       {
         path: 'usuario',
         loadChildren: () => import('../usuarios/usuario.module').then(m => m.UsuarioModule)
+
+      },
+      {
+        path: 'usuarios',
+        component: ListaUsuarioComponent,
+        loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
       },
       {
         path: 'eventos',

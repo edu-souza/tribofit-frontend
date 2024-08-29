@@ -1,4 +1,4 @@
-<ion-menu side="end" [menuId]="content + '-menu'" contentId={{content}}>
+<ion-menu side="end" menuId="eventos-menu" contentId='eventos'>
   <ion-header>
     <ion-toolbar>
     <div class="titulo-page">
@@ -33,15 +33,15 @@
   </ion-content>
 </ion-menu>
 
-<ion-header [translucent]="true" id={{content}}>
+<ion-header [translucent]="true" id="eventos">
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
       <ion-title>
-        {{title}}
+        Eventos
       </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button [menu]="content + '-menu'"></ion-menu-button>
+        <ion-menu-button menu="eventos-menu"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
@@ -50,7 +50,7 @@
 <ion-content [fullscreen]="true" id="content-evento">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
-      <ion-item *ngFor="let evento of eventos" [routerLink]="tipo === 'E' ? ['edicao-eventos', evento.id] : null"
+      <ion-item *ngFor="let evento of eventos" [routerLink]="['edicao-eventos', evento.id]"
       >
         <div class="card-atv">
           <div class="linha-evento">
@@ -61,7 +61,7 @@
             &nbsp;&nbsp;&nbsp;
             <div class="atv-data">
               <span>{{ evento.data | date: 'dd/MM/yyyy' }}</span>
-              <span>{{ evento.hora}}</span>
+              <span>{{ evento.hora | slice:0:5 }}H</span>
             </div>
           </div>
           <div class="linha-evento">
