@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private tokenKey = 'authToken';
+  private refreshTokenKey = 'refreshToken';
+  private baseUrl = 'http://localhost:3000/auth';
+  
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   public saveToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
@@ -22,5 +27,32 @@ export class AuthService {
 
   public logout(): void {
     this.removeToken();
+    this.removeRefreshToken();
+  }
+
+  public removeRefreshToken(): void {
+    console.log('Removendo refresh token.');
+    localStorage.removeItem(this.refreshTokenKey);
+  }
+
+  public refreshToken(): Observable<string> {
+    const refreshToken = this.getRefreshToken();
+    console.log('Enviando refresh token para renovação:', refreshToken);
+    return this.http.post<{ access_token: string }>(`${this.baseUrl}/refresh`, { refresh_token: refreshToken })
+      .pipe(map(response => {
+        console.log('Resposta de renovação de token:', response);
+        return response.access_token;
+      }));
+  }
+
+  public saveRefreshToken(refreshToken: string): void {
+    console.log('Salvando refresh token:', refreshToken);
+    localStorage.setItem(this.refreshTokenKey, refreshToken);
+  }
+
+  public getRefreshToken(): string | null {
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);
+    console.log('Obtendo refresh token:', refreshToken);
+    return refreshToken;
   }
 }
