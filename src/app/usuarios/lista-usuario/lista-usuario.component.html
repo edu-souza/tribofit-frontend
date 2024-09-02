@@ -1,39 +1,12 @@
-<ion-menu side="end" menuId ="menu-usuario"contentId="3">
-  <ion-header>
-    <ion-toolbar>
-    <div class="titulo-page">
-      <ion-icon name="menu"></ion-icon>
-      <ion-title>Menu</ion-title>
-    </div>
-    </ion-toolbar>
-  </ion-header>
+<app-menu-lateral 
+  side="end" 
+  menuId="menu-usuario" 
+  contentId="usuario" 
+  [qtdEventosPend]="0">
+</app-menu-lateral>
 
-  <ion-content>
-    <ion-list class="menu-list">
-      <ion-menu-toggle
-        auto-hide="false"
-        *ngFor="let p of menus; let i = index"
-      >
-        <ion-item
-          routerDirection="root"
-          [routerLink]="[p.url]"
-          lines="none"
-          detail="false"
-          routerLinkActive="selected"
-        >
-          <ion-icon
-            slot="start"
-            [ios]="p.icon + '-outline'"
-            [md]="p.icon + '-sharp'"
-          ></ion-icon>
-          <ion-label>{{ p.title }}</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-    </ion-list>
-  </ion-content>
-</ion-menu>
 
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" id="usuario">
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="person"></ion-icon>

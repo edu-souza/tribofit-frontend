@@ -41,7 +41,6 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
       this.subscriptions.add(
         this.usuarioService.getUsuarioById(this.usuarioId).subscribe(
           (usuario) => {
-            console.log(usuario)
             this.usuariosForm = this.createForm(usuario)
             //this.usuarioCidade = usuario?.cidade || ;
             // console.log(this.usuarioCidade)

@@ -1,23 +1,10 @@
-.ion-buttons-fab ion-fab-button {
-    width: 34px;
-    height: 34px;
-    --border-radius: 10px;
-    --icon-size: 16px;
-    margin-right: 8px;
-  }
-  
-  .ion-buttons-fab ion-fab-button ion-icon {
-    font-size: 25px;
-    margin-right: 0;
-  }
-  
-  .titulo-modalidades {
-    text-align: left;
-    font-size: 22px; 
-    margin-bottom: 24px; 
-    font-weight: bold; 
-    color: #7d7d7d;
-    border-bottom: 2px solid #ccc; 
-    padding-bottom: 8px;
-  }
+.titulo-modalidades {
+  text-align: left;
+  font-size: 22px; 
+  margin-bottom: 24px; 
+  font-weight: bold; 
+  color: #7d7d7d;
+  border-bottom: 2px solid #ccc; 
+  padding-bottom: 8px;
+}
   

@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content class="content">
   <div class="center-container">
     <img src="assets/logo.svg" />
     <form class="div-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
@@ -22,13 +22,12 @@
       <ion-button type="button" expand="block" color="dark" fill="clear" (click)="onCadastro()">Ainda não é da tribo? Cadastre-se!</ion-button>
     </form>
   </div>
-  
-  <!-- Toast para mostrar mensagens de erro -->
-  <ion-toast
-    *ngIf="errorMessage"
-    [message]="errorMessage"
-    duration="2000"
-    color="danger"
-    (ionToastDidDismiss)="errorMessage = null"
-  ></ion-toast>
 </ion-content>
+  
+<ion-toast
+  *ngIf="errorMessage"
+  [message]="errorMessage"
+  duration="2000"
+  color="danger"
+  (ionToastDidDismiss)="errorMessage = null"
+></ion-toast>

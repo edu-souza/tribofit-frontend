@@ -1,37 +1,9 @@
-<ion-menu side="end" menuId="eventos-menu" contentId='eventos'>
-  <ion-header>
-    <ion-toolbar>
-    <div class="titulo-page">
-      <ion-icon name="menu"></ion-icon>
-      <ion-title>Menu</ion-title>
-    </div>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list class="menu-list">
-      <ion-menu-toggle
-        auto-hide="false"
-        *ngFor="let p of menus; let i = index"
-      >
-        <ion-item
-          routerDirection="root"
-          [routerLink]="[p.url]"
-          lines="none"
-          detail="false"
-          routerLinkActive="selected"
-        >
-          <ion-icon
-            slot="start"
-            [ios]="p.icon + '-outline'"
-            [md]="p.icon + '-sharp'"
-          ></ion-icon>
-          <ion-label>{{ p.title }}</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-    </ion-list>
-  </ion-content>
-</ion-menu>
+<app-menu-lateral 
+  side="end" 
+  menuId="eventos-menu" 
+  contentId="eventos" 
+  [qtdEventosPend]="qtdEventosPend">
+</app-menu-lateral>
 
 <ion-header [translucent]="true" id="eventos">
   <ion-toolbar>
@@ -47,27 +19,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" id="content-evento">
+<ion-content  class="bg"  [fullscreen]="true" id="content-evento">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
       <ion-item *ngFor="let evento of eventos" [routerLink]="['edicao-eventos', evento.id]"
       >
         <div class="card-atv">
-          <div class="linha-evento">
-            <span>{{evento.titulo}}</span>
+          <div class="evento-imagem">
+            <img [src]="evento.imagem ? evento.imagem : '/assets/img/pexels-pixabay-46798.jpg'" />
+            <h2>{{evento.titulo}}</h2>
           </div>
           <div class="linha-evento">
-            <ion-icon name="calendar"></ion-icon>
-            &nbsp;&nbsp;&nbsp;
-            <div class="atv-data">
-              <span>{{ evento.data | date: 'dd/MM/yyyy' }}</span>
-              <span>{{ evento.hora | slice:0:5 }}H</span>
-            </div>
+            <ion-icon [src]="'assets/' + evento.modalidade.icone" ></ion-icon>
+            &nbsp;&nbsp;&nbsp;<span>{{ evento.modalidade.nome }}</span>
+        </div>
+          <div class="linha-evento">
+              <ion-icon name="calendar-outline"></ion-icon>
+              &nbsp;&nbsp;&nbsp;<span>{{ evento.data | date: 'dd/MM/yyyy' }}</span>
+              &nbsp;&nbsp;&nbsp;<ion-icon name="time-outline"></ion-icon>
+              &nbsp;<span>{{ evento.hora | slice:0:5 }}H</span>
           </div>
           <div class="linha-evento">
-            <ion-icon name="people"></ion-icon>
+            <ion-icon name="people-outline"></ion-icon>
             &nbsp;&nbsp;&nbsp;
             <span>{{evento.quantidadeParticipantes}} Participantes</span>
+          </div>
+          <div class="linha-evento">
+            <ion-icon name="location-outline"></ion-icon>
+            &nbsp;&nbsp;&nbsp;
+            <span>{{evento.cidade.nome + ' - ' + evento.bairro}}</span>
           </div>
         </div>
       </ion-item>
@@ -75,9 +55,11 @@
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button [routerLink]="['cadastro-eventos']">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
+    <ion-buttons class="ion-buttons-fab">
+      <ion-fab-button [routerLink]="['cadastro-eventos']">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-buttons>
   </ion-fab>
 
 </ion-content>

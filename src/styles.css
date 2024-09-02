@@ -1,10 +1,12 @@
-/* * {
-  outline: 1px solid red;
-} */
+.bg {
+  --ion-background-color: #dadada;
+}
+
 .tribo-icon{
   font-size: 35px;
   color: #0bf101;
 }
+
 .titulo-page ion-icon {
   font-size: 35px;
   color: #0bf101;
@@ -26,6 +28,7 @@
 
 .std-div {
   padding: 0.1vh;
+  margin: 0px 1.9vh;
 }
 
 .std-div h1 {
@@ -39,4 +42,57 @@
 .std-flex {
   display: flex;
   align-items: center;
+}
+
+.evento-imagem img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+.evento-imagem-detalhe img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card-atv {
+  width: 90vw;
+  margin: 5px auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 5px #ccc;
+} 
+
+.evento-imagem {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.evento-imagem h2 {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  margin: 0;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+}
+
+ion-fab-button {
+  width: 34px;
+  height: 34px;
+  --border-radius: 10px;
+  --icon-size: 16px;
+  margin-right: 8px;
+}
+
+ion-fab-button ion-icon {
+  font-size: 25px;
+  margin-right: 0;
 }

@@ -1,45 +1,25 @@
-/* * {
-  outline: 1px solid red;
-} */
-
 ion-select {
   margin: auto;
   width: 100px;
 }
 
-.icon-atv {
-  color: #0bf101;
-}
-
 .linha-evento ion-icon {
   font-size: 28px;
-}
-
-.item-background-color{
-  --ion-item-background:#015f01d5;
+  color: #0bf101;
 }
 
 .linha-evento {
   display: flex;
   align-items: center;
+  margin-top: 1vh;
+}
+
+.icone-modalidade{
+  align-self: flex-end;
 }
 
 .atv-data {
   width: 160px;
   display: flex;
   justify-content: space-between;
-}
-
-.card-atv {
-  width: 90vw;
-  margin: 5px auto;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #ccc;
-} 
-
-.ion-buttons-fab {
-  display: flex;
-  justify-content: flex-end;
-  border: 1px solid red;
 }

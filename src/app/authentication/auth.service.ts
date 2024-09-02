@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private tokenKey = 'authToken';
+  usuarioLogado : String = '';
 
   constructor() {}
 
@@ -23,4 +25,14 @@ export class AuthService {
   public logout(): void {
     this.removeToken();
   }
+
+  getUsuarioLogado() {
+    const token = this.getToken();
+    if (token) {
+      this.usuarioLogado = jwtDecode(token);
+      console.log('Usuário logado:', this.usuarioLogado);
+    }
+    return this.usuarioLogado
+  }
+
 }

@@ -8,7 +8,7 @@ import { UsuarioRoutingModule } from "./usuarios-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { CadastroPaginaUsuarioComponent } from "./pagina-usuario/cadastro-pagina-usuario/cadastro-pagina-usuario.component";
-
+import { CoreModule } from "../core/core.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +16,7 @@ import { CadastroPaginaUsuarioComponent } from "./pagina-usuario/cadastro-pagina
     HttpClientModule,
     ReactiveFormsModule,
     DatePipe,
+    CoreModule,
     UsuarioRoutingModule],
   declarations: [ListaUsuarioComponent, CadastroUsuarioComponent,CadastroPaginaUsuarioComponent],
   exports: [ListaUsuarioComponent, CadastroUsuarioComponent,CadastroPaginaUsuarioComponent]

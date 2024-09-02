@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Eventos (ADM)
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="std-div">
+    <ion-list lines="none" class="lista-evento">
+        <ion-item *ngFor="let evento of eventos" [routerLink]="['/tabs/eventos/edicao-eventos', evento.id]">
+        <div class="card-atv">
+          <div class="linha-evento">
+            <span>{{evento.titulo}}</span>
+            <ion-buttons class="ion-buttons-fab">
+              <ion-fab-button [routerLink]="['/tabs/eventos/edicao-eventos',evento.id]">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button (click)="confirmarExclusao(evento)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-fab-button>
+              <ion-chip [color]="getChipColor(evento.status_aprov)">
+                {{ getChipText(evento.status_aprov) }}
+              </ion-chip>
+            </ion-buttons>
+          </div>
+        </div>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['/tabs/eventos/cadastro-eventos']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

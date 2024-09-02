@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Evento } from '../types/evento.interface';
 import { EventoService } from '../services/evento.service';
-import { AlertController, ToastController, ViewWillEnter } from '@ionic/angular';
+import { AlertController, ToastController, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { menus } from 'src/app/core/menu/menus';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from 'src/app/authentication/auth.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'lista-eventos',
@@ -17,14 +19,20 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   eventos: Evento[] = [];
   menus = menus;
   content: string = '';
+  qtdEventosPend : number = 0;
+  usuarioLogado: any;
+  isAdmin: boolean = false;
 
   constructor(
     private eventoService: EventoService,
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private authService: AuthService,
   ) {
+    this.usuarioLogado = this.authService.getUsuarioLogado()
+    this.isAdmin = this.usuarioLogado.acesso == 'admin' ? true : false;
   }
 
   ngOnInit() {
@@ -37,6 +45,7 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
 
   ionViewWillEnter() {
     this.listaEventos();
+    this.countEventosPend();
   }
 
   confirmarExclusao(evento: Evento) {
@@ -72,7 +81,7 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
 
   listaEventos() {
     this.subscriptions.add(
-      this.eventoService.getEventos().subscribe(
+      this.eventoService.getEventosAprov().subscribe(
         (dados) => {
           this.eventos = dados;
         },
@@ -86,6 +95,19 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
               color: 'danger',
             })
             .then((t) => t.present());
+        }
+      )
+    );
+  }
+
+  countEventosPend() {
+    this.subscriptions.add(
+      this.eventoService.getCountEventosPend().subscribe(
+        (count) => {
+          this.qtdEventosPend = count;
+        },
+        (error) => {
+          console.error(error);
         }
       )
     );

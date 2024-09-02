@@ -10,8 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
+  <defs id="defs1" />
   <sodipodi:namedview
      id="namedview1"
      pagecolor="#505050"
@@ -35,19 +34,19 @@
      cy="256"
      r="208"
      fill="none"
-     stroke="currentColor"
+     stroke="#0bf101"
      stroke-linecap="round"
      stroke-linejoin="round"
      stroke-width="32"
      id="circle1"
-     style="stroke:#fec63e;stroke-opacity:1" />
+     style="stroke:#0bf101;stroke-opacity:1" />
   <path
      d="M461.43 271.44c-5.09.37-8.24.56-13.43.56-114.88 0-208-93.12-208-208 0-5.37.2-8.69.6-14M49.65 240.56S58.84 240 64 240c114.88 0 208 93.12 208 208 0 5.38-.61 14-.61 14"
      fill="none"
-     stroke="currentColor"
+     stroke="#0bf101"
      stroke-linecap="round"
      stroke-linejoin="round"
      stroke-width="32"
      id="path1"
-     style="stroke:#fec63e;stroke-opacity:1" />
+     style="stroke:#0bf101;stroke-opacity:1" />
 </svg>

@@ -1,0 +1,36 @@
+<ion-menu [side]="side" [menuId]="menuId" [contentId]="contentId">
+  <ion-header>
+    <ion-toolbar>
+      <div class="titulo-page">
+        <ion-avatar class="avatar">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-title>{{usuarioLogado.nome}}</ion-title>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="menu-list">
+      <ion-menu-toggle auto-hide="false" *ngFor="let p of menus">
+        <ion-item
+          routerDirection="root"
+          [routerLink]="[p.url]"
+          lines="none"
+          detail="false"
+          routerLinkActive="selected"
+        >
+          <ion-icon
+            slot="start"
+            [ios]="p.icon + '-outline'"
+            [md]="p.icon + '-sharp'"
+          ></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+          <ion-badge *ngIf="p.title === 'Eventos(Admin)' && qtdEventosPend > 0" color="danger">
+            {{ qtdEventosPend }}
+          </ion-badge>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>

@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { CadastroPaginaUsuarioComponent } from '../usuarios/pagina-usuario/cadastro-pagina-usuario/cadastro-pagina-usuario.component';
 import { ListaUsuarioComponent } from '../usuarios/lista-usuario/lista-usuario.component';
+import { MeusEventosComponent } from '../eventos/meus-eventos/meus-eventos.component';
+import { AdminEventoComponent } from '../eventos/admin-evento/admin-evento.component';
+import { SolicitacoesPendentesComponent } from '../eventos/solicitacoes-pendentes/solicitacoes-pendentes.component';
 
 const routes: Routes = [
   {
@@ -24,11 +27,22 @@ const routes: Routes = [
         loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
       },
       {
+        path: 'eventos-admin',
+        component: AdminEventoComponent,
+        loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
+      },
+      {
+        path: 'solicitacoes-pendentes',
+        component: SolicitacoesPendentesComponent,
+        loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
+      },
+      {
         path: 'modalidades',
         loadChildren: () => import('../modalidades/modalidades.module').then(m => m.ModalidadesModule)
       },
       {
-        path: 'participando',
+        path: 'meus-eventos',
+        component: MeusEventosComponent,
         loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)
       },
       {
