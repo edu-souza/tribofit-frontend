@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 import { UsuarioComponent } from "./lista-usuario/usuario.component";
 import { UsuarioRoutingModule } from "./usuario-routing.module";
 import { CadastroUsuarioComponent } from "./cadastro-usuario/cadastro-usuario.component";
-
+import { CoreModule } from "../core/core.module";
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +17,7 @@ import { CadastroUsuarioComponent } from "./cadastro-usuario/cadastro-usuario.co
     DatePipe,
     FormsModule,
     UsuarioRoutingModule,
+    CoreModule
     ],
   declarations: [UsuarioComponent,CadastroUsuarioComponent],
   exports: []

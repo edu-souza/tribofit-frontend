@@ -1,7 +1,7 @@
 import { Cidade } from "src/app/core/cidade.interface";
 import { Modalidade } from "src/app/modalidades/types/modalidade.interface";
 import { Usuario } from "src/app/usuarios/types/usuario.interface";
-
+import { EventoUsuario } from "./evento_usuario.interface";
 export interface Evento {
   id?: string | null;
   titulo: string;
@@ -23,5 +23,5 @@ export interface Evento {
   status: string;
   cidade: Cidade;
   modalidade: Modalidade;
-  usuarios : Usuario[];
+  eventosUsuarios : EventoUsuario[];
 }
