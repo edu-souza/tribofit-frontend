@@ -56,6 +56,7 @@ export class PaginaLoginComponent implements OnInit {
         response => {
           console.log('Login bem-sucedido:', response);
           this.authService.saveToken(response.access_token);
+          this.authService.saveRefreshToken(response.refresh_token);
           console.log(this.authService.getToken);
 
           this.router.navigate(['tabs/eventos']);

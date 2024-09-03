@@ -1,0 +1,37 @@
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    color: white;
+  }
+  
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin-right: 16px;
+    border: 2px solid green; 
+    border-radius: 50%;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profile-name {
+    font-size: 1.5rem;
+    color: black;
+  }
+  
+  .profile-email {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    margin-top: 4px;
+  }
+  
+  ion-item {
+    --background: #f1f1f1;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  

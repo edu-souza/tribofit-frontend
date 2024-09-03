@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-import { CadastroPaginaUsuarioComponent } from '../usuarios/pagina-usuario/cadastro-pagina-usuario/cadastro-pagina-usuario.component';
-import { ListaUsuarioComponent } from '../usuarios/lista-usuario/lista-usuario.component';
 import { MeusEventosComponent } from '../eventos/meus-eventos/meus-eventos.component';
 import { AdminEventoComponent } from '../eventos/admin-evento/admin-evento.component';
 import { SolicitacoesPendentesComponent } from '../eventos/solicitacoes-pendentes/solicitacoes-pendentes.component';
+import { UsuarioComponent } from '../usuarios/lista-usuario/usuario.component';
 
 const routes: Routes = [
   {
@@ -14,13 +13,13 @@ const routes: Routes = [
     children: [
       {
         path: 'usuario',
-        component: CadastroPaginaUsuarioComponent,
-        loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
+        loadChildren: () => import('../usuarios/usuario.module').then(m => m.UsuarioModule)
+
       },
       {
         path: 'usuarios',
-        component: ListaUsuarioComponent,
-        loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
+        component: UsuarioComponent,
+        loadChildren: () => import('../usuarios/usuario.module').then(m => m.UsuarioModule)
       },
       {
         path: 'eventos',
