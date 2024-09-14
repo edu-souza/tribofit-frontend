@@ -1,0 +1,38 @@
+<app-menu-lateral 
+  side="end" 
+  menuId="solicitacoes-pendentes-menu" 
+  contentId="solicitacoes-pendentes" 
+  [qtdEventosPend]="0">
+</app-menu-lateral>
+
+<ion-header [translucent]="true" id="solicitacoes-pendentes">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Solicitações Pendentes
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="solicitacoes-pendentes-menu"></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg" [fullscreen]="true">
+  <div class="std-div">
+    <ion-list lines="none" class="lista-evento">
+      <ion-item *ngFor="let solicitacao of solicitacoes" [routerLink]="['/tabs/eventos/edicao-eventos', solicitacao.id]">
+        <div class="card-atv">
+          <div class="solicitacao">
+            <div class="linha-solicitacao">
+              <ion-icon class="solicit-icon" name="warning"></ion-icon>
+              <p>{{'Você possui novas solicitações no seu evento ' + solicitacao.titulo!}}</p>
+            </div>
+            <ion-chip color="warning">{{solicitacao.eventosUsuarios.length}} participante(s) pendente</ion-chip>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

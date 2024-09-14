@@ -1,0 +1,71 @@
+<app-menu-lateral 
+  side="end" 
+  menuId="meus-eventos-menu" 
+  contentId="meus" 
+  [qtdEventosPend]="0">
+</app-menu-lateral>
+
+<ion-header [translucent]="true" id="meus">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>
+        Meus eventos
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="meus-eventos-menu"></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg" [fullscreen]="true" id="content-meus">
+  <div class="std-div">
+    <ion-searchbar placeholder="Pesquisar por nome" (ionInput)="handleInput($event)" class="search"></ion-searchbar>
+    <div class="filtros">
+      <span>Filtrar: </span>
+      <ion-chip 
+  [ngClass]="{ 'chip-active': isFilterActive('cancelado') }"
+  (click)="toggleFilter('cancelado')"
+  color="danger">
+  Cancelado
+</ion-chip>
+<ion-chip 
+  [ngClass]="{ 'chip-active': isFilterActive('anfitriao') }"
+  (click)="toggleFilter('anfitriao')"
+  color="secondary">
+  Anfitrião
+</ion-chip>
+<ion-chip 
+  [ngClass]="{ 'chip-active': isFilterActive('finalizado') }"
+  (click)="toggleFilter('finalizado')"
+  color="dark">
+  Finalizado
+</ion-chip>
+<ion-chip 
+  (click)="clearFilters()"
+  color="medium">
+  Limpar
+</ion-chip>
+    </div>
+
+    <ion-list lines="none" class="lista-evento">
+      <ion-item *ngFor="let evento of eventos" [routerLink]="['edicao-eventos', evento.id]">
+        <div class="card-atv">
+          <div class="linha-meus-eventos">
+            <ion-icon [src]="'assets/' + evento.modalidade.icone"></ion-icon>
+            <span>{{ evento.titulo }}</span>
+          </div>
+
+          <div class="linha-evento">
+            <ion-icon name="calendar-outline"></ion-icon>
+            &nbsp;&nbsp;&nbsp;<span>{{ evento.data | date: 'dd/MM/yyyy' }}</span>
+            &nbsp;&nbsp;&nbsp;<ion-icon name="time-outline"></ion-icon>
+            &nbsp;<span>{{ evento.hora | slice:0:5 }}H</span>
+          </div>
+
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
