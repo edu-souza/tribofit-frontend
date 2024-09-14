@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Evento } from "../types/evento.interface";
@@ -15,6 +15,29 @@ export class EventoService {
 
   getEventos(): Observable<Evento[]> {
     return this.httpClient.get<Evento[]>(`${this.url}`);
+  }
+
+  getEventosAprov(): Observable<Evento[]> {
+    return this.httpClient.get<Evento[]>(`${this.url}/aprovados`);
+  }
+
+  getMeusEventos(userId: string): Observable<Evento[]> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.get<Evento[]>(`${this.url}/meus-eventos`, { params });
+  }
+
+  getSolicitacoesPendentes(userId: string): Observable<Evento[]> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.get<Evento[]>(`${this.url}/solicitacoes-pendentes`, { params });
+  }
+
+  updateEventoUsuarios(evento: Evento): Observable<Evento>  {
+    console.log('passou aqui service');
+    return this.httpClient.put<Evento>(`${this.url}/${evento.id}/usuarios`, evento);
+  }
+
+  getCountEventosPend(): Observable<number> {
+    return this.httpClient.get<number>(`${this.url}/pendentes`);
   }
 
   getEventoById(id: string): Observable<Evento | undefined> {

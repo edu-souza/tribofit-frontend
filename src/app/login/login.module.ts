@@ -10,7 +10,7 @@ import { EsqueceuSenhaComponent } from '../esqueceusenha/esqueceu-senha/esqueceu
 import { AtualizarSenhaComponent } from '../esqueceusenha/atualizar-senha/atualizar-senha.component';
 
 @NgModule({
-  declarations: [PaginaLoginComponent, EsqueceuSenhaComponent, AtualizarSenhaComponent],
+  declarations: [PaginaLoginComponent,EsqueceuSenhaComponent, AtualizarSenhaComponent],
   imports: [
     CommonModule,
     FormsModule,

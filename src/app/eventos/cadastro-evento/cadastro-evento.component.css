@@ -1,3 +1,18 @@
+ion-item {
+  --background: #FFF;
+  margin: 10px 0;
+  border-radius: 15px;
+  color: #222;
+}
+
+.background-warning {
+  --background: #FFC107;
+}
+
+.background-danger {
+  --background: #FF5252; /* Cor de perigo (danger) */
+}
+
 .fab {
   display: flex;
   justify-content: flex-end;
@@ -50,26 +65,56 @@ ion-item-options ion-fab-button {
   background-color: transparent;
 }
 
-.evento-imagem {
+.cad-evento-imagem {
   position: relative;
   width: 100%;
   height: auto;
 }
 
-.evento-imagem img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.evento-imagem h2 {
+.cad-evento-imagem h2 {
   position: absolute;
   bottom: 10px;
   left: 10px;
   margin: 0;
-  color: white;
+  color: #ffffff;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 1.5rem;
+}
+
+.down-icon {
+  background-color: red;
+}
+
+#map {
+  margin-top: 1.8vh;
+  border-radius: 10px;
+  border: 1px solid #c2c2c2
+}
+
+.evento-visualizar {
+  background-color: #FFF;
+  border-radius: 15px;
+  padding: 10px 10px;
+  margin: 10px 15px;
+}
+
+
+.evento-icon {
+  background-color: #FFF;
+  --border-radius: 100px;
+  width: 65px;
+  height: 65px;
+}
+
+.linha-evento ion-icon {
+  font-size: 28px;
+  color: #0bf101;
+}
+
+.linha-evento {
+  display: flex;
+  align-items: center;
+  margin-top: 1vh;
 }

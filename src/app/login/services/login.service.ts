@@ -24,7 +24,7 @@ export class LoginService {
   }
 
   // Método para enviar o email de recuperação de senha
-  forgotPassword(email: string): Observable<any> {
+   forgotPassword(email: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/esqueceu-senha`, { email });
   }
 

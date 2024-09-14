@@ -9,18 +9,15 @@ import { Router } from '@angular/router';
 export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
   private excludedUrls: string[] = ['/auth/atualizar-senha'];
 
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Verifica se a URL da requisição está na lista de exceções
     console.log(`Interceptando URL: ${req.url}`);
     if (this.isExcluded(req.url)) {
       return next.handle(req);
     }
-
     const token = this.authService.getToken();
     let cloned = req;
 
@@ -38,7 +35,6 @@ export class TokenInterceptor implements HttpInterceptor {
       })
     );
   }
-
   private isExcluded(url: string): boolean {
     const isExcluded = this.excludedUrls.some(excludedUrl => url.includes(excludedUrl));
     console.log(`URL ${url} excluída: ${isExcluded}`);

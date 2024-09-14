@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
@@ -7,6 +8,7 @@ import { map, Observable } from 'rxjs';
 })
 export class AuthService {
   private tokenKey = 'authToken';
+  usuarioLogado : String = '';
   private refreshTokenKey = 'refreshToken';
   private baseUrl = 'http://localhost:3000/auth';
   
@@ -55,4 +57,14 @@ export class AuthService {
     console.log('Obtendo refresh token:', refreshToken);
     return refreshToken;
   }
+
+  getUsuarioLogado() {
+    const token = this.getToken();
+    if (token) {
+      this.usuarioLogado = jwtDecode(token);
+      console.log('Usuário logado:', this.usuarioLogado);
+    }
+    return this.usuarioLogado
+  }
+
 }
