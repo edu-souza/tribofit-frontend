@@ -1,4 +1,4 @@
-<ion-content class="content">
+<ion-content>
   <div class="center-container">
     <img src="assets/logo.svg" />
     <form class="div-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
@@ -20,14 +20,18 @@
       </ion-button>
 
       <ion-button type="button" expand="block" color="dark" fill="clear" (click)="onCadastro()">Ainda não é da tribo? Cadastre-se!</ion-button>
+      
+      <!-- Botão "Esqueceu a senha?" adicionado após o botão de cadastro -->
+      <ion-button type="button" expand="block" color="dark" fill="clear" (click)="onEsqueceuSenha()">Esqueceu a senha?</ion-button>
     </form>
   </div>
-</ion-content>
   
-<ion-toast
-  *ngIf="errorMessage"
-  [message]="errorMessage"
-  duration="2000"
-  color="danger"
-  (ionToastDidDismiss)="errorMessage = null"
-></ion-toast>
+  <!-- Toast para mostrar mensagens de erro -->
+  <ion-toast
+    *ngIf="errorMessage"
+    [message]="errorMessage"
+    duration="2000"
+    color="danger"
+    (ionToastDidDismiss)="errorMessage = null"
+  ></ion-toast>
+</ion-content>

@@ -8,13 +8,9 @@ import { EventoRoutingModule } from './evento-routing.module';
 import { CadastroEventoComponent } from './cadastro-evento/cadastro-evento.component';
 import { DatePipe } from '@angular/common';
 import { ListaEventoComponent } from './lista-evento/lista-evento.component';
-import { MeusEventosComponent } from './meus-eventos/meus-eventos.component';
-import { AdminEventoComponent } from './admin-evento/admin-evento.component';
-import { SolicitacoesPendentesComponent } from './solicitacoes-pendentes/solicitacoes-pendentes.component';
-import { CoreModule } from '../core/core.module';
 
 @NgModule({
-  declarations: [ListaEventoComponent,CadastroEventoComponent,MeusEventosComponent,AdminEventoComponent,SolicitacoesPendentesComponent],
+  declarations: [ListaEventoComponent, CadastroEventoComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,10 +18,9 @@ import { CoreModule } from '../core/core.module';
     HttpClientModule,
     IonicModule,
     DatePipe,
-    EventoRoutingModule,
-    CoreModule
+    EventoRoutingModule
   ],
-  exports: [ListaEventoComponent,CadastroEventoComponent,MeusEventosComponent,AdminEventoComponent,SolicitacoesPendentesComponent],
+  exports: [ListaEventoComponent, CadastroEventoComponent],
   providers: [DatePipe],
 
 })

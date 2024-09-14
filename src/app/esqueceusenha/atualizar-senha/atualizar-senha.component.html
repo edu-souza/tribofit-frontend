@@ -1,0 +1,44 @@
+<ion-content>
+  <div class="center-container">
+    <!-- Botão de Voltar -->
+    <ion-button class="back-button" expand="full" fill="clear" color="dark" (click)="onBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Voltar
+    </ion-button>
+
+    <h2>Redefinir Senha</h2>
+    <p>Insira o código recebido para validar e prosseguir com a redefinição da senha.</p>
+
+<!-- Formulário para validação do código -->
+    <form [formGroup]="codeForm" (ngSubmit)="validateCode()" *ngIf="!isCodeValid">
+      <ion-item>
+        <ion-label position="floating">Código</ion-label>
+        <ion-input formControlName="code" type="text"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit">Validar Código</ion-button>
+    </form>
+
+    <!-- Formulário de atualização de senha, visível apenas quando o código é válido -->
+    <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmit()" *ngIf="isCodeValid">
+      <ion-item>
+        <ion-label position="floating">Nova Senha</ion-label>
+        <ion-input formControlName="newPassword" type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Confirmar Senha</ion-label>
+        <ion-input formControlName="confirmPassword" type="password"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="updatePasswordForm.invalid">Atualizar Senha</ion-button>
+    </form>
+
+    <ion-toast
+      *ngIf="message"
+      [message]="message"
+      duration="2000"
+      color="primary"
+      (ionToastDidDismiss)="message = null"
+    ></ion-toast>
+  </div>
+</ion-content>

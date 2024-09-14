@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, ViewDidEnter, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+import { ToastController, ViewWillEnter } from '@ionic/angular';
 import { EventoService } from '../services/evento.service';
 import { Evento } from '../types/evento.interface';
 import { Cidade } from 'src/app/core/cidade.interface';
@@ -13,35 +13,28 @@ import { Usuario } from 'src/app/usuarios/types/usuario.interface';
 import * as L from 'leaflet';
 import { GeocodingService } from 'src/app/core/geocoding/geocoding.service';
 import { AlertController } from "@ionic/angular";
-import { AuthService } from 'src/app/authentication/auth.service';
-import { EventoUsuario } from '../types/evento_usuario.interface';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'cadastro-evento',
   templateUrl: './cadastro-evento.component.html',
   styleUrls: ['./cadastro-evento.component.css']
 })
-export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,ViewWillLeave {
+export class CadastroEventoComponent implements OnInit {
   eventoId!: string;
   eventosForm: FormGroup;
   cidades: Cidade[] = [];
   modalidades: Modalidade[] = [];
-  participantesSelecionados: EventoUsuario[] = [];
-  participantes : EventoUsuario[] = [];
   inclusao : boolean = false;
   title: string = '';
   imagemEvento : string = '';
   file : string = '';
+  participantes : Usuario[] = [];
   map : any = '';
   numLatitude: number = 0;
   numLongitude: number = 0;
   marcadorAtual: L.Marker | null = null;
-  usuarioLogado: any;
-  lAlteracao: boolean = true;
-  isAdmin: boolean = false;
-  isAnfitriao: boolean = false;
-  eventoAdmin: string = '';
+  isAdmin : boolean = true;
+
   myIcon = L.icon({
     iconUrl: 'assets/icon/marker-icon.png',
     iconSize: [25, 41],
@@ -59,40 +52,12 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     private cidadeService: CidadesService,
     private modalidadeService: ModalidadesService,
     private geocodingService: GeocodingService,
-    private authService: AuthService,
     private router: Router
   ) {
     this.eventosForm = this.createForm();
-    this.usuarioLogado = this.authService.getUsuarioLogado()
-    this.isAdmin = this.usuarioLogado.acesso == 'admin' ? true : false;
   }
 
   ngOnInit() {
-    this.loadCidades();
-    this.loadModalidades();
-
-    this.loadEvento().then(() => {
-      this.inicializarMapa();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.map) {
-      this.map.off(); 
-      this.map.remove();
-      this.map = null; 
-    }
-  }
-
-  ionViewWillLeave() {
-    if (this.map) {
-      this.map.off(); 
-      this.map.remove(); 
-      this.map = null; 
-    }
-  }
-
-  ionViewDidEnter() {
     this.loadCidades();
     this.loadModalidades();
 
@@ -130,7 +95,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
       this.map.invalidateSize();
     }, 0);
   
-    if(this.lAlteracao){
+    if(this.isAdmin){
       this.map.on('click', this.onMapClick.bind(this));
     }
   }
@@ -231,18 +196,9 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
         this.inclusao = false;
         this.title = evento.titulo;
         this.imagemEvento = evento.imagem;
-        this.participantes = evento.eventosUsuarios
-        this.participantes = Object.values(evento.eventosUsuarios);
-        // this.participantes = evento.eventosUsuarios.filter(participante => participante.usuario.id !== this.usuarioLogado.sub);
-        this.participantesSelecionados = evento.eventosUsuarios
-        this.participantesSelecionados = Object.values(evento.eventosUsuarios);
-        console.log('participantes',this.participantes);
+        this.participantes = evento.usuarios
         this.numLatitude = parseFloat(evento.latitude);
         this.numLongitude = parseFloat(evento.longitude);
-        this.lAlteracao = evento.admin == this.usuarioLogado.sub || this.isAdmin ? true : false;
-        this.eventoAdmin = evento.admin;
-        this.isAnfitriao = evento.admin == this.usuarioLogado.sub || this.isAdmin;
-        this.updateFormControls();
       } else {
         console.error(`Evento não encontrado.`);
       }
@@ -253,42 +209,28 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
 
   private createForm(evento?: Evento) {
     const form = new FormGroup({
-      titulo: new FormControl(evento?.titulo || '', Validators.required),
-      descricao: new FormControl(evento?.descricao || '', Validators.required),
-      tipo: new FormControl(evento?.tipo || '', Validators.required),
-      data: new FormControl(evento?.data ? new Date(evento.data).toISOString() : this.toLocalISOString(new Date()), Validators.required),
-      hora: new FormControl(evento?.hora ? new Date(evento.hora).toISOString() : this.toLocalISOString(new Date()), Validators.required),
-      diaSemana: new FormControl(evento?.diaSemana || ''),
-      quantidadeParticipantes: new FormControl(evento?.quantidadeParticipantes || 0),
-      bairro: new FormControl(evento?.bairro || '', Validators.required),
-      rua: new FormControl(evento?.rua || '', Validators.required),
-      latitude: new FormControl(evento?.latitude || ''),
-      longitude: new FormControl(evento?.longitude || ''),
-      admin: new FormControl(evento?.admin || ''),
-      status_aprov: new FormControl(evento?.status_aprov || ''),
-      numero: new FormControl(evento?.numero || '', Validators.required),
-      complemento: new FormControl(evento?.complemento || ''),
-      status: new FormControl(evento?.status || 'A', Validators.required),
-      cidade: new FormControl(evento?.cidade || '', Validators.required),
-      modalidade: new FormControl(evento?.modalidade || '', Validators.required),
-      imagem: new FormControl(evento?.imagem || '')
+      titulo: new FormControl({ value: evento?.titulo || '', disabled: !this.isAdmin }, Validators.required),
+      descricao: new FormControl({ value: evento?.descricao || '', disabled: !this.isAdmin }, Validators.required),
+      tipo: new FormControl({ value: evento?.tipo || '', disabled: !this.isAdmin }, Validators.required),
+      data: new FormControl({ value: evento?.data ? new Date(evento.data).toISOString() : this.toLocalISOString(new Date()), disabled: !this.isAdmin }, Validators.required),
+      hora: new FormControl({ value: evento?.hora ? new Date(evento.hora).toISOString() : this.toLocalISOString(new Date()), disabled: !this.isAdmin }, Validators.required),
+      diaSemana: new FormControl({ value: evento?.diaSemana || '', disabled: !this.isAdmin }),
+      quantidadeParticipantes: new FormControl({ value: evento?.quantidadeParticipantes || 0, disabled: !this.isAdmin }),
+      bairro: new FormControl({ value: evento?.bairro || '', disabled: !this.isAdmin }, Validators.required),
+      rua: new FormControl({ value: evento?.rua || '', disabled: !this.isAdmin }, Validators.required),
+      latitude: new FormControl({ value: evento?.latitude || '', disabled: !this.isAdmin }),
+      longitude: new FormControl({ value: evento?.longitude || '', disabled: !this.isAdmin }),
+      admin: new FormControl({ value: evento?.admin || '', disabled: !this.isAdmin }),
+      status_aprov: new FormControl({ value: evento?.status_aprov || '', disabled: !this.isAdmin }),
+      numero: new FormControl({ value: evento?.numero || '', disabled: !this.isAdmin }, Validators.required),
+      complemento: new FormControl({ value: evento?.complemento || '', disabled: !this.isAdmin }),
+      status: new FormControl({ value: evento?.status || 'A', disabled: !this.isAdmin }, Validators.required),
+      cidade: new FormControl({ value: evento?.cidade || '', disabled: !this.isAdmin }, Validators.required),
+      modalidade: new FormControl({ value: evento?.modalidade || '', disabled: !this.isAdmin }, Validators.required),
+      imagem: new FormControl({ value: evento?.imagem || '', disabled: !this.isAdmin })
     });
   
     return form;
-  }
-
-  private updateFormControls() {
-    const isDisabled = !this.lAlteracao;
-    Object.keys(this.eventosForm.controls).forEach(controlName => {
-      const control = this.eventosForm.get(controlName);
-      if (control) {
-        if (isDisabled) {
-          control.disable();
-        } else {
-          control.enable();
-        }
-      }
-    });
   }
 
   toLocalISOString(date: Date): string {
@@ -353,19 +295,13 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     return `${hours}:${minutes}:${seconds}`;
   }
 
-  saveEvento(tipo : String) {
+  saveEvento() {
     const evento: Evento = {
       ...this.eventosForm.value,
       id: this.eventoId,
-      usuarios: this.participantesSelecionados
     };
-
     evento.hora = this.extrairHora(evento.hora);
     evento.imagem = this.imagemEvento;
-    evento.status_aprov = this.inclusao ? "P" : evento.status_aprov;
-    if (!evento.admin){
-      evento.admin = this.usuarioLogado.sub;
-    }
     this.eventoService.salvar(evento).subscribe(
       () => {
         this.toastController
@@ -391,68 +327,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
       }
     );
   }
-
-
-  addParticipante() {
-    const usuarioLogado = this.usuarioLogado.sub;
-    console.log(this.participantesSelecionados)
-    console.log(usuarioLogado)
   
-    if (this.participantesSelecionados.some(p => p.usuario === usuarioLogado)) {
-      this.toastController.create({
-        message: 'O participante já está na lista.',
-        duration: 2000,
-        keyboardClose: true,
-        color: 'warning',
-      }).then(t => t.present());
-      return;
-    }
-    console.log('passou')
-  
-    const evento: Evento = {
-      ...this.eventosForm.value,
-      id: this.eventoId,
-      usuarios: this.participantesSelecionados
-    };
-  
-    const participante: EventoUsuario = {
-      evento: { id: this.eventoId } as Evento,
-      usuario: usuarioLogado,
-      statusParticipante: 'P',
-    };
-  
-    this.participantesSelecionados.push(participante);
-  
-    const eventoUsuarios = this.participantesSelecionados.map(participante => ({
-      evento: participante.evento,
-      usuario: participante.usuario,
-      statusParticipante: participante.statusParticipante,
-    }));
-
-    evento.eventosUsuarios = eventoUsuarios;
-  
-    this.eventoService.updateEventoUsuarios(evento).subscribe(
-      () => {
-        this.toastController.create({
-          message: 'Solicitação para participar do evento enviada ao anfitrião! Aguarde aprovação.',
-          duration: 3000,
-          keyboardClose: true,
-          color: 'success',
-        }).then(t => t.present());
-        this.router.navigate(['tabs/eventos']);
-      },
-      (erro: HttpErrorResponse) => {
-        console.error(erro);
-        this.toastController.create({
-          message: `Não foi possível solicitar a participação. ${erro.error.message}`,
-          duration: 5000,
-          keyboardClose: true,
-          color: 'danger',
-        }).then(t => t.present());
-      }
-    );
-  }
-
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     fileInput.click();
@@ -475,34 +350,8 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
       }
     }
   }
-
-  adicionarParticipante(participante: EventoUsuario) {
-    const existente = this.participantesSelecionados.find(p => p.usuario === participante.usuario);
-    
-    if (!existente) {
-      participante.statusParticipante = 'A';
-      this.participantesSelecionados.push(participante);
-    } else {
-      existente.statusParticipante = 'A';
-    }
-    console.log(this.participantesSelecionados);
-    this.resetSlidingItem();
-  }
   
-  removerParticipante(participante: EventoUsuario) {
-    this.participantesSelecionados = this.participantesSelecionados.filter(p => p.usuario !== participante.usuario);
-    this.resetSlidingItem();
-    console.log(this.participantesSelecionados);
-  }
-  resetSlidingItem() {
-    document.querySelectorAll('ion-item-sliding').forEach((item: any) => {
-      item.close();
-      const ionItems = item.querySelectorAll('ion-item');
-      ionItems.forEach((ionItem: any) => {
-        ionItem.classList.remove('background-warning');
-      });
-    });
-  }
+  
 
   get titulo() {
     return this.eventosForm.get('titulo');

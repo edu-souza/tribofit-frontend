@@ -9,25 +9,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="bg">
-  <div class="cad-evento-imagem">
-    <img [src]="imagemEvento ? imagemEvento : '/assets/img/pexels-pixabay-46798.jpg'" />
-    <h2>{{title}}</h2>
-    <input type="file" accept="image/*" id="fileInput" (change)="onFileChange($event)" style="display: none;"/>
-    <ion-buttons class="ion-buttons-fab">
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="triggerFileInput()">
-          <ion-icon name="images"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </ion-buttons>
-  </div>
+<ion-content [fullscreen]="true">
   <div class="std-div">
-    <ion-button *ngIf="!isAnfitriao && !inclusao" fill="solid" (click)="addParticipante()">
-      <ion-icon slot="start" name="ribbon"></ion-icon>
-      Participar
-    </ion-button>
     <form [formGroup]="eventosForm">
+
+      <div class="evento-imagem">
+        <img [src]="imagemEvento ? imagemEvento : '/assets/img/pexels-pixabay-46798.jpg'" />
+        <h2>{{title}}</h2>
+        <input type="file" accept="image/*" id="fileInput" (change)="onFileChange($event)" style="display: none;"/>
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+          <ion-fab-button (click)="triggerFileInput()">
+            <ion-icon name="images"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+
       <ion-item *ngIf="inclusao">
         <ion-input formControlName="titulo" label="Titulo"></ion-input>
         <ion-text color="danger" *ngIf="titulo?.invalid && (titulo?.dirty || titulo?.touched)">
@@ -50,15 +46,15 @@
 
       <ion-item>
         <ion-label>Data</ion-label>
-          <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime formControlName="data" id="datetime" color="primary" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
-            </ng-template>
-          </ion-modal>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-          <ion-text color="danger" *ngIf="data?.invalid && (data?.dirty || data?.touched)">
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime formControlName="data" id="datetime" color="primary" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+        <ion-text color="danger" *ngIf="data?.invalid && (data?.dirty || data?.touched)">
           <small *ngIf="data?.errors?.['required']">
             A data do evento é obrigatória
           </small>
@@ -133,11 +129,9 @@
           </small>
         </ion-text>
       </ion-item>
-
-      <div class="sub-titulo">
-        <ion-icon class="tribo-icon" name="location-outline"></ion-icon>
-        <span>Localização</span>
-      </div>
+      <ion-item>
+        <h4>Localização</h4>
+      </ion-item>
 
       <div id="map"></div>
 
@@ -190,14 +184,6 @@
           <ion-select-option value="C">Cancelado</ion-select-option>
         </ion-select>
       </ion-item>
-
-      <ion-item *ngIf="isAdmin">
-        <ion-select formControlName="status_aprov" label="Status Aprovação" placeholder="Status Aprovação">
-          <ion-select-option value="P">Pendente</ion-select-option>
-          <ion-select-option value="A">Aprovado</ion-select-option>
-          <ion-select-option value="R">Reprovado</ion-select-option>
-        </ion-select>
-      </ion-item>
     </form>
 
   </div>
@@ -213,36 +199,33 @@
     </div>
 
     <ion-list lines="none">
-      <ion-item-sliding *ngFor="let participante of participantes">
-        <ion-item [ngClass]="{'background-warning': participante.statusParticipante === 'P'}">
+      <ion-item-sliding>
+        <ion-item *ngFor="let participante of participantes">
           <ion-avatar slot="start">
             <img alt="Silhouette of a person's head" src="https://edu-souza.github.io/img/img1.jpg" />
           </ion-avatar>
-          <ion-label>{{ participante.usuario.nome }}</ion-label>
-          <ion-icon *ngIf="participante.usuario.id === eventoAdmin" class="info" name="bookmark"></ion-icon>
-          <ion-icon name="chevron-back-outline"></ion-icon>
+          <ion-label>{{participante.nome}}</ion-label>
         </ion-item>
-    
-        <ion-item-options *ngIf="isAnfitriao" class="linha-participante">
-          <span>Permitir participante?</span>
-          <ion-item-option class="sliding" (click)="adicionarParticipante(participante)">
+
+        <ion-item-options class="linha-participante">
+          <span>Aprovar / Remover<br>participante</span>
+          <ion-item-option class="sliding">
             <ion-fab-button>
-              <ion-icon name="thumbs-up-outline"></ion-icon>
+              <ion-icon name="checkmark-circle"></ion-icon>
             </ion-fab-button>
           </ion-item-option>
-          <ion-item-option class="sliding" (click)="removerParticipante(participante)" color="danger">
-            <ion-fab-button color="danger">
-              <ion-icon name="thumbs-down-outline"></ion-icon>
+          <ion-item-option class="sliding">
+            <ion-fab-button>
+              <ion-icon name="close-circle"></ion-icon>
             </ion-fab-button>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    
   </div>
 
   <div class="fab">
-    <ion-fab-button (click)="saveEvento('1')" [disabled]="eventosForm.invalid">
+    <ion-fab-button (click)="saveEvento()" [disabled]="eventosForm.invalid">
       <ion-icon name="checkmark-circle"></ion-icon>
     </ion-fab-button>
   </div>
