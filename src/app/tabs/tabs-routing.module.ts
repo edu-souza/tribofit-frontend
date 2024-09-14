@@ -13,11 +13,11 @@ const routes: Routes = [
         loadChildren: () => import('../usuarios/usuario.module').then(m => m.UsuarioModule)
 
       },
-      {
+/*       {
         path: 'usuarios',
-        component: ListaUsuarioComponent,
+        component: UsuarioComponent,
         loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
-      },
+      }, */
       {
         path: 'eventos',
         loadChildren: () => import('../eventos/evento.module').then(m => m.EventoModule)

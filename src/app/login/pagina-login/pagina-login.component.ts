@@ -45,6 +45,10 @@ export class PaginaLoginComponent implements OnInit {
     this.router.navigate(['/novo-usuario'])
   }
 
+  onEsqueceuSenha() {
+    this.router.navigate(['/esqueceu-senha'])
+  }
+
   async onLogin() {
     if (this.loginForm.valid) {
       const credencial: Credencial = {

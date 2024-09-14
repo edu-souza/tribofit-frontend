@@ -1,0 +1,28 @@
+<ion-content>
+  <div class="center-container">
+    <!-- Botão de Voltar -->
+    <ion-button class="back-button" expand="full" fill="clear" color="dark" (click)="onBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Voltar
+    </ion-button>
+
+    <h2>Esqueceu a senha?</h2>
+    <p>Insira seu e-mail para receber um link de redefinição de senha.</p>
+    <form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit">Enviar</ion-button>
+    </form>
+
+    <ion-button expand="block" color="secondary" (click)="goToResetPassword()">Já tenho um código</ion-button>
+  
+    <ion-toast
+      *ngIf="message"
+      [message]="message"
+      duration="2000"
+      color="primary"
+      (ionToastDidDismiss)="message = null"
+    ></ion-toast>
+  </div>
+</ion-content>

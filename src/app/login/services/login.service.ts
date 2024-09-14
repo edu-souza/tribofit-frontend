@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
 export class LoginService {
 
   private baseUrl = 'http://localhost:3000/auth'; // URL base da sua API
+  
 
   constructor(private http: HttpClient) { }
 
@@ -20,5 +21,18 @@ export class LoginService {
   // Método para obter o perfil do usuário
   getProfile(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/profile`);
+  }
+
+  // Método para enviar o email de recuperação de senha
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/esqueceu-senha`, { email });
+  }
+
+  validateResetCode( code: string) {
+    return this.http.post(`${this.baseUrl}/validar-reset-code`, { code });
+  }
+  
+  resetPassword(code: string | null, newPassword: string) {
+    return this.http.post(`${this.baseUrl}/atualizar-senha`, { code, newPassword });
   }
 }

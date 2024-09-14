@@ -1,0 +1,53 @@
+/* Define o estilo para o contêiner central */
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem; /* Adiciona padding para garantir que o conteúdo não fique colado às bordas da tela */
+    box-sizing: border-box;
+    position: relative; /* Necessário para posicionar o botão de Voltar */
+  }
+  
+  /* Define o estilo para o botão de Voltar */
+  .back-button {
+    position: absolute;
+    top: 1rem; /* Espaço do topo */
+    left: 1rem; /* Espaço da direita */
+    z-index: 1000; /* Garante que o botão esteja acima de outros elementos */
+  }
+  
+  /* Define o estilo para o título */
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333; /* Cor escura para boa legibilidade */
+    margin-bottom: 0.5rem; /* Espaçamento abaixo do título */
+  }
+  
+  /* Define o estilo para o parágrafo */
+  p {
+    font-size: 16px;
+    color: #666; /* Cor cinza para o texto do parágrafo */
+    text-align: center; /* Centraliza o texto do parágrafo */
+    margin-bottom: 1.5rem; /* Espaçamento abaixo do parágrafo */
+    max-width: 400px; /* Limita a largura do parágrafo para melhor legibilidade */
+  }
+  
+  /* Define o estilo para o formulário */
+  form {
+    width: 100%;
+    max-width: 400px; /* Limita a largura do formulário */
+  }
+  
+  /* Define o estilo para os itens do formulário */
+  ion-item {
+    margin-bottom: 1rem; /* Espaçamento abaixo de cada item */
+  }
+  
+  /* Define o estilo para o botão */
+  ion-button {
+    margin-top: 1rem; /* Espaçamento acima do botão */
+  }
+  
