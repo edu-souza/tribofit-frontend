@@ -30,7 +30,7 @@ export class EsqueceuSenhaComponent {
         async () => {
           this.message = 'Verifique seu e-mail para redefinir a senha.';
           await this.presentToast(this.message, 'primary');
-          this.router.navigate(['']);
+          this.router.navigate(['/atualizar-senha']);
         },
         async error => {
           this.message = 'Erro ao tentar enviar o e-mail de recuperação. Tente novamente.';
