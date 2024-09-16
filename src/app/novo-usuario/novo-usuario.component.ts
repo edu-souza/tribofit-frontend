@@ -16,10 +16,10 @@ import { AlertController, ToastController } from "@ionic/angular";
 })
 
 export class NovoUsuarioComponent implements OnInit, OnDestroy {
+  imagem: string | ArrayBuffer | null = null;
   usuariosForm: FormGroup;
-  imagem: string = ''; 
+  file: File | null = null; 
   cidades: Cidade[] = [];
-  imagemMimeType: string = '';
   private subscriptions = new Subscription();
   private EMAIL_PATTERN: RegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
@@ -57,36 +57,40 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
   onUploadImage(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.usuarioService.uploadFile(file).subscribe(response => {
-        this.imagem = response.filename; // Armazena o nome do arquivo retornado
-      }, error => {
-        console.error('Erro ao fazer upload da imagem', error);
-      });
+      this.file = file; 
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagem = reader.result; 
+      };
+      reader.readAsDataURL(file);
     }
   }
 
   onClick() {
-    if (this.usuariosForm.valid && this.imagem) {
-      const usuario: Usuario = {
-        nome: this.usuariosForm.get('nome')?.value,
-        email: this.usuariosForm.get('email')?.value,
-        cidade: this.usuariosForm.get('cidade')?.value,
-        dataNascimento: this.usuariosForm.get('dataNascimento')?.value,
-        senha: this.usuariosForm.get('senha')?.value,
-        imagem: this.imagem 
-      };
-  
-      console.log(usuario);
+    if (this.usuariosForm.valid && this.file) {
+      const formData = new FormData();
+      
+      // Adicionando os campos do formulário ao FormData
+      formData.append('nome', this.usuariosForm.get('nome')?.value);
+      formData.append('email', this.usuariosForm.get('email')?.value);
+      formData.append('cidade', this.usuariosForm.get('cidade')?.value);
+      formData.append('dataNascimento', this.usuariosForm.get('dataNascimento')?.value);
+      formData.append('senha', this.usuariosForm.get('senha')?.value);
+      formData.append('acesso', 'user');
 
-      this.usuarioService.salvar(usuario).subscribe(response => {
+      // Adicionando o arquivo de imagem ao FormData
+      formData.append('imagem', this.file, this.file.name); // Nome do arquivo é mantido
 
+      // Chamar o serviço de salvar com o formData
+      this.usuarioService.salvar(formData).subscribe(response => {
         this.showSuccessToast('Usuário salvo com sucesso!');
         this.router.navigate(['/']);
       }, error => {
         console.error('Erro ao salvar usuário', error);
         this.showErrorToast(error.error.message);
       });
-    } else if (!this.imagem) {
+    } else if (!this.file) {
       this.showErrorToast('Por favor, carregue uma imagem antes de salvar.');
     } else {
       this.showErrorToast('Por favor, preencha todos os campos com informações válidas.');
@@ -109,43 +113,10 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregaCidades();
-
   }
   
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      console.log(file);
-      this.convertFileToBase64(file);
-    }
-  }
-
-  convertFileToBase64(file: File) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      // Obtemos o resultado da leitura do arquivo
-      const result = reader.result as string;
-      // Extrai o tipo da imagem e a base64 sem o prefixo
-      const mimeTypeMatch = result.match(/^data:image\/[^;]+/);
-      const base64Data = mimeTypeMatch ? result.replace(/^data:image\/[^;]+;base64,/, '') : '';
-      const mimeType = mimeTypeMatch ? mimeTypeMatch[0] : '';
-      
-      this.imagem = base64Data;
-      this.imagemMimeType = mimeType; // Armazena o tipo da imagem
-      this.usuariosForm.patchValue({ imagem: this.imagem });
-      console.log('Base64 da imagem:', this.imagem);  // Exibe o base64 da imagem no console
-      console.log('Tipo da imagem:', this.imagemMimeType); // Exibe o tipo da imagem
-    };
-  }
-
-  getImageSrc(): string {
-    return this.imagemMimeType ? `data:${this.imagemMimeType};base64,${this.imagem}` : '';
   }
 
   private carregaCidades() {
@@ -169,36 +140,12 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
       dataNascimento: new FormControl(usuario?.dataNascimento || new Date().toISOString(), [Validators.required]),
       email: new FormControl(usuario?.email || '', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]),
       senha: new FormControl(usuario?.senha || '', [Validators.required]),
-      confirmSenha: new FormControl('', [Validators.required]), // Campo temporário para validação
-      imagem: new FormControl('')  // Adicione este campo
+      confirmSenha: new FormControl('', [Validators.required]), 
+      imagem: new FormControl('')  
     }, { validators: this.passwordMatchValidator });
   }
 
   compareFn(c1: Cidade, c2: Cidade): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
-  }
-
-  get nome() {
-    return this.usuariosForm.get('nome');
-  }
-
-  get cidade() {
-    return this.usuariosForm.get('cidade');
-  }
-
-  get dataNascto() {
-    return this.usuariosForm.get('data_nascto');
-  }
-
-  get email() {
-    return this.usuariosForm.get('email');
-  }
-
-  get senha() {
-    return this.usuariosForm.get('senha');
-  }
-
-  get confirmSenha() {
-    return this.usuariosForm.get('confirmSenha');
   }
 }

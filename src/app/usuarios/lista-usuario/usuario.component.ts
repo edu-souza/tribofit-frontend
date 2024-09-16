@@ -16,6 +16,7 @@ import { jwtDecode } from "jwt-decode";
 
 export class UsuarioComponent implements OnInit, OnDestroy {
   usuario: Usuario | null | undefined = undefined;
+  imagem: string | ArrayBuffer | null = '';
   private subscriptions = new Subscription();
 
   constructor(
@@ -60,6 +61,9 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         this.usuarioService.getUsuarioById(userData.sub).subscribe(
           (response) => {
             this.usuario = response; // Atribui o usuário retornado
+            if (this.usuario && this.usuario.imagem){
+              this.loadImagem(this.usuario.imagem);
+            }
           },
           (error) => {
             console.error('Erro ao carregar dados do usuário:', error);
@@ -72,6 +76,22 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     } else {
       console.warn('Token é nulo');
     }
+  }
+
+  private loadImagem(filename: string): void {
+    this.usuarioService.getImagem(filename).subscribe(
+      (blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.imagem = reader.result;
+        };
+        reader.readAsDataURL(blob);
+      },
+      (error) => {
+        console.error('Erro ao carregar a imagem do usuário:', error);
+        this.showErrorToast('Erro ao carregar a imagem do usuário.');
+      }
+    );
   }
 
   ngOnInit(): void {
