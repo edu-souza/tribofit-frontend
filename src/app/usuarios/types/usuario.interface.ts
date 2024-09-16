@@ -1,13 +1,12 @@
 import { Cidade } from "src/app/core/cidade.interface";
 
 export interface Usuario {
-  id?: string | null;
+  id?: string;
   nome: string;
   email: string;
-  dataNascimento: Date;
+  cidade: Cidade;
+  dataNascimento: string;
   senha: string;
-  cidade: Cidade; 
-  imagem: string;
-  acesso?: string;
-  eventos?: string[];
+  acesso: string;
+  imagem?: string; 
 }

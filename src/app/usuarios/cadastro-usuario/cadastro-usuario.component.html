@@ -9,9 +9,9 @@
       <div class="ion-padding">
 
         <div class="image">
-          <img *ngIf="imagem" [src]="getImageSrc()" alt="Imagem de perfil" class="image-preview">
+          <img *ngIf="imagem" [src]="imagem" alt="Imagem de perfil" class="image-preview">
           <ion-icon *ngIf="!imagem" name="camera-outline" class="camera-icon"></ion-icon>
-          <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+          <input type="file" (change)="onUploadImage($event)" accept="image/*" class="file-input">
         </div>
         
         <ion-item>
@@ -26,20 +26,19 @@
         
         <ion-item>
           <ion-select placeholder="Cidade" formControlName="cidade" [compareWith]="compareFn" class="input">
-            <ion-select-option *ngFor="let cidade of cidades" [value]="cidade">{{ cidade.nome }}</ion-select-option>
+            <ion-select-option *ngFor="let cidade of cidades" [value]="cidade.id">{{ cidade.nome }}</ion-select-option>
           </ion-select>
-             <ion-icon name="location-outline"></ion-icon>
+          <ion-icon name="location-outline"></ion-icon>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Data de nascimento: </ion-label>
+          <ion-label position="floating">Data de nascimento:</ion-label>
           <ion-datetime-button datetime="datetime"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime id="datetime" color="primary" formControlName="dataNascimento" display-format="DD de MMMM de YYYY" min="1930-01-01" presentation="date" showDefaultButtons="true" doneText="Selecionar" cancelText="Cancelar"></ion-datetime>
             </ng-template>
           </ion-modal>
-          
         </ion-item>
 
         <ion-item>
@@ -52,9 +51,10 @@
           <ion-icon name="lock-closed-outline"></ion-icon>
         </ion-item>
 
-        <ion-item *ngIf="usuariosForm.errors?.['mismatch'] && confirmSenha?.touched">
+        <ion-item *ngIf="usuariosForm.errors?.['mismatch'] && usuariosForm.get('confirmSenha')?.touched">
           <ion-label color="danger">As senhas não coincidem.</ion-label>
         </ion-item>
+
       </div>
 
       <ion-button (click)="salvar()" expand="block" fill="clear" shape="round" class="salvar">
@@ -65,7 +65,5 @@
       </ion-button>
 
     </form>
-
-    
   </div>
 </ion-content>

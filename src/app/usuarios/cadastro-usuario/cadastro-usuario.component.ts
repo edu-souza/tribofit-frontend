@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from "@angular/router";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Subscription } from "rxjs";
 import { ToastController } from "@ionic/angular";
 import { Cidade } from "src/app/core/cidade.interface";
@@ -11,7 +11,6 @@ import { AuthService } from "src/app/authentication/auth.service";
 import { jwtDecode } from "jwt-decode";
 import { Location } from "@angular/common";
 
-
 @Component({
   selector: 'cadastro-usuario',
   templateUrl: './cadastro-usuario.component.html',
@@ -19,11 +18,10 @@ import { Location } from "@angular/common";
 })
 
 export class CadastroUsuarioComponent implements OnInit, OnDestroy {
-  usuario: Usuario | null | undefined = undefined;
   usuariosForm: FormGroup;
-  imagem: string = ''; 
+  imagem: string | ArrayBuffer | null = null;
+  file: File | null = null; 
   cidades: Cidade[] = [];
-  imagemMimeType: string = '';
   private subscriptions = new Subscription();
   private EMAIL_PATTERN: RegExp = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
@@ -63,42 +61,52 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
   onUploadImage(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.usuarioService.uploadFile(file).subscribe(response => {
-        console.log('Arquivo enviado:', response);
-        this.imagem = response.filename; // Armazena o nome do arquivo retornado
-      }, error => {
-        console.error('Erro ao fazer upload da imagem', error);
-      });
+      this.file = file; 
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagem = reader.result; 
+      };
+      reader.readAsDataURL(file);
     }
   }
 
   salvar() {
-    if (this.usuariosForm.valid && this.imagem) {
-      const usuario: Usuario = {
-        id: this.usuario?.id,
-        nome: this.usuariosForm.get('nome')?.value,
-        email: this.usuariosForm.get('email')?.value,
-        cidade: this.usuariosForm.get('cidade')?.value,
-        dataNascimento: this.usuariosForm.get('dataNascimento')?.value,
-        senha: this.usuariosForm.get('senha')?.value ? this.usuariosForm.get('senha')?.value : this.usuario?.senha, 
-        imagem: this.imagem,
-      };
+    if (this.usuariosForm.valid) {
+      const formData = new FormData();
+      
+      // Adicionando os campos do formulário ao FormData
+      formData.append('nome', this.usuariosForm.get('nome')?.value);
+      formData.append('email', this.usuariosForm.get('email')?.value);
+      formData.append('cidade', this.usuariosForm.get('cidade')?.value);
+      formData.append('dataNascimento', this.usuariosForm.get('dataNascimento')?.value);
+      formData.append('senha', this.usuariosForm.get('senha')?.value);
+      formData.append('acesso', 'user');
+    
+      // Verifique se o ID está presente e adicione ao FormData
+      const usuarioId = this.usuariosForm.get('id')?.value;
+      if (usuarioId) {
+        formData.append('id', usuarioId); 
+      }
+    
+      // Verifica se o arquivo de imagem foi modificado
+      if (this.file) {
+        formData.append('imagem', this.file, this.file.name);
+      } else if (this.usuariosForm.get('imagem')?.value) {
+        // Adiciona o nome do arquivo da imagem existente
+        formData.append('imagem', this.usuariosForm.get('imagem')?.value);
+      }
   
-      this.usuarioService.salvar(usuario).subscribe(
-        (response) => {
-          this.showSuccessToast('Usuário salvo com sucesso!');
-          this.router.navigate(['/tabs/usuario']);
-        },
-        (error) => {
-          console.error('Erro ao salvar usuário', error);
-          this.showErrorToast(error.error.message);
-
-        }
-      );
-    } else if (!this.imagem) {
-      this.showErrorToast('Por favor, carregue uma imagem antes de salvar.');
+      // Chama o serviço de salvar com o formData
+      this.usuarioService.salvar(formData).subscribe(response => {
+        this.showSuccessToast('Usuário salvo com sucesso!');
+        this.router.navigate(['/tabs/usuario']);
+      }, error => {
+        console.error('Erro ao salvar usuário', error);
+        this.showErrorToast(error.error.message);
+      });
     } else {
-      this.showErrorToast('Por favor, preencha todos os campos com informações válidas.');
+      this.showErrorToast('Por favor, preencha todos os campos com informações válidas e carregue uma imagem antes de salvar.');
     }
   }
 
@@ -122,19 +130,37 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregaCidades();
-
+    
     const token = this.authService.getToken();
     if (token) {
       const userData = jwtDecode(token);
       if (userData && userData.sub) {
         this.usuarioService.getUsuarioById(userData.sub).subscribe(
           (response) => {
-            this.usuario = response; // Atribui o usuário retornado
-          this.usuariosForm = this.createForm(this.usuario); // Atualiza o formulário com os dados do usuário
-          if (this.usuario?.imagem) {
-            this.imagem = this.usuario.imagem; // Atualiza a imagem se existir
-            this.imagemMimeType = 'image/jpeg'; // Ajuste conforme necessário
-          }
+            if (response) { // Verificação adicional para garantir que 'response' não seja 'undefined'
+              
+
+              console.log(response);
+
+              const usuario: Usuario = {
+                id: response.id,
+                nome: response.nome,
+                email: response.email,
+                cidade: response.cidade, // Atribua o ID da cidade corretamente
+                dataNascimento: response.dataNascimento,
+                senha: '', // Deixe a senha vazia por segurança
+                acesso: response.acesso,
+                imagem: response.imagem,
+              };
+  
+              console.log(usuario)
+
+              this.usuariosForm = this.createForm(usuario); // Atualize o formulário com os dados transformados
+
+              if (response.imagem) {
+                this.loadImagem(response.imagem);
+              }
+            }
           },
           (error) => {
             console.error('Erro ao carregar dados do usuário:', error);
@@ -148,48 +174,31 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
       console.warn('Token é nulo');
     }
   }
+
+  private loadImagem(filename: string): void {
+    this.usuarioService.getImagem(filename).subscribe(
+      (blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.imagem = reader.result;
+        };
+        reader.readAsDataURL(blob);
+      },
+      (error) => {
+        console.error('Erro ao carregar a imagem do usuário:', error);
+        this.showErrorToast('Erro ao carregar a imagem do usuário.');
+      }
+    );
+  }
   
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      console.log(file);
-      this.convertFileToBase64(file);
-    }
-  }
-
-  convertFileToBase64(file: File) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      // Obtemos o resultado da leitura do arquivo
-      const result = reader.result as string;
-      // Extrai o tipo da imagem e a base64 sem o prefixo
-      const mimeTypeMatch = result.match(/^data:image\/[^;]+/);
-      const base64Data = mimeTypeMatch ? result.replace(/^data:image\/[^;]+;base64,/, '') : '';
-      const mimeType = mimeTypeMatch ? mimeTypeMatch[0] : '';
-      
-      this.imagem = base64Data;
-      this.imagemMimeType = mimeType; // Armazena o tipo da imagem
-      this.usuariosForm.patchValue({ imagem: this.imagem });
-      console.log('Base64 da imagem:', this.imagem);  // Exibe o base64 da imagem no console
-      console.log('Tipo da imagem:', this.imagemMimeType); // Exibe o tipo da imagem
-    };
-  }
-
-  getImageSrc(): string {
-    return this.imagemMimeType ? `data:${this.imagemMimeType};base64,${this.imagem}` : '';
   }
 
   private carregaCidades() {
     this.subscriptions.add(
       this.cidadeService.getCidade().subscribe(
         (response) => {
-          console.log(response);
           this.cidades = response;
         },
         (erro) => {
@@ -200,45 +209,19 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
   }
 
   private createForm(usuario?: Usuario) {
-    return new FormGroup(
-      {
-        nome: new FormControl(usuario?.nome || '', [Validators.required]),
-        cidade: new FormControl(usuario?.cidade || '', [Validators.required]),
-        dataNascimento: new FormControl(usuario?.dataNascimento || new Date().toISOString(), [Validators.required]),
-        email: new FormControl(usuario?.email || '', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]),
-        senha: new FormControl('', [Validators.required]), // Sempre inicializado vazio
-        confirmSenha: new FormControl('', [Validators.required]), // Campo para confirmação de senha
-        imagem: new FormControl(''), 
-      },
-      { validators: this.passwordMatchValidator }
-    );
+    return new FormGroup({
+      id: new FormControl(usuario?.id || ''), 
+      nome: new FormControl(usuario?.nome || '', [Validators.required]),
+      cidade: new FormControl(usuario?.cidade.id || '', [Validators.required]),
+      dataNascimento: new FormControl(usuario?.dataNascimento || new Date().toISOString(), [Validators.required]),
+      email: new FormControl(usuario?.email || '', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]),
+      senha: new FormControl('', [Validators.required]),
+      confirmSenha: new FormControl('', [Validators.required]),
+      imagem: new FormControl(''),
+    }, { validators: this.passwordMatchValidator });
   }
 
-  compareFn(c1: Cidade, c2: Cidade): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
-  }
-
-  get nome() {
-    return this.usuariosForm.get('nome');
-  }
-
-  get cidade() {
-    return this.usuariosForm.get('cidade');
-  }
-
-  get dataNascto() {
-    return this.usuariosForm.get('data_nascto');
-  }
-
-  get email() {
-    return this.usuariosForm.get('email');
-  }
-
-  get senha() {
-    return this.usuariosForm.get('senha');
-  }
-
-  get confirmSenha() {
-    return this.usuariosForm.get('confirmSenha');
+  compareFn(c1: string, c2: string): boolean {
+    return c1 === c2; // Comparando os IDs de cidade (strings)
   }
 }
