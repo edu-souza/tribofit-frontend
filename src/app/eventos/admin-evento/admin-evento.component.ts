@@ -113,7 +113,7 @@ export class AdminEventoComponent  implements OnInit {
   }
   aprovarEvento(evento: Evento) {
     const id = evento.id || '';
-    
+  
     if (evento.status_aprov === 'A') {
       this.toastController.create({
         message: `O evento ${evento.titulo} já está aprovado.`,
@@ -132,28 +132,43 @@ export class AdminEventoComponent  implements OnInit {
       return;
     }
   
-    this.eventoService.updateStatus(id, 'A').subscribe(
-      () => {
-        this.toastController.create({
-          message: `Evento ${evento.titulo} aprovado com sucesso!`,
-          duration: 3000,
-          color: 'success',
-        }).then((toast) => toast.present());
-        this.listaEventos();
-      },
-      (_erro: any) => {
-        this.toastController.create({
-          message: `Erro ao aprovar o evento ${evento.titulo}.`,
-          duration: 3000,
-          color: 'danger',
-        }).then((toast) => toast.present());
-      }
-    );
+    // Confirmação antes de aprovar
+    this.alertController.create({
+      header: 'Confirmação de Aprovação',
+      message: `Deseja aprovar o evento ${evento.titulo}?`,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.eventoService.updateStatus(id, 'A').subscribe(
+              () => {
+                this.toastController.create({
+                  message: `Evento ${evento.titulo} aprovado com sucesso!`,
+                  duration: 3000,
+                  color: 'success',
+                }).then((toast) => toast.present());
+                this.listaEventos();
+              },
+              (_erro: any) => {
+                this.toastController.create({
+                  message: `Erro ao aprovar o evento ${evento.titulo}.`,
+                  duration: 3000,
+                  color: 'danger',
+                }).then((toast) => toast.present());
+              }
+            );
+          }
+        },
+        {
+          text: 'Não',
+        }
+      ]
+    }).then((alert) => alert.present());
   }
-
+  
   reprovarEvento(evento: Evento) {
-
     const id = evento.id || '';
+  
     if (evento.status_aprov === 'R') {
       this.toastController.create({
         message: `O evento ${evento.titulo} já está reprovado.`,
@@ -172,24 +187,37 @@ export class AdminEventoComponent  implements OnInit {
       return;
     }
   
-    this.eventoService.updateStatus(id, 'R').subscribe(
-      () => {
-        this.toastController.create({
-          message: `Evento ${evento.titulo} reprovado com sucesso!`,
-          duration: 3000,
-          color: 'warning',
-        }).then((toast) => toast.present());
-        this.listaEventos();
-      },
-      (_erro: any) => {
-        this.toastController.create({
-          message: `Erro ao reprovar o evento ${evento.titulo}.`,
-          duration: 3000,
-          color: 'danger',
-        }).then((toast) => toast.present());
-      }
-    );
+    // Confirmação antes de reprovar
+    this.alertController.create({
+      header: 'Confirmação de Reprovação',
+      message: `Deseja reprovar o evento ${evento.titulo}?`,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.eventoService.updateStatus(id, 'R').subscribe(
+              () => {
+                this.toastController.create({
+                  message: `Evento ${evento.titulo} reprovado com sucesso!`,
+                  duration: 3000,
+                  color: 'warning',
+                }).then((toast) => toast.present());
+                this.listaEventos();
+              },
+              (_erro: any) => {
+                this.toastController.create({
+                  message: `Erro ao reprovar o evento ${evento.titulo}.`,
+                  duration: 3000,
+                  color: 'danger',
+                }).then((toast) => toast.present());
+              }
+            );
+          }
+        },
+        {
+          text: 'Não',
+        }
+      ]
+    }).then((alert) => alert.present());
   }
-
-
 }
