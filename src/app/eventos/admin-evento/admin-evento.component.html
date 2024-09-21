@@ -12,25 +12,25 @@
 <ion-content [fullscreen]="true">
   <div class="std-div">
     <ion-list lines="none" class="lista-evento">
-        <ion-item *ngFor="let evento of eventos" [routerLink]="['/tabs/eventos/edicao-eventos', evento.id]">
-        <div class="card-atv">
-          <div class="linha-evento">
-            <span>{{evento.titulo}}</span>
-            <ion-buttons class="ion-buttons-fab">
-              <ion-fab-button [routerLink]="['/tabs/eventos/edicao-eventos',evento.id]">
-                <ion-icon name="create-outline"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-button (click)="confirmarExclusao(evento)">
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-fab-button>
-              <ion-chip [color]="getChipColor(evento.status_aprov)">
-                {{ getChipText(evento.status_aprov) }}
-              </ion-chip>
-            </ion-buttons>
-          </div>
+      <ion-item *ngFor="let evento of eventos" class="evento-item" detail="false">
+        <div class="linha-evento" [routerLink]="['/tabs/eventos/edicao-eventos', evento.id]">
+          <span class="titulo-evento">{{ evento.titulo }}</span>
+          <ion-chip [color]="getChipColor(evento.status_aprov)">
+            {{ getChipText(evento.status_aprov) }}
+          </ion-chip>
+        </div>
+        <div class="action-buttons">
+          <ion-fab-button (click)="confirmarExclusao(evento); $event.stopPropagation()" class="icon-button" size="small">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-fab-button>
+          <ion-button color="success" (click)="aprovarEvento(evento); $event.stopPropagation()" class="icon-button" size="small">
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" (click)="reprovarEvento(evento); $event.stopPropagation()" class="icon-button" size="small">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
         </div>
       </ion-item>
-
     </ion-list>
   </div>
 
@@ -39,5 +39,4 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>

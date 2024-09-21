@@ -111,6 +111,85 @@ export class AdminEventoComponent  implements OnInit {
         return 'Desconhecido';
     }
   }
+  aprovarEvento(evento: Evento) {
+    const id = evento.id || '';
+    
+    if (evento.status_aprov === 'A') {
+      this.toastController.create({
+        message: `O evento ${evento.titulo} já está aprovado.`,
+        duration: 3000,
+        color: 'warning',
+      }).then((toast) => toast.present());
+      return;
+    }
+  
+    if (evento.status_aprov === 'R') {
+      this.toastController.create({
+        message: `O evento ${evento.titulo} foi reprovado anteriormente. Não é possível aprovar agora.`,
+        duration: 3000,
+        color: 'warning',
+      }).then((toast) => toast.present());
+      return;
+    }
+  
+    this.eventoService.updateStatus(id, 'A').subscribe(
+      () => {
+        this.toastController.create({
+          message: `Evento ${evento.titulo} aprovado com sucesso!`,
+          duration: 3000,
+          color: 'success',
+        }).then((toast) => toast.present());
+        this.listaEventos();
+      },
+      (_erro: any) => {
+        this.toastController.create({
+          message: `Erro ao aprovar o evento ${evento.titulo}.`,
+          duration: 3000,
+          color: 'danger',
+        }).then((toast) => toast.present());
+      }
+    );
+  }
+
+  reprovarEvento(evento: Evento) {
+
+    const id = evento.id || '';
+    if (evento.status_aprov === 'R') {
+      this.toastController.create({
+        message: `O evento ${evento.titulo} já está reprovado.`,
+        duration: 3000,
+        color: 'warning',
+      }).then((toast) => toast.present());
+      return;
+    }
+  
+    if (evento.status_aprov === 'A') {
+      this.toastController.create({
+        message: `O evento ${evento.titulo} foi aprovado anteriormente. Não é possível reprovar agora.`,
+        duration: 3000,
+        color: 'warning',
+      }).then((toast) => toast.present());
+      return;
+    }
+  
+    this.eventoService.updateStatus(id, 'R').subscribe(
+      () => {
+        this.toastController.create({
+          message: `Evento ${evento.titulo} reprovado com sucesso!`,
+          duration: 3000,
+          color: 'warning',
+        }).then((toast) => toast.present());
+        this.listaEventos();
+      },
+      (_erro: any) => {
+        this.toastController.create({
+          message: `Erro ao reprovar o evento ${evento.titulo}.`,
+          duration: 3000,
+          color: 'danger',
+        }).then((toast) => toast.present());
+      }
+    );
+  }
 
 
 }
