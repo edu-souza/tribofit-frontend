@@ -65,4 +65,9 @@ export class EventoService {
       return this.addEvento(evento);
     }
   }
+
+  updateStatus(id: string, status: string): Observable<Evento> {
+    return this.httpClient.put<Evento>(`${this.url}/${id}/status`, { status });
+  }
+  
 }

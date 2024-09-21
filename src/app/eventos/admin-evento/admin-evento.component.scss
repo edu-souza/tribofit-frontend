@@ -1,0 +1,40 @@
+.std-div {
+    padding: 16px; /* Espaçamento interno */
+}
+
+.lista-evento {
+    margin-top: 0; /* Remove o espaço superior */
+}
+
+.evento-item {
+    margin-bottom: 10px; /* Espaçamento entre os itens */
+    background-color: #fff; /* Cor de fundo branca */
+    border: 1px solid #ccc; /* Adiciona borda aos itens */
+    border-radius: 4px; /* Bordas levemente arredondadas */
+    padding: 10px; /* Espaçamento interno */
+    display: flex;
+    flex-direction: column; /* Organiza os itens em coluna */
+}
+
+.linha-evento {
+    display: block; /* Garante que o título ocupe uma linha inteira */
+    margin-bottom: 8px; /* Espaço abaixo do título */
+}
+
+.titulo-evento {
+    font-weight: bold; /* Negrito para destaque */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+.action-buttons {
+    display: flex; /* Mantém os botões em linha */
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    align-items: center; /* Garante que os botões fiquem centralizados verticalmente */
+    gap: 8px; /* Espaço entre os botões */
+}
+
+.icon-button {
+    --size: 30px; /* Tamanho reduzido para os botões */
+    display: flex;
+    align-items: center; /* Alinha os ícones ao centro verticalmente */
+}
