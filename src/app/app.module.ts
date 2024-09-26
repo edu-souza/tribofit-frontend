@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModalidadesModule } from './modalidades/modalidades.module';
 import { TokenInterceptor } from './authentication/auth.interceptor';
 import { NovoUsuarioModule } from './novo-usuario/novo-usuario.module';
+import { NotificacaoModule } from './notificacoes/notificacao.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { NovoUsuarioModule } from './novo-usuario/novo-usuario.module';
     HttpClientModule,
     ModalidadesModule,
     NovoUsuarioModule,
+    NotificacaoModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
               { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true } 

@@ -1,0 +1,62 @@
+.notificacoes-background {
+  --background: #f0f0f0; /* Fundo cinza do conteúdo */
+  height: 100%;
+  padding: 0;
+}
+
+.notificacoes-list {
+  background-color: #f0f0f0; /* Fundo cinza da lista */
+  padding: 10px;
+}
+
+.notificacao-wrapper {
+  background-color: #f0f0f0; /* Fundo cinza da lista */
+  padding: 2px;
+}
+
+.notificacao-balao {
+  background-color: white; 
+  border-radius: 10px;
+  padding: 10px; /* Espaçamento dentro do balão */
+  height: auto; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ion-item {
+  --background: none !important;
+}
+
+.notificacao-denied {
+  border-left: 5px solid red; 
+}
+
+.notificacao-accept {
+  border-left: 5px solid green; 
+}
+
+.notificacao-text h2 {
+  font-size: 14px; /* Ajuste o tamanho conforme necessário */
+  margin: 0; /* Remove margem padrão */
+}
+
+.notificacao-text p {
+  font-size: 12px; /* Ajuste o tamanho conforme necessário */
+  margin: 0; /* Remove margem padrão */
+}
+
+/* Quando a notificação for lida */
+.notificacao-lida {
+  background-color: #f0f0f0; /* Azul para notificações lidas */
+  font-weight: bold;
+}
+
+.notificacao-lida .notificacao-balao {
+  background-color: white; 
+}
+
+/* Estilo para o label de notificações lidas */
+.notificacao-lida .notificacao-text {
+  background-color: #f0f0f0; /* Remover qualquer fundo branco */
+  font-weight: bold;
+}
+

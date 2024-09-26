@@ -1,0 +1,45 @@
+<app-menu-lateral 
+  side="end" 
+  menuId="notificacoes-menu" 
+  contentId="notificacoes" 
+  [qtdEventosPend]="qtdEventosPend">
+</app-menu-lateral>
+
+<ion-header [translucent]="true" id="notificacoes">
+  <ion-toolbar>
+    <div class="titulo-page">
+      <ion-icon name="grid"></ion-icon>
+      <ion-title>Notificações</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="notificacoes-menu"></ion-menu-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="notificacoes-background" id="content-notificacao">
+  <div *ngIf="notificacoes.length > 0; else semNotificacoes">
+    <ion-list class="notificacoes-list">
+      <div class="notificacao-wrapper" *ngFor="let notificacao of notificacoes">
+        <ion-item 
+          (click)="marcarLido(notificacao)"
+          [ngClass]="{
+          'notificacao-denied': notificacao.tipo === 'denied',
+          'notificacao-accept': notificacao.tipo === 'accept',
+          'notificacao-lida': notificacao.lido
+        }" class="notificacao-balao">
+          <ion-label class="notificacao-text">
+            <h2>{{ notificacao.descricao }}</h2>
+            <p>Data: {{ notificacao.data | date:'short' }}</p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+
+  <ng-template #semNotificacoes>
+    <ion-text color="medium">
+      <p>Você não tem notificações no momento.</p>
+    </ion-text>
+  </ng-template>
+</ion-content>

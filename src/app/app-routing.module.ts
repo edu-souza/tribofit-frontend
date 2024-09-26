@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NovoUsuarioComponent } from './novo-usuario/novo-usuario.component';
 import { LogoutComponent } from './logout/logout.component';
+import { NotificacaoComponent } from './notificacoes/notificacao.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   { path: 'logout', 
     component: LogoutComponent 
+  },
+  { path: 'notificacoes', 
+    component: NotificacaoComponent 
   },
 ];
 @NgModule({
