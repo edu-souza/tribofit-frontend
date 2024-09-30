@@ -65,7 +65,9 @@ export class NotificacaoComponent implements OnInit, OnDestroy {
                 if (this.usuario?.id) {
                   this.notificacaoService.getNotificacaoByUser(this.usuario.id).subscribe(
                     (response) => {
-                      this.notificacoes = response || [];
+                      this.notificacoes = (response || []).sort(
+                        (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime()
+                      );
                       console.log(this.notificacoes);
                     },
                     (error) => {
