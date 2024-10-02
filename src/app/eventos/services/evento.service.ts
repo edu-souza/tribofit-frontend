@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Evento } from "../types/evento.interface";
+import { EventoUsuario } from "../types/evento_usuario.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,15 @@ export class EventoService {
       console.log(evento)
       return this.addEvento(evento);
     }
+  }
+
+  updateStatusAprovacao(id: string, status: string): Observable<Evento> {
+    return this.httpClient.put<Evento>(`${this.url}/${id}/status-aprovacao`, { status });
+  }
+
+  updateStatusAprovacaoParticipante(idEventoUsuario: string, status: string): Observable<EventoUsuario> {
+    console.log('teste 4');
+    return this.httpClient.put<EventoUsuario>(`${this.url}/${idEventoUsuario}/status-aprovacao-participante`, { status });
   }
 
   updateStatus(id: string, status: string): Observable<Evento> {

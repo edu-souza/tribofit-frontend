@@ -33,9 +33,9 @@ export class EsqueceuSenhaComponent {
           this.router.navigate(['/atualizar-senha']);
         },
         async error => {
-          this.message = 'Erro ao tentar enviar o e-mail de recuperação. Tente novamente.';
-          await this.presentToast(this.message, 'danger');
-          console.error('Erro:', error);
+          this.message = 'Verifique seu e-mail para redefinir a senha.';
+          await this.presentToast(this.message, 'primary');
+          this.router.navigate(['/atualizar-senha']);
         }
       );
     }
@@ -44,7 +44,7 @@ export class EsqueceuSenhaComponent {
   async presentToast(message: string, color: string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000,
+      duration: 3000,
       color: color
     });
     toast.present();

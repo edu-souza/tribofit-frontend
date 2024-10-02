@@ -52,6 +52,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     shadowUrl: 'assets/icon/marker-shadow.png',
     shadowSize: [41, 41]
   });
+  evento = this.eventoService.getEventoById(this.eventoId).toPromise();
 
   constructor(
     private toastController: ToastController,
@@ -70,6 +71,8 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     this.usuarioLogado = this.authService.getUsuarioLogado()
     this.isAdmin = this.usuarioLogado.acesso == 'admin' ? true : false;
     this.isAnfitriao = true;
+
+    
   }
 
   ngOnInit() {
@@ -265,6 +268,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
   }
   private createForm(evento?: Evento) {
     const form = new FormGroup({
+      id: new FormControl(evento?.id || ''),
       titulo: new FormControl(evento?.titulo || '', Validators.required),
       descricao: new FormControl(evento?.descricao || '', Validators.required),
       tipo: new FormControl(evento?.tipo || '', Validators.required),
@@ -327,6 +331,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
 
   private setFormValues(evento: Evento) {
     this.eventosForm.patchValue({
+      id: evento.id,
       titulo: evento.titulo,
       descricao: evento.descricao,
       tipo: evento.tipo,
@@ -494,12 +499,15 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
 
   adicionarParticipante(participante: EventoUsuario) {
     const existente = this.participantesSelecionados.find(p => p.usuario === participante.usuario);
+    const eventoUsuarioId = participante.id;
+
+    console.log('teste 1');
+    
     
     if (!existente) {
       participante.statusParticipante = 'A';
+      console.log('teste 2');
       this.participantesSelecionados.push(participante);
-
-    } else {
       existente.statusParticipante = 'A';
 
       //Adiciona notificação se o usuário for aceito
@@ -639,5 +647,43 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     return this.eventosForm.get('imagem');
   }
 
+  onCancel(){
+    this.router.navigate(['tabs/eventos'])    
+  }
 
+  cancelarEvento(evento: Evento) {
+    const id = evento.id || '';;
+  
+    this.alertController.create({
+      header: 'Confirmação de cancelamento',
+      message: `Deseja cancelar o evento ${evento.titulo}?`,
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+            this.eventoService.updateStatus(id, 'C').subscribe(
+              () => {
+                this.toastController.create({
+                  message: `Evento ${evento.titulo} cancelado com sucesso!`,
+                  duration: 3000,
+                  color: 'warning',
+                }).then((toast) => toast.present());
+                this.router.navigate(['tabs/eventos']);
+              },
+              (_erro: any) => {
+                this.toastController.create({
+                  message: `Erro ao cancelar o evento ${evento.titulo}.`,
+                  duration: 3000,
+                  color: 'danger',
+                }).then((toast) => toast.present());
+              }
+            );
+          }
+        },
+        {
+          text: 'Não',
+        }
+      ]
+    }).then((alert) => alert.present());
+  }
 }
