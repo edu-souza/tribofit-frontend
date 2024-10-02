@@ -1,7 +1,7 @@
 import { Cidade } from "src/app/core/cidade.interface";
 
 export interface Usuario {
-  id?: string;
+  id?: string | null;
   nome: string;
   email: string;
   cidade: Cidade;

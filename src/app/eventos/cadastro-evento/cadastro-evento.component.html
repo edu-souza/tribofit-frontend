@@ -311,11 +311,25 @@
     
     
   </div>
-
-  <div *ngIf="isAnfitriao" class="fab">
-    <ion-fab-button (click)="saveEvento('1')" [disabled]="eventosForm.invalid">
-      <ion-icon name="checkmark-circle"></ion-icon>
-    </ion-fab-button>
+  
+  <div *ngIf="isAnfitriao" class="fab-container" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="fab" style="flex: 1;">
+      <ion-fab-button (click)="cancelarEvento(eventosForm.value)" color="danger" 
+        [disabled]="eventosForm.invalid || inclusao" 
+        class="rounded-button" style="margin-right: 10px;">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-fab-button>
+    </div>
+    
+    <div *ngIf="isAnfitriao" class="fab" style="display: flex; justify-content: flex-end;">
+      <ion-fab-button (click)="onCancel()" [disabled]="eventosForm.invalid" class="rounded-button" style="margin-right: 10px;">
+        <ion-icon name="arrow-back-circle-outline"></ion-icon>
+      </ion-fab-button>
+      
+      <ion-fab-button (click)="saveEvento('1')" [disabled]="eventosForm.invalid" class="rounded-button">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </ion-fab-button>
+    </div>
   </div>
 
   <div *ngIf="!isAnfitriao" class="fab">
@@ -323,5 +337,6 @@
       <ion-icon name="arrow-back-circle-outline"></ion-icon>
     </ion-fab-button>
   </div>
-
-</ion-content>
+  
+  </ion-content>
+  

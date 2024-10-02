@@ -140,7 +140,7 @@ export class AdminEventoComponent  implements OnInit {
         {
           text: 'Sim',
           handler: () => {
-            this.eventoService.updateStatus(id, 'A').subscribe(
+            this.eventoService.updateStatusAprovacao(id, 'A').subscribe(
               () => {
                 this.toastController.create({
                   message: `Evento ${evento.titulo} aprovado com sucesso!`,
@@ -195,7 +195,7 @@ export class AdminEventoComponent  implements OnInit {
         {
           text: 'Sim',
           handler: () => {
-            this.eventoService.updateStatus(id, 'R').subscribe(
+            this.eventoService.updateStatusAprovacao(id, 'R').subscribe(
               () => {
                 this.toastController.create({
                   message: `Evento ${evento.titulo} reprovado com sucesso!`,
