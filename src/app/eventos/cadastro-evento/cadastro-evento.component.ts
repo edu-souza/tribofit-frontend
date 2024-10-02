@@ -17,6 +17,8 @@ import { AuthService } from 'src/app/authentication/auth.service';
 import { EventoUsuario } from '../types/evento_usuario.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.services';
+import { NotificacoesService } from 'src/app/notificacoes/services/notificacao.service';
+import { Notificacao } from 'src/app/notificacoes/types/notificacao.interface';
 
 @Component({
   selector: 'cadastro-evento',
@@ -62,7 +64,8 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     private modalidadeService: ModalidadesService,
     private geocodingService: GeocodingService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificacaoService: NotificacoesService
   ) {
     this.eventosForm = this.createForm();
     this.usuarioLogado = this.authService.getUsuarioLogado()
@@ -505,20 +508,22 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
       participante.statusParticipante = 'A';
       console.log('teste 2');
       this.participantesSelecionados.push(participante);
-      if (eventoUsuarioId) { // Verifica se o id não é null ou undefined
-        this.eventoService.updateStatusAprovacaoParticipante(eventoUsuarioId, participante.statusParticipante);
-      } else {
-        console.error('ID do participante é inválido');
-      }
-    } else {
-      console.log('teste 2');
-      if (eventoUsuarioId) { // Verifica se o id não é null ou undefined
-        console.log('teste 3');
-        this.eventoService.updateStatusAprovacaoParticipante(eventoUsuarioId, participante.statusParticipante);
-      } else {
-        console.error('ID do participante é inválido');
-      }
       existente.statusParticipante = 'A';
+
+      //Adiciona notificação se o usuário for aceito
+      const notificacao: Notificacao = {
+        descricao: 'Sua participação no evento "'+participante.evento.titulo+'" foi aprovada!',
+        tipo: 'accept',
+        data: new Date(),
+        lido: false,
+        usuario: participante.usuario
+      };
+      this.notificacaoService.salvar(notificacao).subscribe({
+        next: (response) => console.log('Notificação salva com sucesso', response),
+        error: (error) => console.error('Erro ao salvar notificação', error)
+      });
+
+      console.log(notificacao)
     }
     console.log(this.participantesSelecionados);
     this.resetSlidingItem();
@@ -530,6 +535,21 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     if (participanteExistente) {
       // Atualiza o status para 'R' se o participante já estiver na lista
       participanteExistente.statusParticipante = 'R';
+
+      //Adiciona notificação se o usuário for reprovado
+      const notificacao: Notificacao = {
+        descricao: 'Sua participação no evento "'+participante.evento.titulo+'" foi recusada!',
+        tipo: 'denied',
+        data: new Date(),
+        lido: false,
+        usuario: participante.usuario
+      };
+      this.notificacaoService.salvar(notificacao).subscribe({
+        next: (response) => console.log('Notificação salva com sucesso', response),
+        error: (error) => console.error('Erro ao salvar notificação', error)
+      });
+      console.log(notificacao)
+
     } else {
       // Se o participante não existir, adiciona-o com o status 'R'
       participante.statusParticipante = 'R';

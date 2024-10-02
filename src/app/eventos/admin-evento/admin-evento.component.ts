@@ -3,6 +3,9 @@ import { Evento } from '../types/evento.interface';
 import { EventoService } from '../services/evento.service';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Notificacao } from 'src/app/notificacoes/types/notificacao.interface';
+import { NotificacoesService } from 'src/app/notificacoes/services/notificacao.service';
+import { UsuariosService } from 'src/app/usuarios/services/usuarios.services';
 
 @Component({
   selector: 'app-admin-evento',
@@ -19,7 +22,10 @@ export class AdminEventoComponent  implements OnInit {
 
   constructor(private eventoService: EventoService,
     private alertController: AlertController,
-    private toastController: ToastController) { }
+    private toastController: ToastController,
+    private notificacaoService: NotificacoesService,
+    private usuarioService: UsuariosService
+  ) { }
 
   ngOnInit() {
     this.listaEventos()
@@ -142,14 +148,68 @@ export class AdminEventoComponent  implements OnInit {
           handler: () => {
             this.eventoService.updateStatusAprovacao(id, 'A').subscribe(
               () => {
+                // Exibe toast de sucesso
                 this.toastController.create({
                   message: `Evento ${evento.titulo} aprovado com sucesso!`,
                   duration: 3000,
                   color: 'success',
                 }).then((toast) => toast.present());
+  
+                // Obtenção do usuário e criação da notificação após o status ser atualizado
+                this.usuarioService.getUsuarioById(evento.admin).subscribe(
+                  (responseUsuario) => {
+                    if (responseUsuario) { // Verificação se o usuário não é undefined
+                      const notificacao: Notificacao = {
+                        descricao: `Seu evento "${evento.titulo}" foi aprovado!`,
+                        tipo: 'accept',
+                        data: new Date(),
+                        lido: false,
+                        usuario: responseUsuario // Associa o usuário retornado à notificação
+                      };
+                
+                      // Salvar a notificação
+                      this.notificacaoService.salvar(notificacao).subscribe({
+                        next: (response) => {
+                          console.log('Notificação salva com sucesso', response);
+                          this.toastController.create({
+                            message: 'Notificação enviada ao administrador.',
+                            duration: 3000,
+                            color: 'success',
+                          }).then((toast) => toast.present());
+                        },
+                        error: (error) => {
+                          console.error('Erro ao salvar notificação', error);
+                          this.toastController.create({
+                            message: 'Erro ao enviar a notificação.',
+                            duration: 3000,
+                            color: 'danger',
+                          }).then((toast) => toast.present());
+                        }
+                      });
+                    } else {
+                      console.error('Usuário não encontrado');
+                      this.toastController.create({
+                        message: 'Erro: Usuário não encontrado.',
+                        duration: 3000,
+                        color: 'danger',
+                      }).then((toast) => toast.present());
+                    }
+                  },
+                  (error) => {
+                    console.error('Erro ao obter dados do usuário', error);
+                    this.toastController.create({
+                      message: 'Erro ao obter dados do administrador.',
+                      duration: 3000,
+                      color: 'danger',
+                    }).then((toast) => toast.present());
+                  }
+                );
+  
+                // Atualiza a lista de eventos após a aprovação
                 this.listaEventos();
               },
               (_erro: any) => {
+                // Exibe toast de erro se a aprovação falhar
                 this.toastController.create({
                   message: `Erro ao aprovar o evento ${evento.titulo}.`,
                   duration: 3000,
@@ -202,6 +262,57 @@ export class AdminEventoComponent  implements OnInit {
                   duration: 3000,
                   color: 'warning',
                 }).then((toast) => toast.present());
+
+                // Obtenção do usuário e criação da notificação após o status ser atualizado
+                this.usuarioService.getUsuarioById(evento.admin).subscribe(
+                  (responseUsuario) => {
+                    if (responseUsuario) { // Verificação se o usuário não é undefined
+                      const notificacao: Notificacao = {
+                        descricao: `Seu evento "${evento.titulo}" foi reprovado!`,
+                        tipo: 'denied',
+                        data: new Date(),
+                        lido: false,
+                        usuario: responseUsuario // Associa o usuário retornado à notificação
+                      };
+                
+                      // Salvar a notificação
+                      this.notificacaoService.salvar(notificacao).subscribe({
+                        next: (response) => {
+                          console.log('Notificação salva com sucesso', response);
+                          this.toastController.create({
+                            message: 'Notificação enviada ao administrador.',
+                            duration: 3000,
+                            color: 'success',
+                          }).then((toast) => toast.present());
+                        },
+                        error: (error) => {
+                          console.error('Erro ao salvar notificação', error);
+                          this.toastController.create({
+                            message: 'Erro ao enviar a notificação.',
+                            duration: 3000,
+                            color: 'danger',
+                          }).then((toast) => toast.present());
+                        }
+                      });
+                    } else {
+                      console.error('Usuário não encontrado');
+                      this.toastController.create({
+                        message: 'Erro: Usuário não encontrado.',
+                        duration: 3000,
+                        color: 'danger',
+                      }).then((toast) => toast.present());
+                    }
+                  },
+                  (error) => {
+                    console.error('Erro ao obter dados do usuário', error);
+                    this.toastController.create({
+                      message: 'Erro ao obter dados do administrador.',
+                      duration: 3000,
+                      color: 'danger',
+                    }).then((toast) => toast.present());
+                  }
+                );
+
                 this.listaEventos();
               },
               (_erro: any) => {

@@ -1,5 +1,6 @@
 export const  menus = [
-  { title: 'Solicitações pendentes', url: '/tabs/solicitacoes-pendentes', icon: 'notifications',acesso: 'user'},
+  { title: 'Notificações', url: '/tabs/notificacoes', icon: 'notifications',acesso: 'user'  },
+  { title: 'Solicitações pendentes', url: '/tabs/solicitacoes-pendentes', icon: 'mail',acesso: 'user'},
   { title: 'Configurações', url: '/eventos', icon: 'cog',acesso: 'user' },
   { title: 'Usuários(Admin)', url: '/tabs/usuarios', icon: 'people',acesso: 'admin' },
   { title: 'Modalidades(Admin)', url: '/tabs/modalidades', icon: 'trophy',acesso: 'admin' },

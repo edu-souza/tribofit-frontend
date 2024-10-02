@@ -5,6 +5,7 @@ import { MeusEventosComponent } from '../eventos/meus-eventos/meus-eventos.compo
 import { AdminEventoComponent } from '../eventos/admin-evento/admin-evento.component';
 import { SolicitacoesPendentesComponent } from '../eventos/solicitacoes-pendentes/solicitacoes-pendentes.component';
 import { UsuarioComponent } from '../usuarios/lista-usuario/usuario.component';
+import { NotificacaoComponent } from '../notificacoes/notificacao.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,11 @@ const routes: Routes = [
       {
         path: 'modalidades',
         loadChildren: () => import('../modalidades/modalidades.module').then(m => m.ModalidadesModule)
+      },
+      {
+        path: 'notificacoes',
+        component: NotificacaoComponent,
+        loadChildren: () => import('../notificacoes/notificacao.module').then(m => m.NotificacaoModule)
       },
       {
         path: 'meus-eventos',
