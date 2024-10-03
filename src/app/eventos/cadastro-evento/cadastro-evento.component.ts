@@ -547,7 +547,7 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
       participante.statusParticipante = 'A';
       console.log('teste 2');
       this.participantesSelecionados.push(participante);
-      existente.statusParticipante = 'A';
+      //existente.statusParticipante = 'A';
 
       //Adiciona notificação se o usuário for aceito
       const notificacao: Notificacao = {

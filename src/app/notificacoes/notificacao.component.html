@@ -1,17 +1,10 @@
-<app-menu-lateral 
-  side="end" 
-  menuId="notificacoes-menu" 
-  contentId="notificacoes" 
-  [qtdEventosPend]="qtdEventosPend">
-</app-menu-lateral>
-
 <ion-header [translucent]="true" id="notificacoes">
   <ion-toolbar>
     <div class="titulo-page">
       <ion-icon name="grid"></ion-icon>
       <ion-title>Notificações</ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button menu="notificacoes-menu"></ion-menu-button>
+        <ion-menu-button menu="side-menu"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
