@@ -10,6 +10,7 @@ import { Usuario } from "../types/usuario.interface";
 import { AuthService } from "src/app/authentication/auth.service";
 import { jwtDecode } from "jwt-decode";
 import { Location } from "@angular/common";
+import { ComunicacaoService } from "../services/comunicacao.service";
 
 @Component({
   selector: 'cadastro-usuario',
@@ -32,6 +33,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
     private toastController: ToastController,
     private authService: AuthService,
     private location: Location,
+    private comunicacaoService: ComunicacaoService
   ){
     this.usuariosForm = this.createForm();
   }
@@ -96,10 +98,10 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
         // Adiciona o nome do arquivo da imagem existente
         formData.append('imagem', this.usuariosForm.get('imagem')?.value);
       }
-  
       // Chama o serviço de salvar com o formData
       this.usuarioService.salvar(formData).subscribe(response => {
         this.showSuccessToast('Usuário salvo com sucesso!');
+        this.comunicacaoService.emitirAtualizacaoImagem(this.imagem?.toString() || '');
         this.router.navigate(['/tabs/usuario']);
       }, error => {
         console.error('Erro ao salvar usuário', error);
@@ -138,9 +140,6 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
         this.usuarioService.getUsuarioById(userData.sub).subscribe(
           (response) => {
             if (response) { // Verificação adicional para garantir que 'response' não seja 'undefined'
-              
-
-              console.log(response);
 
               const usuario: Usuario = {
                 id: response.id,
@@ -153,8 +152,6 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
                 imagem: response.imagem,
               };
   
-              console.log(usuario)
-
               this.usuariosForm = this.createForm(usuario); // Atualize o formulário com os dados transformados
 
               if (response.imagem) {
@@ -185,7 +182,7 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(blob);
       },
       (error) => {
-        console.error('Erro ao carregar a imagem do usuário:', error);
+        console.error('Erro ao carregar a imagem do usuário 3:', error);
         this.showErrorToast('Erro ao carregar a imagem do usuário.');
       }
     );
@@ -212,7 +209,8 @@ export class CadastroUsuarioComponent implements OnInit, OnDestroy {
     return new FormGroup({
       id: new FormControl(usuario?.id || ''), 
       nome: new FormControl(usuario?.nome || '', [Validators.required]),
-      cidade: new FormControl(usuario?.cidade.id || '', [Validators.required]),
+//      cidade: new FormControl(usuario?.cidade.id || '', [Validators.required]),
+      cidade: new FormControl(usuario?.cidade?.id || '', [Validators.required]),
       dataNascimento: new FormControl(usuario?.dataNascimento || new Date().toISOString(), [Validators.required]),
       email: new FormControl(usuario?.email || '', [Validators.required, Validators.pattern(this.EMAIL_PATTERN)]),
       senha: new FormControl('', [Validators.required]),

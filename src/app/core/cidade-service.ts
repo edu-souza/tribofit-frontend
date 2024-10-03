@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Cidade } from "./cidade.interface";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Cidade } from "./cidade.interface";
 
 export class CidadesService {
 
-  private url = 'http://localhost:3000/cidades/';
+  private url = `${environment.apiUrl}/cidades/`;
 
   constructor(private httpClient: HttpClient) { }
 

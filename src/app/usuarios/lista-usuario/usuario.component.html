@@ -6,6 +6,9 @@
       <ion-title>
         Perfil
       </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="side-menu"></ion-menu-button>
+      </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -20,5 +23,5 @@
       <ion-label class="profile-email">{{ usuario?.email || 'Email do Usuário' }}</ion-label>
     </div>
   </div>
-  <ion-button class="edit-profile-button" expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
+  <ion-button expand="full" (click)="editarPerfil()">Editar Perfil</ion-button>
 </ion-content>

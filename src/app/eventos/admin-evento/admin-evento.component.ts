@@ -31,6 +31,13 @@ export class AdminEventoComponent  implements OnInit {
     this.listaEventos()
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.listaEventos()
+      event.target.complete();
+    }, 2000);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

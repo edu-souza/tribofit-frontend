@@ -26,13 +26,18 @@ export class SolicitacoesPendentesComponent  implements OnInit {
     this.listaSolicitacoes();
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.listaSolicitacoes();
+      event.target.complete();
+    }, 2000);
+  }
 
   listaSolicitacoes() {
     this.subscriptions.add(
       this.eventoService.getSolicitacoesPendentes(this.usuarioLogado.sub).subscribe(
         (dados) => {
           this.solicitacoes = dados;
-          console.log(this.solicitacoes);
         },
         (erro) => {
           console.error(erro);

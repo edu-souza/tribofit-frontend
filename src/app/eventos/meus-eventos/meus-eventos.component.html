@@ -1,10 +1,3 @@
-<app-menu-lateral 
-  side="end" 
-  menuId="meus-eventos-menu" 
-  contentId="meus" 
-  [qtdEventosPend]="0">
-</app-menu-lateral>
-
 <ion-header [translucent]="true" id="meus">
   <ion-toolbar>
     <div class="titulo-page">
@@ -13,7 +6,7 @@
         Meus eventos
       </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button menu="meus-eventos-menu"></ion-menu-button>
+        <ion-menu-button menu="side-menu"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
@@ -21,36 +14,51 @@
 
 <ion-content class="bg" [fullscreen]="true" id="content-meus">
   <div class="std-div">
+
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" [pullMin]="100" [pullMax]="300">
+      <ion-refresher-content
+        refreshingSpinner="crescent"
+        refreshingText="Atualizando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+
     <ion-searchbar placeholder="Pesquisar por nome" (ionInput)="handleInput($event)" class="search"></ion-searchbar>
     <div class="filtros">
       <span>Filtrar: </span>
       <ion-chip 
-  [ngClass]="{ 'chip-active': isFilterActive('cancelado') }"
-  (click)="toggleFilter('cancelado')"
-  color="danger">
-  Cancelado
-</ion-chip>
-<ion-chip 
-  [ngClass]="{ 'chip-active': isFilterActive('anfitriao') }"
-  (click)="toggleFilter('anfitriao')"
-  color="secondary">
-  Anfitrião
-</ion-chip>
-<ion-chip 
-  [ngClass]="{ 'chip-active': isFilterActive('finalizado') }"
-  (click)="toggleFilter('finalizado')"
-  color="dark">
-  Finalizado
-</ion-chip>
-<ion-chip 
-  (click)="clearFilters()"
-  color="medium">
-  Limpar
-</ion-chip>
+        [ngClass]="{ 'chip-active': isFilterActive('reprovado') }"
+        (click)="toggleFilter('reprovado')"
+        color="danger">
+        Reprovado
+      </ion-chip>
+      <ion-chip 
+        [ngClass]="{ 'chip-active': isFilterActive('anfitriao') }"
+        (click)="toggleFilter('anfitriao')"
+        color="secondary">
+        Anfitrião
+      </ion-chip>
+      <ion-chip 
+        [ngClass]="{ 'chip-active': isFilterActive('pendente') }"
+        (click)="toggleFilter('pendente')"
+        color="warning">
+        Pendente
+      </ion-chip>
+      <ion-chip 
+        [ngClass]="{ 'chip-active': isFilterActive('participando') }"
+        (click)="toggleFilter('participando')"
+        color="success">
+        Participando
+      </ion-chip>
+      <ion-chip 
+        (click)="clearFilters()"
+        color="medium">
+        Limpar
+      </ion-chip>
     </div>
 
     <ion-list lines="none" class="lista-evento">
-      <ion-item *ngFor="let evento of eventos" [routerLink]="['edicao-eventos', evento.id]">
+      <ion-item *ngFor="let evento of eventos" [routerLink]="['/tabs/eventos/edicao-eventos',evento.id]">
         <div class="card-atv">
           <div class="linha-meus-eventos">
             <ion-icon [src]="'assets/' + evento.modalidade.icone"></ion-icon>

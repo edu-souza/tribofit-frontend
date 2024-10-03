@@ -31,6 +31,13 @@ export class MeusEventosComponent implements OnInit, OnDestroy {
     this.listaMeusEventos();
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.listaMeusEventos();
+      event.target.complete();
+    }, 2000);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
@@ -67,11 +74,8 @@ export class MeusEventosComponent implements OnInit, OnDestroy {
   }
 
   toggleFilter(filter: string) {
-    if (this.filtrosAtivos.has(filter)) {
-      this.filtrosAtivos.delete(filter);
-    } else {
-      this.filtrosAtivos.add(filter);
-    }
+    this.filtrosAtivos.clear(); 
+    this.filtrosAtivos.add(filter);
     this.applyFilters();
   }
 
@@ -81,14 +85,33 @@ export class MeusEventosComponent implements OnInit, OnDestroy {
 
   applyFilters() {
     let eventosFiltrados = [...this.eventosOriginal];
-    
-    if (this.filtrosAtivos.has('finalizado')) {
-      eventosFiltrados = eventosFiltrados.filter(e => new Date(e.data) < new Date());
-    }
+  
     if (this.filtrosAtivos.has('anfitriao')) {
       eventosFiltrados = eventosFiltrados.filter(e => e.admin === this.usuarioLogado.sub);
     }
-    
+    if (this.filtrosAtivos.has('participando')) {
+      eventosFiltrados = eventosFiltrados.filter(e => 
+        e.eventosUsuarios.some(evento => 
+          evento.usuario.id === this.usuarioLogado.sub && evento.statusParticipante === 'A'
+        )
+      );
+    }
+    if (this.filtrosAtivos.has('pendente')) {
+      eventosFiltrados = eventosFiltrados.filter(e => 
+        e.eventosUsuarios.some(evento => 
+          evento.usuario.id === this.usuarioLogado.sub && evento.statusParticipante === 'P'
+        )
+      );
+    }
+  
+    if (this.filtrosAtivos.has('reprovado')) {
+      eventosFiltrados = eventosFiltrados.filter(e => 
+        e.eventosUsuarios.some(evento => 
+          evento.usuario.id === this.usuarioLogado.sub && evento.statusParticipante === 'R'
+        )
+      );
+    }
+  
     this.eventos = eventosFiltrados;
   }
 

@@ -19,7 +19,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
   eventos: Evento[] = [];
   menus = menus;
   content: string = '';
-  qtdEventosPend : number = 0;
   usuarioLogado: any;
   isAdmin: boolean = false;
 
@@ -35,6 +34,13 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
     this.isAdmin = this.usuarioLogado.acesso == 'admin' ? true : false;
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.listaEventos()
+      event.target.complete();
+    }, 2000);
+  }
+
   ngOnInit() {
     this.listaEventos();
   }
@@ -45,7 +51,6 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
 
   ionViewWillEnter() {
     this.listaEventos();
-    this.countEventosPend();
   }
 
   confirmarExclusao(evento: Evento) {
@@ -100,16 +105,4 @@ export class ListaEventoComponent implements OnInit, OnDestroy, ViewWillEnter {
     );
   }
 
-  countEventosPend() {
-    this.subscriptions.add(
-      this.eventoService.getCountEventosPend().subscribe(
-        (count) => {
-          this.qtdEventosPend = count;
-        },
-        (error) => {
-          console.error(error);
-        }
-      )
-    );
-  }
 }

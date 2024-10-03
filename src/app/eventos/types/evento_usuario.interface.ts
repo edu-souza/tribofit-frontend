@@ -5,5 +5,6 @@ export interface EventoUsuario {
   id?: string | null;
   statusParticipante: string;
   evento: Evento;
-  usuario : Usuario;
+  usuario: Usuario;
+  imagem?: string | null;
 }

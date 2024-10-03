@@ -5,6 +5,9 @@
       <ion-title>
         Eventos
       </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="side-menu"></ion-menu-button>
+      </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -286,7 +289,8 @@
             'background-danger': participante.statusParticipante === 'R'
           }">
           <ion-avatar slot="start">
-            <img alt="Silhouette of a person's head" src="https://edu-souza.github.io/img/img1.jpg" />
+            <img alt="Silhouette of a person's head" src={{participante.imagem}} />
+
           </ion-avatar>
           <ion-label>{{ participante.usuario.nome }}</ion-label>
           <ion-icon *ngIf="participante.usuario.id === eventoAdmin" class="info" name="bookmark"></ion-icon>

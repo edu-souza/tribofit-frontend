@@ -9,15 +9,18 @@ import { ModalidadesModule } from './modalidades/modalidades.module';
 import { TokenInterceptor } from './authentication/auth.interceptor';
 import { NovoUsuarioModule } from './novo-usuario/novo-usuario.module';
 import { NotificacaoModule } from './notificacoes/notificacao.module';
-
+import { FormsModule } from '@angular/forms';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    CoreModule,
     ModalidadesModule,
     NovoUsuarioModule,
     NotificacaoModule,

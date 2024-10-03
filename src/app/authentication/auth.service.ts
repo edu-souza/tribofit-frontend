@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { UsuariosService } from '../usuarios/services/usuarios.services';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +13,13 @@ export class AuthService {
   private tokenKey = 'authToken';
   usuarioLogado : String = '';
   private refreshTokenKey = 'refreshToken';
-  private baseUrl = 'http://localhost:3000/auth';
+  private baseUrl = `${environment.apiUrl}/auth`;
   
+  private usuarioLogadoSubject = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private usuarioService: UsuariosService
+  ) {}
 
   public saveToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
@@ -56,6 +62,14 @@ export class AuthService {
     const refreshToken = localStorage.getItem(this.refreshTokenKey);
     console.log('Obtendo refresh token:', refreshToken);
     return refreshToken;
+  }
+
+  public getUsuarioLogadoObservable() {
+    return this.usuarioLogadoSubject.asObservable();
+  }
+
+  public setUsuarioLogado(usuario: any) {
+    this.usuarioLogadoSubject.next(usuario);
   }
 
   getUsuarioLogado() {

@@ -32,7 +32,7 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnte
     this.subscriptions.add(
       this.modalidadeService.getModalidade().subscribe(
         (response) => {
-          console.log(response);
+          (response);
           this.modalidades = response;
           this.listar();
         },
@@ -41,6 +41,13 @@ export class ListaModalidadeComponent implements OnInit, OnDestroy, ViewWillEnte
         }
       )
     );
+  }
+
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.listar();
+      event.target.complete();
+    }, 2000);
   }
 
   ngOnDestroy(): void {
