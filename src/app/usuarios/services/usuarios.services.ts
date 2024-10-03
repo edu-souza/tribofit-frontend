@@ -2,13 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Usuario } from "../types/usuario.interface";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  private url = 'http://localhost:3000/usuarios/';
+  private url = `${environment.apiUrl}/usuarios/`;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -53,6 +54,6 @@ export class UsuariosService {
     const formData = new FormData();
     formData.append('foto', file);
   
-    return this.httpClient.post('http://localhost:3000/usuarios/upload', formData);
+    return this.httpClient.post(this.url + 'upload', formData);
   }
 }

@@ -64,7 +64,6 @@ export class CadastroModalidadeComponent implements OnInit {
       ...this.modalidadeForm.value,
       id: this.modalidadeId,
     };
-    console.log(modalidade);
     this.modalidadeService.salvar(modalidade).subscribe(
       () => this.router.navigate(['tabs/modalidades']),
       (erro) => {

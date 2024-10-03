@@ -3,9 +3,20 @@
     <div class="titulo-page">
       <ion-icon name="trophy"></ion-icon>
       <ion-title>Modalidades</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="side-menu"></ion-menu-button>
+      </ion-buttons>
     </div>
     </ion-toolbar>
   <div class="std-div">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" [pullMin]="100" [pullMax]="300">
+      <ion-refresher-content
+        refreshingSpinner="crescent"
+        refreshingText="Atualizando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+    
     <h2 class="titulo-modalidades">Modalidades</h2>
 
     <ion-list>

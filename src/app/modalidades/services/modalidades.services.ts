@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Modalidade } from "../types/modalidade.interface";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Modalidade } from "../types/modalidade.interface";
 
 export class ModalidadesService {
 
-  private url = 'http://localhost:3000/modalidades/';
+  private url = `${environment.apiUrl}/modalidades`;
 
   constructor(private httpClient: HttpClient) { }
 

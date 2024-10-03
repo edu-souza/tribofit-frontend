@@ -14,7 +14,6 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(`Interceptando URL: ${req.url}`);
     if (this.isExcluded(req.url)) {
       return next.handle(req);
     }
@@ -37,7 +36,6 @@ export class TokenInterceptor implements HttpInterceptor {
   }
   private isExcluded(url: string): boolean {
     const isExcluded = this.excludedUrls.some(excludedUrl => url.includes(excludedUrl));
-    console.log(`URL ${url} excluída: ${isExcluded}`);
     return isExcluded;
   }
 

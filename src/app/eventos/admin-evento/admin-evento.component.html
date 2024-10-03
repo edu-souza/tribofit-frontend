@@ -5,12 +5,23 @@
       <ion-title>
         Eventos (ADM)
       </ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="side-menu"></ion-menu-button>
+      </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="std-div">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" [pullMin]="100" [pullMax]="300">
+      <ion-refresher-content
+        refreshingSpinner="crescent"
+        refreshingText="Atualizando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+    
     <ion-list lines="none" class="lista-evento">
       <ion-item *ngFor="let evento of eventos" class="evento-item" detail="false">
         <div class="linha-evento" [routerLink]="['/tabs/eventos/edicao-eventos', evento.id]">

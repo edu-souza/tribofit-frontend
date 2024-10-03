@@ -1,10 +1,3 @@
-<app-menu-lateral 
-  side="end" 
-  menuId="eventos-menu" 
-  contentId="eventos" 
-  [qtdEventosPend]="qtdEventosPend">
-</app-menu-lateral>
-
 <ion-header [translucent]="true" id="eventos">
   <ion-toolbar>
     <div class="titulo-page">
@@ -13,14 +6,23 @@
         Eventos
       </ion-title>
       <ion-buttons slot="end">
-        <ion-menu-button menu="eventos-menu"></ion-menu-button>
+        <ion-menu-button menu="side-menu"></ion-menu-button>
       </ion-buttons>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content  class="bg" [fullscreen]="true" id="content-evento">
+<ion-content  class="bg" [fullscreen]="true">
+
   <div class="std-div">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" [pullMin]="100" [pullMax]="300">
+      <ion-refresher-content
+        refreshingSpinner="crescent"
+        refreshingText="Atualizando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+
     <ion-list lines="none" class="lista-evento">
       <ion-item *ngFor="let evento of eventos" [routerLink]="['edicao-eventos', evento.id]"
       >

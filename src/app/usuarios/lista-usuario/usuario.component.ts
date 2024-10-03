@@ -7,7 +7,6 @@ import { ToastController } from "@ionic/angular";
 import { AuthService } from "../../authentication/auth.service";
 import { jwtDecode } from "jwt-decode";
 
-
 @Component({
   selector: 'usuario',
   templateUrl: './usuario.component.html',
@@ -24,7 +23,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastController: ToastController,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   editarPerfil(){
@@ -88,7 +87,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(blob);
       },
       (error) => {
-        console.error('Erro ao carregar a imagem do usuário:', error);
+        console.error('Erro ao carregar a imagem do usuário 4:', error);
         this.showErrorToast('Erro ao carregar a imagem do usuário.');
       }
     );

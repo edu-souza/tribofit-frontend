@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Evento } from "../types/evento.interface";
 import { EventoUsuario } from "../types/evento_usuario.interface";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { EventoUsuario } from "../types/evento_usuario.interface";
 
 export class EventoService {
 
-  private url = 'http://localhost:3000/eventos';
+  private url = `${environment.apiUrl}/eventos`;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -33,7 +34,6 @@ export class EventoService {
   }
 
   updateEventoUsuarios(evento: Evento): Observable<Evento>  {
-    console.log('passou aqui service');
     return this.httpClient.put<Evento>(`${this.url}/${evento.id}/usuarios`, evento);
   }
 
@@ -61,8 +61,6 @@ export class EventoService {
     if (evento.id) {
       return this.updEvento(evento);
     } else {
-      console.log('addEvento-service')
-      console.log(evento)
       return this.addEvento(evento);
     }
   }

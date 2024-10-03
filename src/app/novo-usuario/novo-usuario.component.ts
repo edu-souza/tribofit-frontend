@@ -123,7 +123,6 @@ export class NovoUsuarioComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.cidadeService.getCidade().subscribe(
         (response) => {
-          console.log(response);
           this.cidades = response;
         },
         (erro) => {

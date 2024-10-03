@@ -228,38 +228,77 @@ export class CadastroEventoComponent implements OnInit,OnDestroy,ViewDidEnter,Vi
     );
   }
 
-  private async loadEvento() {
+  private async loadEvento(): Promise<void> {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
   
     if (id) {
       this.eventoId = id;
-      const evento = await this.eventoService.getEventoById(this.eventoId).toPromise();
-      if (evento) {
-        this.setFormValues(evento);
-        this.inclusao = false;
-        this.title = evento.titulo;
-        this.imagemEvento = evento.imagem;
-        this.participantesSelecionados = Object.values(evento.eventosUsuarios);
-        this.numLatitude = parseFloat(evento.latitude);
-        this.numLongitude = parseFloat(evento.longitude);
-        this.lAlteracao = evento.admin === this.usuarioLogado.sub || this.isAdmin ? true : false;
+      try {
+        const evento = await this.eventoService.getEventoById(this.eventoId).toPromise();
+        if (evento) {
+          this.setFormValues(evento);
+          this.inclusao = false;
+          this.title = evento.titulo;
+          this.imagemEvento = evento.imagem;
+          this.participantesSelecionados = Object.values(evento.eventosUsuarios);
+          this.numLatitude = parseFloat(evento.latitude);
+          this.numLongitude = parseFloat(evento.longitude);
+          this.lAlteracao = evento.admin === this.usuarioLogado.sub || this.isAdmin;
   
-        this.eventoAdmin = await this.getAdmin(evento.admin) || 'Admin não encontrado';
+          this.eventoAdmin = await this.getAdmin(evento.admin) || 'Admin não encontrado';
+          this.isAnfitriao = evento.admin === this.usuarioLogado.sub || this.isAdmin;
   
-        this.isAnfitriao = evento.admin === this.usuarioLogado.sub || this.isAdmin;
-        this.updateFormControls();
-      } else {
-        console.error(`Evento não encontrado.`);
+          for (const participante of this.participantesSelecionados) {
+            if (participante.usuario.imagem) {
+              const imagem = await this.loadImagem(participante.usuario.imagem);
+              participante.imagem = imagem || ''; 
+            }
+          }
+          console.log(this.participantesSelecionados)
+  
+          this.updateFormControls();
+        } else {
+          console.error(`Evento não encontrado.`);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar o evento:', error);
       }
     } else {
       this.inclusao = true;
     }
   }
+  
+  private async loadImagem(filename: string): Promise<string | null> {
+    try {
+      const blob = await this.usuarioService.getImagem(filename).toPromise();
+  
+      if (blob) {
+        return await this.blobToBase64(blob);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao carregar a imagem do usuário 2:', error);
+      return null;
+    }
+  }
+  
+  private blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string); 
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
 
   async getAdmin(adminId: string): Promise<string | undefined> {
     const usuario = await this.usuarioService.getUsuarioById(adminId).toPromise();
     if (usuario) {
-      console.log('admin',usuario.nome)
       return usuario.nome;  
     } else {
       console.error('Admin não encontrado.');
