@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://teste-backend-9njj.onrender.com' // URL da API para o ambiente de desenvolvimento
+  apiUrl: 'http://localhost:3000' // URL da API para o ambiente de desenvolvimento
 };
 
 /*
